@@ -1,0 +1,32 @@
+[
+    {
+        "c_category_id": "CAT123",
+        "online_flag": true,
+        "c_category_name": "Category CAT123",
+        "p_category_id": "CAT000",
+        "p_category_name": "Root category",
+        "is_shelf": false,
+        "online_from": "2015-01-01T01:23:45.000+00:00",
+        "online_to": "2015-12-31T01:23:45.000+00:00"
+    },
+    {
+        "c_category_id": "CAT456",
+        "online_flag": false,
+        "c_category_name": "Category CAT456",
+        "p_category_id": "CAT000",
+        "p_category_name": "Root category",
+        "is_shelf": true,
+        "online_from": "2015-01-01T01:23:45.000+00:00",
+        "online_to": "2015-12-31T01:23:45.000+00:00"
+    },
+    {
+        "c_category_id": "CAT789",
+        "online_flag": true,
+        "c_category_name": "Category CAT789",
+        "p_category_id": "CAT000",
+        "p_category_name": "Root category",
+        "is_shelf": false,
+        "online_from": "2015-01-01T01:23:45.000+00:00",
+        "online_to": "2015-12-31T01:23:45.000+00:00"
+    }
+]

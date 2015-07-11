@@ -1,0 +1,20 @@
+{
+  "name": "fusionspim/pangaea-php-sdk",
+  "type": "library",
+  "description": "PHP library for working with Pangaea platform",
+  "keywords": ["pangaea", "walmart", "xml", "json", "export", "php"],
+  "homepage": "https://github.com/fusionspim/pangaea-php-sdk",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Wes Hooper",
+      "email": "wes@fusionspim.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.6"
+  },
+  "autoload": {
+    "psr-4": {"Pangaea\\": "src"}
+  }
+}

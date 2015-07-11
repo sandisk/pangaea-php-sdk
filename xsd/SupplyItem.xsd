@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Schema for data exchanged between Walmart and its partners.
+  Copyright 2015 Walmart Corporation. All rights reserved.
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns="http://walmart.com/"
+  targetNamespace="http://walmart.com/"
+  elementFormDefault="qualified"
+  version="1.2">
+
+  <xsd:include schemaLocation="SupplyCommons.xsd" />
+
+  <xsd:complexType name="SupplyItem">
+    <xsd:sequence>
+      <xsd:element name="number" type="xsd:unsignedLong" minOccurs="0"/>
+      <xsd:element name="version" type="alpha10" minOccurs="0"/>
+      <xsd:element name="baseDivisionCode" type="alpha10" minOccurs="0"/>
+      <xsd:element name="financialReportingGroupCode" type="alpha25" minOccurs="0"/>
+      <xsd:element name="merchandiseFamilyID" type="xsd:unsignedLong" minOccurs="0"/>
+      <xsd:element name="description" type="LocalizedText" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="secondaryDescription" type="LocalizedText" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="isPrime" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="isReplenishable" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="createDate" type="xsd:date" minOccurs="0"/>
+      <xsd:element name="effectiveDate" type="xsd:date" minOccurs="0"/>
+      <xsd:element name="expirationDate" type="xsd:date" minOccurs="0"/>
+      <xsd:element name="isImport" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="estimatedOutOfStockDate" type="xsd:date" minOccurs="0"/>
+      <xsd:element name="assortmentType" type="AssortmentType" minOccurs="0"/>
+      <xsd:element name="status" type="Status" minOccurs="0"/>
+      <xsd:element name="itemType" type="ItemType" minOccurs="0"/>
+      <xsd:element name="supplierAgreement" type="SupplierAgreement" minOccurs="0"/>
+      <xsd:element name="warehouseAlignment" type="WarehouseAlignment" minOccurs="0"/>
+      <xsd:element name="originCountry" type="Country" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="buyingRegion" type="BuyingRegion" minOccurs="0"/>
+      <xsd:element name="isCannedOrder" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="sendStoreDate" type="xsd:date" minOccurs="0"/>
+      <xsd:element name="lastOrderableDate" type="xsd:date" minOccurs="0"/>
+      <xsd:element name="marshalingGroup" type="MarshalingGroup" minOccurs="0"/>
+      <xsd:element name="warehouseMinLifeRemainingToReceive" type="Quantity" minOccurs="0"/>
+      <xsd:element name="allowedTimeInWarehouse" type="Quantity" minOccurs="0"/>
+      <xsd:element name="reserveMerchandiseType" type="ReserveMerchandiseType" minOccurs="0"/>
+      <xsd:element name="warehouseRotationType" type="WarehouseRotationType" minOccurs="0"/>
+      <xsd:element name="isCancelWhenOut" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="promotionOrderbookType" type="PromotionOrderbookType" minOccurs="0"/>
+      <xsd:element name="replenishSubType" type="ReplenishSubType" minOccurs="0"/>
+      <xsd:element name="isReplenishedByUnit" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="warehouseMaxOrderQuantity" type="Quantity" minOccurs="0"/>
+      <xsd:element name="warehouseMinOrderQuantity" type="Quantity" minOccurs="0"/>
+      <xsd:element name="replenishmentGroup" type="ReplenishmentGroup" minOccurs="0"/>
+      <xsd:element name="mbmType" type="MBMType" minOccurs="0"/>
+      <xsd:element name="bookingAccount" type="Account" minOccurs="0"/>
+      <xsd:element name="owningCountry" type="Country" minOccurs="0"/>
+      <xsd:element name="destinationFormat" type="ItemDestinationFormat" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="supplyChargeDivision" type="Division" minOccurs="0"/>
+      <xsd:element name="isOfferedForSale" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="supplierPackQuantity" type="Quantity" minOccurs="0"/>
+      <xsd:element name="supplierPackGTIN" type="gtin" minOccurs="0"/>
+      <xsd:element name="supplierPackCost" type="Amount" minOccurs="0"/>
+      <xsd:element name="warehousePackQuantity" type="Quantity" minOccurs="0"/>
+      <xsd:element name="warehousePackGTIN" type="gtin" minOccurs="0"/>
+      <xsd:element name="warehousePackCost" type="Amount" minOccurs="0"/>
+      <xsd:element name="factory" type="Factory" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="palletGTIN" type="gtin" minOccurs="0"/>
+      <xsd:element name="consumableGTIN" type="gtin" minOccurs="0"/>
+      <xsd:element name="shelfLabelDescription" type="TextList" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="divisionNumber" type="xsd:unsignedShort" minOccurs="0"/>
+      <xsd:element name="deptNumber" type="xsd:unsignedShort" minOccurs="0"/>
+      <xsd:element name="subclassNumber" type="xsd:unsignedShort" minOccurs="0"/>
+      <xsd:element name="finelineNumber" type="xsd:unsignedInt" minOccurs="0"/>
+      <xsd:element name="merchandiseCategoryNumber" type="xsd:unsignedInt" minOccurs="0"/>
+      <xsd:element name="merchandiseSubcategoryNumber" type="xsd:unsignedInt" minOccurs="0"/>
+      <xsd:element name="season" type="Season" minOccurs="0"/>
+      <xsd:element name="exclusiveSupplyDCNumber" type="xsd:unsignedLong" minOccurs="0"/>
+      <xsd:element name="warehousePackCalcMethod" type="WarehousePackCalcMethod" minOccurs="0"/>
+      <xsd:element name="destinationSendTraits" type="DestinationTraits" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="destinationOmitTraits" type="DestinationTraits" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="warehousePackSell" type="Amount" minOccurs="0"/>
+      <xsd:element name="accountingDeptNumber" type="xsd:unsignedShort" minOccurs="0"/>
+      <xsd:element name="supplierCasePackType" type="SupplierCasePackType" minOccurs="0"/>
+      <xsd:element name="lifecycleState" type="LifecycleState" minOccurs="0"/>
+      <xsd:element name="assortmentParents" type="AssortmentItem" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="assortmentChildren" type="AssortmentItem" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="isFreshProductionRetardable" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="supplierQuoteId" type="xsd:unsignedLong" minOccurs="0"/>
+      <xsd:element name="isCorporateReplenishable" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="isEcommerceReplenishable" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element ref="createdByUserId" minOccurs="0"/>
+      <xsd:element ref="createTimestamp"/>
+      <xsd:element ref="lastUpdateProgramId" minOccurs="0"/>
+      <xsd:element ref="lastUpdateTimestamp" minOccurs="0"/>
+      <xsd:element ref="lastUpdateUserId" minOccurs="0"/>
+      <xsd:element name="supplyItemAttributes" type="Attribute" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="supplyItemClassifications" type="Classification" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="abcPharmacyNumber" type="xsd:unsignedLong" minOccurs="0"/>
+      <xsd:element name="isDCReturnable" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="warehouseArea" type="WarehouseArea" minOccurs="0"/>
+      <xsd:element name="assembledCountry" type="Country" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="componentOriginCountry" type="Country" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="buyerUserId" type="alpha25" minOccurs="0"/>
+      <xsd:element name="initialUnitCost" type="xsd:decimal" minOccurs="0"/>
+      <xsd:element name="markupPercent" type="xsd:decimal" minOccurs="0"/>
+      <xsd:element name="reportingHierarchyId" type="xsd:unsignedInt" minOccurs="0"/>
+      <xsd:element name="isShelfLabelRequired" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="unitCost" type="xsd:decimal" minOccurs="0"/>
+      <xsd:element name="itemChanges" type="ItemChange" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+</xsd:schema>
