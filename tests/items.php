@@ -11,7 +11,8 @@ $item->setDescriptions('Short description', 'Longer description about the item..
 $item->setTaxCode(20);
 $item->setDates('2015-01-01', '2025-01-01');
 $item->setStatus(true, false);
-$item->setShipping(50, 1.5, 74.67, 0.5);
+$item->setDimensions(50, 1.5, 74.67, 'CM');
+$item->setWeight(0.5, 'G');
 $item->setPricing(14.99, 9.99, 12.49, '2015-01-01');
 
 $item->setAttributes('Product', [
