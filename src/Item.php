@@ -70,7 +70,7 @@ class Item
     public function setStatus($published, $active)
     {
         $published = ($published ? 'UNPUBLISHED' : 'PUBLISHED');
-        $active    = ($active ? 'INACTIVE' : 'ACTIVE');
+        $active    = ($active ? 'RETIRED' : 'ACTIVE');
 
         $this->status = "<publishStatus>$published</publishStatus><lifecycleStatus>$active</lifecycleStatus>";
     }
