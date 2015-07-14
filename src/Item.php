@@ -7,6 +7,7 @@ class Item
     const VALID_ATTRIBUTE_GROUPS = ['Product', 'Compliance', 'MarketInProduct', 'MarketInOffer', 'Offer'];
 
     private $sku, $upc, $title, $shortDescription, $longDescription, $taxCode, $assets, $attributes;
+    private $shipping = '';
 
     /**
      * Create a new product item for a specific SKU and UPC
@@ -76,22 +77,32 @@ class Item
     }
 
     /**
-     * Shipping dimensions are specified in cm, and weight in g
+     * Shipping dimensions
      *
      * @param $length
      * @param $width
      * @param $height
-     * @param $weight
+     * @param $unit
      */
-    public function setShipping($length, $width, $height, $weight)
+    public function setDimensions($length, $width, $height, $unit)
     {
         // @todo: possibly validate (numeric?) the values? unclear on rules...
-        $this->shipping = <<<XML
-<shippingLength><value>{$length}</value><unit>CM</unit></shippingLength>
-<shippingWidth><value>{$width}</value><unit>CM</unit></shippingWidth>
-<shippingHeight><value>{$height}</value><unit>CM</unit></shippingHeight>
-<shippingWeight><value>{$weight}</value><unit>G</unit></shippingWeight>
+        $this->shipping .= <<<XML
+<shippingLength><value>{$length}</value><unit>{$unit}</unit></shippingLength>
+<shippingWidth><value>{$width}</value><unit>{$unit}</unit></shippingWidth>
+<shippingHeight><value>{$height}</value><unit>{$unit}</unit></shippingHeight>
 XML;
+    }
+
+    /**
+     * Shipping weight
+     *
+     * @param $weight
+     * @param $unit
+     */
+    public function setWeight($weight, $unit)
+    {
+        $this->shipping .= "<shippingWeight><value>{$weight}</value><unit>{$unit}</unit></shippingWeight>";
     }
 
     /**
