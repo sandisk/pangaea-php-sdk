@@ -18,13 +18,14 @@
       <productTitle>Sample item</productTitle>
       <productShortDescription>Short description</productShortDescription>
       <productLongDescription>Longer description about the item...</productLongDescription>
-      <productTaxCode>20</productTaxCode>
+      <productTaxCode>2,000.00</productTaxCode>
       <ProductIds>
         <ProductId>
           <productIdType>UPC</productIdType>
           <productId>5000000000123</productId>
         </ProductId>
       </ProductIds>
+      <brand>Brandtastic</brand>
       <productSetupType>STANDALONE</productSetupType>
       <ProductAttributes>
         <NameValueAttribute>
