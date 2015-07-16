@@ -40,12 +40,13 @@ class Item
     }
 
     /**
-     * @param $code
+     * Set the tax rate (integer/decimal, for example 12.34) to be exported as Pangaea tax code (1,234.00 for same example)
+     *
+     * @param $rate
      */
-    public function setTaxCode($code)
+    public function setTaxCode($rate)
     {
-        // @todo: unclear if a string or something else? https://trello.com/c/2XgDT683
-        $this->taxCode = Xml::escape($code);
+        $this->taxCode = number_format($rate * 100, 2);
     }
 
     /**
