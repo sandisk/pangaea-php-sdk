@@ -107,20 +107,15 @@ XML;
     }
 
     /**
-     * Three pricing values can be specified, along with an effective date
+     * Three pricing values can be specified, along with an effective date (pass null if unknown, to use current time)
      * The previous price is optional, and its presence determines the exported `isStrikethrough` boolean value
      * @param int $retail
      * @param int $current
      * @param int $previous
      * @param $effectiveDate
      */
-    public function setPricing($retail = 0, $current = 0, $previous = 0, $effectiveDate = '')
+    public function setPricing($retail = 0, $current = 0, $previous = 0, $effectiveDate = null)
     {
-        // @todo: temp hack for current issue - https://trello.com/c/l9B9KVv4/457-pangaea-2-xml-validation-errors
-        if (! $effectiveDate) {
-            $effectiveDate = time();
-        }
-
         $effectiveDate = Date::format($effectiveDate);
         $retailPrice   = $this->renderPrice('BaseRetail', $retail, 'BASE');
         $currentPrice  = $this->renderPrice('CurrentPrice', $current, 'BASE');
