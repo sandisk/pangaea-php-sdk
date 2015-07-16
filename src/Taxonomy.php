@@ -20,17 +20,41 @@ class Taxonomy
     }
 
     /**
-     * Validates the document and saves to the specified path
+     * Build and validate the JSON.
      *
-     * @param $path
-     * @throws \Exception
+     * @return string
+     * @throws PangaeaException
      */
-    public function save($path)
+    protected function build()
     {
-        file_put_contents($path, json_encode($this->items, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+        $json = json_encode($this->items, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new PangaeaException(json_last_error_msg());
         }
+
+        return $json;
+    }
+
+    /**
+     * Get the raw JSON output.
+     *
+     * @return string
+     * @throws PangaeaException
+     */
+    public function getJson()
+    {
+        return $this->build();
+    }
+
+    /**
+     * Validates the document and saves to the specified path
+     *
+     * @param $path
+     * @throws PangaeaException
+     */
+    public function save($path)
+    {
+        file_put_contents($path, $this->build());
     }
 }
