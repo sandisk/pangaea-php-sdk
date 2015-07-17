@@ -6,7 +6,7 @@ class Item
     const SPEC_DEFAULT_END_DATE  = '2049-12-31'; // as specified by Walmart
     const VALID_ATTRIBUTE_GROUPS = ['Product', 'Compliance', 'MarketInProduct', 'MarketInOffer', 'Offer'];
 
-    private $sku, $upc, $title, $shortDescription, $longDescription, $taxCode, $assets, $attributes;
+    private $sku, $upc, $title, $shortDescription, $longDescription, $taxCode, $assets, $attributes, $brand;
     private $shipping = '';
 
     /**
@@ -148,6 +148,18 @@ XML;
     }
 
     /**
+     * Adds a brand element, but only if the provided value isn't empty
+     *
+     * @param string $brand
+     */
+    public function setBrand($brand)
+    {
+        if (! empty($brand)) {
+            $this->brand = '<brand>' . Xml::escape($brand) . '</brand>';
+        }
+    }
+
+    /**
      * Attributes belong in one of several (@see static::VALID_ATTRIBUTE_GROUPS) groups
      * Types are determined automatically from the first value in each attribute (cast when passing to override)
      * Empty string values are allowed and will be exported, but null values exclude the entire attribute element
@@ -253,6 +265,7 @@ XML;
         <ProductIds>
             <ProductId><productIdType>UPC</productIdType><productId>{$this->upc}</productId></ProductId>
         </ProductIds>
+        {$this->brand}
         <productSetupType>STANDALONE</productSetupType>
         <ProductAttributes>{$this->attributes['Product']}</ProductAttributes>
         <ComplianceAttributes>{$this->attributes['Compliance']}</ComplianceAttributes>
