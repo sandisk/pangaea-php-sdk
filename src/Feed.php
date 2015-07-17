@@ -55,6 +55,16 @@ XML;
     }
 
     /**
+     * Get the feed as raw XML.
+     *
+     * @return string
+     */
+    public function getXml()
+    {
+        return $this->render();
+    }
+
+    /**
      * Validates the document and saves to the specified path
      *
      * @param $path
