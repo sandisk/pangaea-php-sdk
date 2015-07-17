@@ -6,7 +6,7 @@ class Item
     const SPEC_DEFAULT_END_DATE  = '2049-12-31'; // as specified by Walmart
     const VALID_ATTRIBUTE_GROUPS = ['Product', 'Compliance', 'MarketInProduct', 'MarketInOffer', 'Offer'];
 
-    private $sku, $upc, $title, $shortDescription, $longDescription, $taxCode, $assets, $attributes;
+    private $sku, $upc, $title, $shortDescription, $longDescription, $taxCode, $assets, $attributes, $brand;
     private $shipping = '';
 
     /**
@@ -40,12 +40,13 @@ class Item
     }
 
     /**
-     * @param $code
+     * Set the tax rate (integer/decimal, for example 12.34) to be exported as Pangaea tax code (1,234.00 for same example)
+     *
+     * @param $rate
      */
-    public function setTaxCode($code)
+    public function setTaxCode($rate)
     {
-        // @todo: unclear if a string or something else? https://trello.com/c/2XgDT683
-        $this->taxCode = Xml::escape($code);
+        $this->taxCode = number_format($rate * 100, 2);
     }
 
     /**
@@ -106,20 +107,15 @@ XML;
     }
 
     /**
-     * Three pricing values can be specified, along with an effective date
+     * Three pricing values can be specified, along with an effective date (pass null if unknown, to use current time)
      * The previous price is optional, and its presence determines the exported `isStrikethrough` boolean value
      * @param int $retail
      * @param int $current
      * @param int $previous
      * @param $effectiveDate
      */
-    public function setPricing($retail = 0, $current = 0, $previous = 0, $effectiveDate = '')
+    public function setPricing($retail = 0, $current = 0, $previous = 0, $effectiveDate = null)
     {
-        // @todo: temp hack for current issue - https://trello.com/c/l9B9KVv4/457-pangaea-2-xml-validation-errors
-        if (! $effectiveDate) {
-            $effectiveDate = time();
-        }
-
         $effectiveDate = Date::format($effectiveDate);
         $retailPrice   = $this->renderPrice('BaseRetail', $retail, 'BASE');
         $currentPrice  = $this->renderPrice('CurrentPrice', $current, 'BASE');
@@ -144,6 +140,18 @@ XML;
         $amount = number_format($amount, 2);
 
         return "<$group><value><currency>GBP</currency><amount>$amount</amount></value><priceType>$type</priceType></$group>";
+    }
+
+    /**
+     * Adds a brand element, but only if the provided value isn't empty
+     *
+     * @param string $brand
+     */
+    public function setBrand($brand)
+    {
+        if (! empty($brand)) {
+            $this->brand = '<brand>' . Xml::escape($brand) . '</brand>';
+        }
     }
 
     /**
@@ -252,6 +260,7 @@ XML;
         <ProductIds>
             <ProductId><productIdType>UPC</productIdType><productId>{$this->upc}</productId></ProductId>
         </ProductIds>
+        {$this->brand}
         <productSetupType>STANDALONE</productSetupType>
         <ProductAttributes>{$this->attributes['Product']}</ProductAttributes>
         <ComplianceAttributes>{$this->attributes['Compliance']}</ComplianceAttributes>

@@ -14,6 +14,7 @@ class ItemsTest extends AbstractTest
 
         $item = new Item('SKU123', '5000000000123');
         $item->setTitle('Sample item');
+        $item->setBrand('Brandtastic');
         $item->setDescriptions('Short description', 'Longer description about the item...');
         $item->setTaxCode(20);
         $item->setDates('2015-01-01', '2025-01-01');
