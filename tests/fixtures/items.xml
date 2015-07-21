@@ -82,21 +82,21 @@
         </NameValueAttribute>
         <NameValueAttribute>
           <name>supplier_number</name>
-          <type>INTEGER</type>
+          <type>STRING</type>
           <value>
               <value>12345</value>
           </value>
         </NameValueAttribute>
         <NameValueAttribute>
           <name>mds_fam_id</name>
-          <type>INTEGER</type>
+          <type>STRING</type>
           <value>
               <value>12345678</value>
           </value>
         </NameValueAttribute>
         <NameValueAttribute>
           <name>supplier_stock_number</name>
-          <type>INTEGER</type>
+          <type>STRING</type>
           <value>
               <value>123456</value>
           </value>

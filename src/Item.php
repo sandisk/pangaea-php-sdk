@@ -276,7 +276,7 @@ XML;
 
         foreach ($itemLogistics as $key => $value) {
             if (isset($attributeLookup[$key])) {
-                $itemLogisticsAttributes[$attributeLookup[$key]] = $value;
+                $itemLogisticsAttributes[$attributeLookup[$key]] = (string) $value;
             }
         }
 
