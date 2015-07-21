@@ -287,6 +287,36 @@ XML;
         }, $itemLogistics);
 
         $this->itemLogistics = <<< XML
+<inventoryAvailabilityThreshold>
+    <low>1</low>
+    <mid>5</mid>
+    <high>999</high>
+</inventoryAvailabilityThreshold>
+<onHandSafetyFactorQuantity>
+    <value>5</value>
+    <unit>EA</unit>
+</onHandSafetyFactorQuantity>
+<assumeInfiniteInventory>true</assumeInfiniteInventory>
+<unitCost>
+    <currency>USE</currency>
+    <amount>123.99</amount>
+</unitCost>
+<primarySupplyItemId>2947757</primarySupplyItemId>
+<alternateSupplyItemId>str1234</alternateSupplyItemId>
+<preferredDistributors>
+    <preferredDistributor>
+        <legacyDistributorId>str1234</legacyDistributorId>
+        <effectiveFrom>2012-12-13T12:12:12</effectiveFrom>
+        <effectiveTill>2012-12-13T12:12:12</effectiveTill>
+        <rank>1</rank>
+    </preferredDistributor>
+    <preferredDistributor>
+        <legacyDistributorId>str1234</legacyDistributorId>
+        <effectiveFrom>2012-12-13T12:12:12</effectiveFrom>
+        <effectiveTill>2012-12-13T12:12:12</effectiveTill>
+        <rank>2</rank>
+    </preferredDistributor>
+</preferredDistributors>
 <shipNodes>
     <shipNode>
         <legacyDistributorId>{$itemLogistics['legacyDistributorId']}</legacyDistributorId>
