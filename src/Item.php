@@ -280,9 +280,9 @@ XML;
 
         $this->setAttributes('Product', $itemLogisticsAttributes);
 
-        foreach ($itemLogistics as $key => $value) {
-            $itemLogistics[$key] = Xml::escape($value);
-        }
+        $itemLogistics = array_map(function($value) {
+            return Xml::escape((string) $value);
+        }, $itemLogistics);
 
         $this->itemLogistics = <<< XML
 <shipNodes>
@@ -290,7 +290,7 @@ XML;
         <legacyDistributorId>{$itemLogistics['legacyDistributorId']}</legacyDistributorId>
         <itemShipNodeSupplies>
             <itemShipNodeSupply>
-                <mdsFamId>{$itemLogistics['mdsFamId']}</mdsFamId>
+                <mdsfamId>{$itemLogistics['mdsFamId']}</mdsfamId>
                 <vendorStockId>{$itemLogistics['vendorStockId']}</vendorStockId>
             </itemShipNodeSupply>
         </itemShipNodeSupplies>
@@ -331,7 +331,7 @@ XML;
         {$this->dates}
         {$this->status}
         {$this->shipping}
-        <ItemLogistics>{$this->itemLogistics}</ItemLogistics>
+        <itemLogistics>{$this->itemLogistics}</itemLogistics>
         <ItemPrice>{$this->pricing}</ItemPrice>
         <OfferAttributes>{$this->attributes['Offer']}</OfferAttributes>
         <MarketAttributes>{$this->attributes['MarketInOffer']}</MarketAttributes>
