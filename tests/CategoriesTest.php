@@ -8,7 +8,9 @@ use \Pangaea\Taxonomy;
 
 class CategoriesTest extends AbstractTest
 {
-    public function testCategoriesJson()
+    protected $taxonomy;
+
+    public function setUp()
     {
         $taxonomy = new Taxonomy;
 
@@ -24,9 +26,24 @@ class CategoriesTest extends AbstractTest
             $taxonomy->addCategory($item);
         }
 
+        $this->taxonomy = $taxonomy;
+    }
+
+    public function tearDown()
+    {
+        $this->taxonomy = null;
+    }
+
+    public function testCategoriesJson()
+    {
         $sampleJson = $this->loadJsonFixture('categories.json');
-        $outputJson = $taxonomy->getJson();
+        $outputJson = $this->taxonomy->getJson();
 
         $this->assertJsonStringEqualsJsonString($sampleJson, $outputJson);
+    }
+
+    public function testSaveCategoriesJson()
+    {
+        $this->assertTrue($this->taxonomy->save(__DIR__ . '/output/categories.json'));
     }
 }

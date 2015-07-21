@@ -68,12 +68,15 @@ XML;
      * Validates the document and saves to the specified path
      *
      * @param $path
+     * @return boolean
      * @throws \PangaeaException
      */
     public function save($path)
     {
-        file_put_contents($path, $this->render());
+        $result = file_put_contents($path, $this->render());
 
         Xml::validate($path, __DIR__ . '/../xsd/Feed.xsd');
+
+        return $result > 0;
     }
 }

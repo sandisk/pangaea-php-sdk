@@ -8,7 +8,9 @@ use \Pangaea\PangaeaException;
 
 class ItemsTest extends AbstractTest
 {
-    public function testItemsXml()
+    protected $feed;
+
+    public function setUp()
     {
         $feed = new Feed('2015-01-01 12:34:56');
 
@@ -53,9 +55,24 @@ class ItemsTest extends AbstractTest
 
         $feed->addItem($item);
 
+        $this->feed = $feed;
+    }
+
+    public function tearDown()
+    {
+        $this->feed = null;
+    }
+
+    public function testItemsXml()
+    {
         $sampleXml = $this->loadXmlFixture('items.xml');
-        $outputXml = $feed->getXml();
+        $outputXml = $this->feed->getXml();
 
         $this->assertXmlStringEqualsXmlString($sampleXml, $outputXml);
+    }
+
+    public function testSaveItemsXml()
+    {
+        $this->assertTrue($this->feed->save(__DIR__ . '/output/items.xml'));
     }
 }

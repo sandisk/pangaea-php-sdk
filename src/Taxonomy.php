@@ -51,10 +51,11 @@ class Taxonomy
      * Validates the document and saves to the specified path
      *
      * @param $path
+     * @return boolean
      * @throws PangaeaException
      */
     public function save($path)
     {
-        file_put_contents($path, $this->build());
+        return file_put_contents($path, $this->build()) > 0;
     }
 }
