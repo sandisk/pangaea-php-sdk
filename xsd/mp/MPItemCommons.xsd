@@ -9,7 +9,7 @@
   xmlns="http://walmart.com/"
   targetNamespace="http://walmart.com/"
   elementFormDefault="qualified"
-  version="1.2">
+  version="1.4">
 
   <xsd:include schemaLocation="MPProductCommons.xsd"/>
 
@@ -380,6 +380,7 @@
   <xsd:simpleType name="Mart">
     <xsd:restriction base="xsd:string">
       <xsd:enumeration value="WALMART_US" />
+      <xsd:enumeration value="ASDA_GM" />
     </xsd:restriction>
   </xsd:simpleType>
 

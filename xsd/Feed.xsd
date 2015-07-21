@@ -9,9 +9,9 @@
   xmlns="http://walmart.com/"
   targetNamespace="http://walmart.com/"
   elementFormDefault="qualified"
-  version="1.2">
+  version="1.4">
 
-  <xsd:include schemaLocation="FeedHeader.xsd" />
+  <xsd:include schemaLocation="mp/FeedHeader.xsd" />
   <xsd:include schemaLocation="UncategorizedItem.xsd" />
   <xsd:include schemaLocation="ItemPrice.xsd" />
 

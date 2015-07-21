@@ -11,10 +11,10 @@
   elementFormDefault="qualified"
   version="1.4">
 
+  <xsd:include schemaLocation="MPItemCommons.xsd" />
   <xsd:include schemaLocation="FeedCommons.xsd" />
-  <xsd:include schemaLocation="MPItemFeedHeader.xsd" />
 
-  <xsd:element name="MPItemFeedResponse">
+  <xsd:element name="PartnerFeedResponse">
     <xsd:complexType>
       <xsd:sequence>
         <xsd:element name="feedId" type="xsd:string" minOccurs="1">
@@ -23,13 +23,6 @@
               UUID - a correlation id to partners so that they can query the status and response later for the feed
             </xsd:documentation>
           </xsd:annotation>
-      </xsd:element>
-      <xsd:element name="header" type="MPItemFeedHeader" minOccurs="1">
-        <xsd:annotation>
-          <xsd:documentation>
-            feed header as it was sent by feed source
-          </xsd:documentation>
-        </xsd:annotation>
       </xsd:element>
       <xsd:element name="feedStatus" type="FeedStatus" minOccurs="1">
         <xsd:annotation>
@@ -93,7 +86,7 @@
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="ItemDetails" minOccurs="0">
+      <xsd:element name="itemDetails" minOccurs="0">
         <xsd:annotation>
           <xsd:documentation>
             Indicates detailed response for the feed
@@ -101,7 +94,7 @@
         </xsd:annotation>
         <xsd:complexType>
           <xsd:sequence>
-            <xsd:element name="ItemIngestionStatus" type="MPItemIngestionStatus" minOccurs="0" maxOccurs="1000">
+            <xsd:element name="itemIngestionStatus" type="PartnerItemIngestionStatus" minOccurs="0" maxOccurs="1000">
 	        </xsd:element>
 	      </xsd:sequence>
         </xsd:complexType>
@@ -110,8 +103,15 @@
    </xsd:complexType>
   </xsd:element>
 
-  <xsd:complexType name="MPItemIngestionStatus">
+  <xsd:complexType name="PartnerItemIngestionStatus">
     <xsd:sequence>
+      <xsd:element name="martId" type="xsd:int" minOccurs="0">
+          <xsd:annotation>
+            <xsd:documentation>
+              martId of the offer listing, 0 for the default mart for the tenant (tenant ID is in the header)
+            </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
       <xsd:element name="sku" minOccurs="0">
         <xsd:annotation>
           <xsd:documentation>
@@ -125,13 +125,6 @@
           </xsd:restriction>
         </xsd:simpleType>
       </xsd:element>
-      <xsd:element name="index" type="xsd:int" minOccurs="0">
-        <xsd:annotation>
-          <xsd:documentation>
-            position of the item in the feed
-          </xsd:documentation>
-        </xsd:annotation>
-      </xsd:element>
       <xsd:element name="wpid" minOccurs="0">
         <xsd:annotation>
           <xsd:documentation>
@@ -143,6 +136,13 @@
             <xsd:maxLength value="12"/>
           </xsd:restriction>
         </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="index" type="xsd:int" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            position of the item in the feed
+          </xsd:documentation>
+        </xsd:annotation>
       </xsd:element>
       <xsd:element name="ingestionStatus" type="ItemStatus" minOccurs="1">
         <xsd:annotation>

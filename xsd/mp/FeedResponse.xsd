@@ -12,9 +12,9 @@
   version="1.4">
 
   <xsd:include schemaLocation="FeedCommons.xsd" />
-  <xsd:include schemaLocation="MPItemFeedHeader.xsd" />
+  <xsd:include schemaLocation="FeedHeader.xsd" />
 
-  <xsd:element name="MPItemFeedResponse">
+  <xsd:element name="FeedResponse">
     <xsd:complexType>
       <xsd:sequence>
         <xsd:element name="feedId" type="xsd:string" minOccurs="1">
@@ -24,7 +24,7 @@
             </xsd:documentation>
           </xsd:annotation>
       </xsd:element>
-      <xsd:element name="header" type="MPItemFeedHeader" minOccurs="1">
+      <xsd:element name="FeedHeader" type="FeedHeader" minOccurs="1">
         <xsd:annotation>
           <xsd:documentation>
             feed header as it was sent by feed source
@@ -101,7 +101,7 @@
         </xsd:annotation>
         <xsd:complexType>
           <xsd:sequence>
-            <xsd:element name="ItemIngestionStatus" type="MPItemIngestionStatus" minOccurs="0" maxOccurs="1000">
+            <xsd:element name="ItemIngestionStatus" type="ItemIngestionStatus" minOccurs="0" maxOccurs="1000">
 	        </xsd:element>
 	      </xsd:sequence>
         </xsd:complexType>
@@ -110,9 +110,48 @@
    </xsd:complexType>
   </xsd:element>
 
-  <xsd:complexType name="MPItemIngestionStatus">
+  <xsd:complexType name="ItemIngestionStatus">
     <xsd:sequence>
+      <xsd:element name="productId" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            WPID
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="12"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="abstractProductId" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            if the item is a variant, this will be the product ID of the abstract parent product
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="martId" type="xsd:int" minOccurs="0">
+          <xsd:annotation>
+            <xsd:documentation>
+              martId of the offer listing, 0 for the default mart for the tenant (tenant ID is in the header)
+            </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
       <xsd:element name="sku" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+             may not be provided when SKU was not found in input data
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="255"/>
+            <xsd:minLength value="1"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="legacyItemId" minOccurs="0">
         <xsd:annotation>
           <xsd:documentation>
              may not be provided when SKU was not found in input data
@@ -132,17 +171,12 @@
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="wpid" minOccurs="0">
+      <xsd:element name="offerId" type="xsd:string" minOccurs="0">
         <xsd:annotation>
           <xsd:documentation>
-            WPID
+            internal offerId created by Walmart
           </xsd:documentation>
         </xsd:annotation>
-        <xsd:simpleType>
-          <xsd:restriction base="xsd:string">
-            <xsd:maxLength value="12"/>
-          </xsd:restriction>
-        </xsd:simpleType>
       </xsd:element>
       <xsd:element name="ingestionStatus" type="ItemStatus" minOccurs="1">
         <xsd:annotation>

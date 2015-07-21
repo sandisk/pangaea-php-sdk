@@ -9,12 +9,11 @@
   xmlns="http://walmart.com/"
   targetNamespace="http://walmart.com/"
   elementFormDefault="qualified"
-  version="1.2">
+  version="1.4">
 
   <xsd:include schemaLocation="MPItemFeedHeader.xsd"/>
   <xsd:include schemaLocation="MPItem.xsd"/>
   <xsd:include schemaLocation="MPItemUpdate.xsd"/>
-  <xsd:include schemaLocation="MPItemRetire.xsd"/>
 
   <xsd:element name="MPItemFeed">
     <xsd:complexType>
@@ -29,7 +28,6 @@
         <xsd:choice minOccurs="1" maxOccurs="10000">
           <xsd:element name="MPItem" type="MPItem"/>
           <xsd:element name="MPItemUpdate" type="MPItemUpdate"/>
-          <xsd:element name="MPItemRetire" type="MPItemRetire"/>
         </xsd:choice>
       </xsd:sequence>
     </xsd:complexType>
