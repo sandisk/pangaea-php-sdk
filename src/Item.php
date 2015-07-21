@@ -287,6 +287,18 @@ XML;
         }, $itemLogistics);
 
         $this->itemLogistics = <<< XML
+<!-- START: Required Dummy Values -->
+<reportingHierarchy></reportingHierarchy>
+<marketAttributes></marketAttributes>
+<isPreOrder>false</isPreOrder>
+<streetDate>2015-03-30</streetDate>
+<streetDateType>str1234</streetDateType>
+<programEligibilities></programEligibilities>
+<packages></packages>
+<isPerishable>false</isPerishable>
+<isHazmat>false</isHazmat>
+<!-- END: Required Dummy Values -->
+<!-- START: Dummy LIMO Values -->
 <inventoryAvailabilityThreshold>
     <low>1</low>
     <mid>5</mid>
@@ -298,7 +310,7 @@ XML;
 </onHandSafetyFactorQuantity>
 <assumeInfiniteInventory>true</assumeInfiniteInventory>
 <unitCost>
-    <currency>USE</currency>
+    <currency>GBP</currency>
     <amount>123.99</amount>
 </unitCost>
 <primarySupplyItemId>2947757</primarySupplyItemId>
@@ -317,9 +329,42 @@ XML;
         <rank>2</rank>
     </preferredDistributor>
 </preferredDistributors>
+<!-- END: Dummy LIMO Values -->
+<!-- START: Required Dummy Values -->
+<fulfillmentOptions></fulfillmentOptions>
+<shipAsIs>str1234</shipAsIs>
+<isSignatureOnDeliveryReq>false</isSignatureOnDeliveryReq>
+<isConveyable>false</isConveyable>
+<bundleFulfillmentMode>false</bundleFulfillmentMode>
+<storageType>AMBIENT</storageType>
+<!-- END: Required Dummy Values -->
 <shipNodes>
     <shipNode>
         <legacyDistributorId>{$itemLogistics['legacyDistributorId']}</legacyDistributorId>
+        <!-- START: Required Dummy Values -->
+        <itemShipNodeStatus>str1234</itemShipNodeStatus>
+        <preOrderMaxQty>
+            <value>1</value>
+            <unit>EA</unit>
+        </preOrderMaxQty>
+        <handlingCost>
+            <currency>GBP</currency>
+            <amount>123.45</amount>
+        </handlingCost>
+        <unitCost>
+            <currency>GBP</currency>
+            <amount>4.00</amount>
+        </unitCost>
+        <shipNodeItemId>str1234</shipNodeItemId>
+        <initialAvailabilityCode>str1234</initialAvailabilityCode>
+        <availabilityThreshold>
+            <low>123</low>
+            <mid>123</mid>
+            <high>123</high>
+        </availabilityThreshold>
+        <inventoryOwnerId>str1234</inventoryOwnerId>
+        <programEligibilities></programEligibilities>
+        <!-- END: Required Dummy Values -->
         <itemShipNodeSupplies>
             <itemShipNodeSupply>
                 <mdsfamId>{$itemLogistics['mdsFamId']}</mdsfamId>
