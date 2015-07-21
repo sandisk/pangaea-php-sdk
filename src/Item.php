@@ -165,13 +165,15 @@ XML;
      * @param $group
      * @param array $attributes multi-dimensional, with names specified as keys then either a single value or an array of values
      */
-    public function setAttributes($group, array $attributes)
+    public function addAttributes($group, array $attributes)
     {
         if (! in_array($group, static::VALID_ATTRIBUTE_GROUPS)) {
             throw new PangaeaException('Invalid attribute group');
         }
 
-        $this->attributes[$group] = ''; // prevent 'undefined index' notices
+        if (! isset($this->attributes[$group])) {
+            $this->attributes[$group] = ''; // prevent 'undefined index' notices
+        }
 
         // @todo: key sort? doc block if do, but wait until settled and verified no differences...
 
@@ -278,7 +280,7 @@ XML;
             }
         }
 
-        $this->setAttributes('Product', $itemLogisticsAttributes);
+        $this->addAttributes('Product', $itemLogisticsAttributes);
 
         $itemLogistics = array_map(function($value) {
             return Xml::escape((string) $value);

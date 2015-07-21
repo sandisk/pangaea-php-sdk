@@ -25,7 +25,7 @@ class ItemsTest extends AbstractTest
         $item->setWeight(0.5, 'G');
         $item->setPricing(14.99, 9.99, 12.49, '2015-01-01');
 
-        $item->setAttributes('Product', [
+        $item->addAttributes('Product', [
             'availability_flag' => true,
             'catalog_id'        => 'TestCatalog',
             'barcode_list'      => ['5000000000123', '5000000000456'],
@@ -36,16 +36,16 @@ class ItemsTest extends AbstractTest
             'export_include'    => ''
         ]);
 
-        $item->setAttributes('Compliance', [
+        $item->addAttributes('Compliance', [
             'over_18_age' => true
         ]);
 
         // example of some common attributes duplicated in multiple attribute groups, with an addition in the second...
         $common = ['sku' => 'SKU12345', 'is_international' => true];
-        $item->setAttributes('MarketInProduct', $common);
-        $item->setAttributes('MarketInOffer', array_merge(['addition' => true], $common));
+        $item->addAttributes('MarketInProduct', $common);
+        $item->addAttributes('MarketInOffer', array_merge(['addition' => true], $common));
 
-        $item->setAttributes('Offer', [
+        $item->addAttributes('Offer', [
             'pre_order' => true
         ]);
 
