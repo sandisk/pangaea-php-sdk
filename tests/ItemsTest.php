@@ -49,6 +49,8 @@ class ItemsTest extends AbstractTest
 
         $item->setAssets(['1.png', '2.png', '3.png'], 'http://example.com/image');
 
+        $item->setItemLogistics(12345, 12345678, 123456);
+
         $feed->addItem($item);
 
         $sampleXml = $this->loadXmlFixture('items.xml');

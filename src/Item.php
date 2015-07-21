@@ -6,7 +6,7 @@ class Item
     const SPEC_DEFAULT_END_DATE  = '2049-12-31'; // as specified by Walmart
     const VALID_ATTRIBUTE_GROUPS = ['Product', 'Compliance', 'MarketInProduct', 'MarketInOffer', 'Offer'];
 
-    private $sku, $upc, $title, $shortDescription, $longDescription, $taxCode, $assets, $attributes, $brand;
+    private $sku, $upc, $title, $shortDescription, $longDescription, $taxCode, $assets, $attributes, $brand, $itemLogistics;
     private $shipping = '';
 
     /**
@@ -247,6 +247,58 @@ XML;
         }
     }
 
+    /**
+     * Set the item logistics.
+     * Corresponding attributes will also be added to the product attributes group too.
+     *
+     * @param $legacyDistributorId
+     * @param $mdsFamId
+     * @param $vendorStockId
+     */
+    public function setItemLogistics($legacyDistributorId, $mdsFamId, $vendorStockId)
+    {
+        $itemLogistics = [
+            'legacyDistributorId' => $legacyDistributorId,
+            'mdsFamId'            => $mdsFamId,
+            'vendorStockId'       => $vendorStockId,
+        ];
+
+        // The name to use when adding them to the product attributes group.
+        $attributeLookup = [
+            'legacyDistributorId' => 'supplier_number',
+            'mdsFamId'            => 'mds_fam_id',
+            'vendorStockId'       => 'supplier_stock_number',
+        ];
+
+        $itemLogisticsAttributes = [];
+
+        foreach ($itemLogistics as $key => $value) {
+            if (isset($attributeLookup[$key])) {
+                $itemLogisticsAttributes[$attributeLookup[$key]] = $value;
+            }
+        }
+
+        $this->setAttributes('Product', $itemLogisticsAttributes);
+
+        foreach ($itemLogistics as $key => $value) {
+            $itemLogistics[$key] = Xml::escape($value);
+        }
+
+        $this->itemLogistics = <<< XML
+<shipNodes>
+    <shipNode>
+        <legacyDistributorId>{$itemLogistics['legacyDistributorId']}</legacyDistributorId>
+        <itemShipNodeSupplies>
+            <itemShipNodeSupply>
+                <mdsFamId>{$itemLogistics['mdsFamId']}</mdsFamId>
+                <vendorStockId>{$itemLogistics['vendorStockId']}</vendorStockId>
+            </itemShipNodeSupply>
+        </itemShipNodeSupplies>
+    </shipNode>
+</shipNodes>
+XML;
+    }
+
     public function render()
     {
         return <<<XML
@@ -258,14 +310,20 @@ XML;
         <productLongDescription>{$this->longDescription}</productLongDescription>
         <productTaxCode>{$this->taxCode}</productTaxCode>
         <ProductIds>
-            <ProductId><productIdType>UPC</productIdType><productId>{$this->upc}</productId></ProductId>
+            <ProductId>
+                <productIdType>UPC</productIdType>
+                <productId>{$this->upc}</productId>
+            </ProductId>
         </ProductIds>
         {$this->brand}
         <productSetupType>STANDALONE</productSetupType>
         <ProductAttributes>{$this->attributes['Product']}</ProductAttributes>
         <ComplianceAttributes>{$this->attributes['Compliance']}</ComplianceAttributes>
         <MarketAttributes>{$this->attributes['MarketInProduct']}</MarketAttributes>
-        <Assets processMode="REPLACE" action="CREATE"><sku>{$this->sku}</sku>{$this->assets}</Assets>
+        <Assets processMode="REPLACE" action="CREATE">
+            <sku>{$this->sku}</sku>
+            {$this->assets}
+        </Assets>
     </Product>
     <Offer>
         <sku>{$this->sku}</sku>
@@ -273,6 +331,7 @@ XML;
         {$this->dates}
         {$this->status}
         {$this->shipping}
+        <ItemLogistics>{$this->itemLogistics}</ItemLogistics>
         <ItemPrice>{$this->pricing}</ItemPrice>
         <OfferAttributes>{$this->attributes['Offer']}</OfferAttributes>
         <MarketAttributes>{$this->attributes['MarketInOffer']}</MarketAttributes>

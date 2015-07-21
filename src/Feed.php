@@ -39,7 +39,7 @@ class Feed
 <Feed xmlns="http://walmart.com/">
     <Header>
         <!-- Other than `feedDate`, Header elements are hardcoded (sources not been specified) -->
-        <version>1.2</version>
+        <version>1.4</version>
         <sellerId>59</sellerId>
         <tenant>gm.asda.com</tenant>
         <locale>en_GB</locale>

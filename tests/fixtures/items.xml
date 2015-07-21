@@ -240,6 +240,20 @@
           </value>
         </NameValueAttribute>
       </MarketAttributes>
+      <ItemLogistics>
+          <shipNodes>
+              <shipNode>
+                  <legacySupplierOrgId>12345</legacySupplierOrgId>
+                  <itemShipNodeSupplies>
+                      <itemShipNodeSupply>
+                          <supplier
+                          <mdsFamId>12345678</mdsFamId>
+                          <vendorStockId>123456</vendorStockId>
+                      </itemShipNodeSupply>
+                  </itemShipNodeSupplies>
+              </shipNode>
+          </shipNodes>
+      </ItemLogistics>
     </Offer>
   </UncategorizedItem>
 </Feed>
