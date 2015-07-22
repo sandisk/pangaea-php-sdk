@@ -149,7 +149,7 @@ XML;
      */
     public function setBrand($brand)
     {
-        if (! empty($brand)) {
+        if (mb_strlen($brand) > 0) {
             $this->brand = '<brand>' . Xml::escape($brand) . '</brand>';
         }
     }
@@ -278,7 +278,7 @@ XML;
         foreach ($itemLogisticsParams as $key => $value) {
             $itemLogisticsElements[$key] = '';
 
-            if (! empty($value)) {
+            if (mb_strlen($value) > 0) {
                 $itemLogisticsElements[$key] = '<' . $key . '>' . Xml::escape($value) . '</' . $key . '>';
             }
 

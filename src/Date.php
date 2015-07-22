@@ -24,6 +24,6 @@ class Date
 
     public static function isEmpty($date)
     {
-        return empty($date) || '0000-00-00' === substr($date, 0, 10);
+        return mb_strlen($date) === 0 || '0000-00-00' === substr($date, 0, 10);
     }
 }
