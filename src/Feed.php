@@ -39,7 +39,7 @@ class Feed
 <Feed xmlns="http://walmart.com/">
     <Header>
         <!-- Other than `feedDate`, Header elements are hardcoded (sources not been specified) -->
-        <version>1.2</version>
+        <version>1.4</version>
         <sellerId>59</sellerId>
         <tenant>gm.asda.com</tenant>
         <locale>en_GB</locale>
@@ -68,12 +68,15 @@ XML;
      * Validates the document and saves to the specified path
      *
      * @param $path
+     * @return boolean
      * @throws \PangaeaException
      */
     public function save($path)
     {
-        file_put_contents($path, $this->render());
+        $result = file_put_contents($path, $this->render());
 
         Xml::validate($path, __DIR__ . '/../xsd/Feed.xsd');
+
+        return $result > 0;
     }
 }

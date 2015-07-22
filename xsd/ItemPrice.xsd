@@ -9,7 +9,7 @@
   xmlns="http://walmart.com/"
   targetNamespace="http://walmart.com/"
   elementFormDefault="qualified"
-  version="1.2">
+  version="1.4">
 
   <xsd:include schemaLocation="ItemCommons.xsd"/>
 
@@ -72,6 +72,13 @@
         <xsd:annotation>
           <xsd:documentation>
             Represents Price Information  
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="allowZeroOrNullPrice" type="xsd:boolean" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            allow zero or null price
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>

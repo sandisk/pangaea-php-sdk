@@ -9,7 +9,7 @@
   xmlns="http://walmart.com/"
   targetNamespace="http://walmart.com/"
   elementFormDefault="qualified"
-  version="1.2">
+  version="1.4">
 
   <xsd:include schemaLocation="SupplyCommons.xsd" />
 
@@ -30,7 +30,7 @@
       <xsd:element name="isImport" type="xsd:boolean" minOccurs="0"/>
       <xsd:element name="estimatedOutOfStockDate" type="xsd:date" minOccurs="0"/>
       <xsd:element name="assortmentType" type="AssortmentType" minOccurs="0"/>
-      <xsd:element name="status" type="Status" minOccurs="0"/>
+      <xsd:element name="status" type="SupplyItemStatus" minOccurs="0"/>
       <xsd:element name="itemType" type="ItemType" minOccurs="0"/>
       <xsd:element name="supplierAgreement" type="SupplierAgreement" minOccurs="0"/>
       <xsd:element name="warehouseAlignment" type="WarehouseAlignment" minOccurs="0"/>
@@ -73,7 +73,7 @@
       <xsd:element name="finelineNumber" type="xsd:unsignedInt" minOccurs="0"/>
       <xsd:element name="merchandiseCategoryNumber" type="xsd:unsignedInt" minOccurs="0"/>
       <xsd:element name="merchandiseSubcategoryNumber" type="xsd:unsignedInt" minOccurs="0"/>
-      <xsd:element name="season" type="Season" minOccurs="0"/>
+      <xsd:element name="season" type="SupplySeason" minOccurs="0"/>
       <xsd:element name="exclusiveSupplyDCNumber" type="xsd:unsignedLong" minOccurs="0"/>
       <xsd:element name="warehousePackCalcMethod" type="WarehousePackCalcMethod" minOccurs="0"/>
       <xsd:element name="destinationSendTraits" type="DestinationTraits" minOccurs="0" maxOccurs="unbounded"/>

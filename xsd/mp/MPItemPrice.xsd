@@ -10,7 +10,7 @@
   xmlns="http://walmart.com/"
   targetNamespace="http://walmart.com/"
   elementFormDefault="qualified"
-  version="1.2">
+  version="1.4">
 
   <xsd:include schemaLocation="MPItemCommons.xsd" />
 
@@ -43,18 +43,6 @@
           </xsd:restriction>
         </xsd:simpleType>
       </xsd:element>
-      <xsd:element name="wpid" minOccurs="0">
-        <xsd:annotation>
-          <xsd:documentation>
-            Walmart's item identifier
-          </xsd:documentation>
-        </xsd:annotation>
-        <xsd:simpleType>
-          <xsd:restriction base="xsd:string">
-            <xsd:maxLength value="12" />
-          </xsd:restriction>
-        </xsd:simpleType>
-      </xsd:element>
       <xsd:element name="price" type="Money" minOccurs="1">
         <xsd:annotation>
           <xsd:documentation>
@@ -62,14 +50,65 @@
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="minAdvertisedPrice" type="Money" minOccurs="0">
-        <xsd:annotation>
-          <xsd:documentation>
-            minimum advertisement price  
-          </xsd:documentation>
-        </xsd:annotation>
-      </xsd:element>
     </xsd:sequence>
   </xsd:complexType>
 
+  <xsd:element name="MPItemPriceResponse" type="MPItemPriceResponse"/>
+
+  <xsd:complexType name="MPItemPriceResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        replaces all existing overrides
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="mart" type="Mart" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            Mart where the item would be listed
+          </xsd:documentation>
+        </xsd:annotation>  
+      </xsd:element>
+      <xsd:element name="sku" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            Paerner's item identifiers
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="255" />
+            <xsd:minLength value="1"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="currency" type="CurrencyCode" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            item price
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="amount" type="xsd:decimal" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            item price
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="message" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            response message
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="1024" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  
 </xsd:schema>

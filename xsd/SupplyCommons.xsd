@@ -9,7 +9,7 @@
   xmlns="http://walmart.com/"
   targetNamespace="http://walmart.com/"
   elementFormDefault="qualified"
-  version="1.2">
+  version="1.4">
 
   <xsd:element name="createTimestamp" type="xsd:dateTime"/>
   <xsd:element name="createdByUserId" type="alpha25"/>
@@ -598,7 +598,7 @@
     </xsd:sequence>
   </xsd:complexType>
 
-  <xsd:complexType name="Season">
+  <xsd:complexType name="SupplySeason">
     <xsd:sequence>
       <xsd:element name="id" type="xsd:unsignedLong"/>
       <xsd:element name="name" type="alpha100"/>
@@ -616,7 +616,7 @@
     </xsd:sequence>
   </xsd:complexType>
 
-  <xsd:complexType name="Status">
+  <xsd:complexType name="SupplyItemStatus">
     <xsd:sequence>
       <xsd:element name="code" type="alpha10"/>
       <xsd:element name="description" type="alpha80"/>

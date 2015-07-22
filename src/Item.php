@@ -6,7 +6,7 @@ class Item
     const SPEC_DEFAULT_END_DATE  = '2049-12-31'; // as specified by Walmart
     const VALID_ATTRIBUTE_GROUPS = ['Product', 'Compliance', 'MarketInProduct', 'MarketInOffer', 'Offer'];
 
-    private $sku, $upc, $title, $shortDescription, $longDescription, $taxCode, $assets, $attributes, $brand;
+    private $sku, $upc, $title, $shortDescription, $longDescription, $taxCode, $assets, $attributes, $brand, $itemLogistics;
     private $shipping = '';
 
     /**
@@ -165,13 +165,15 @@ XML;
      * @param $group
      * @param array $attributes multi-dimensional, with names specified as keys then either a single value or an array of values
      */
-    public function setAttributes($group, array $attributes)
+    public function addAttributes($group, array $attributes)
     {
         if (! in_array($group, static::VALID_ATTRIBUTE_GROUPS)) {
             throw new PangaeaException('Invalid attribute group');
         }
 
-        $this->attributes[$group] = ''; // prevent 'undefined index' notices
+        if (! isset($this->attributes[$group])) {
+            $this->attributes[$group] = ''; // prevent 'undefined index' notices
+        }
 
         // @todo: key sort? doc block if do, but wait until settled and verified no differences...
 
@@ -247,6 +249,133 @@ XML;
         }
     }
 
+    /**
+     * Set the item logistics.
+     * Corresponding attributes will also be added to the product attributes group too.
+     *
+     * @param $legacyDistributorId
+     * @param $mdsFamId
+     * @param $vendorStockId
+     */
+    public function setItemLogistics($legacyDistributorId, $mdsFamId, $vendorStockId)
+    {
+        $itemLogistics = [
+            'legacyDistributorId' => $legacyDistributorId,
+            'mdsFamId'            => $mdsFamId,
+            'vendorStockId'       => $vendorStockId,
+        ];
+
+        // The name to use when adding them to the product attributes group.
+        $attributeLookup = [
+            'legacyDistributorId' => 'supplier_number',
+            'mdsFamId'            => 'mds_fam_id',
+            'vendorStockId'       => 'supplier_stock_number',
+        ];
+
+        $itemLogisticsAttributes = [];
+
+        foreach ($itemLogistics as $key => $value) {
+            if (isset($attributeLookup[$key])) {
+                $itemLogisticsAttributes[$attributeLookup[$key]] = (string) $value;
+            }
+        }
+
+        $this->addAttributes('Product', $itemLogisticsAttributes);
+
+        $itemLogistics = array_map(function($value) {
+            return Xml::escape((string) $value);
+        }, $itemLogistics);
+
+        $this->itemLogistics = <<< XML
+<!-- START: Required Dummy Values -->
+<reportingHierarchy></reportingHierarchy>
+<marketAttributes></marketAttributes>
+<isPreOrder>false</isPreOrder>
+<streetDate>2015-03-30</streetDate>
+<streetDateType>str1234</streetDateType>
+<programEligibilities></programEligibilities>
+<packages></packages>
+<isPerishable>false</isPerishable>
+<isHazmat>false</isHazmat>
+<!-- END: Required Dummy Values -->
+<!-- START: Dummy LIMO Values -->
+<inventoryAvailabilityThreshold>
+    <low>1</low>
+    <mid>5</mid>
+    <high>999</high>
+</inventoryAvailabilityThreshold>
+<onHandSafetyFactorQuantity>
+    <value>5</value>
+    <unit>EA</unit>
+</onHandSafetyFactorQuantity>
+<assumeInfiniteInventory>true</assumeInfiniteInventory>
+<unitCost>
+    <currency>GBP</currency>
+    <amount>123.99</amount>
+</unitCost>
+<primarySupplyItemId>2947757</primarySupplyItemId>
+<alternateSupplyItemId>str1234</alternateSupplyItemId>
+<preferredDistributors>
+    <preferredDistributor>
+        <legacyDistributorId>str1234</legacyDistributorId>
+        <effectiveFrom>2012-12-13T12:12:12</effectiveFrom>
+        <effectiveTill>2012-12-13T12:12:12</effectiveTill>
+        <rank>1</rank>
+    </preferredDistributor>
+    <preferredDistributor>
+        <legacyDistributorId>str1234</legacyDistributorId>
+        <effectiveFrom>2012-12-13T12:12:12</effectiveFrom>
+        <effectiveTill>2012-12-13T12:12:12</effectiveTill>
+        <rank>2</rank>
+    </preferredDistributor>
+</preferredDistributors>
+<!-- END: Dummy LIMO Values -->
+<!-- START: Required Dummy Values -->
+<fulfillmentOptions></fulfillmentOptions>
+<shipAsIs>str1234</shipAsIs>
+<isSignatureOnDeliveryReq>false</isSignatureOnDeliveryReq>
+<isConveyable>false</isConveyable>
+<bundleFulfillmentMode>false</bundleFulfillmentMode>
+<storageType>AMBIENT</storageType>
+<!-- END: Required Dummy Values -->
+<shipNodes>
+    <shipNode>
+        <legacyDistributorId>{$itemLogistics['legacyDistributorId']}</legacyDistributorId>
+        <!-- START: Required Dummy Values -->
+        <itemShipNodeStatus>str1234</itemShipNodeStatus>
+        <preOrderMaxQty>
+            <value>1</value>
+            <unit>EA</unit>
+        </preOrderMaxQty>
+        <handlingCost>
+            <currency>GBP</currency>
+            <amount>123.45</amount>
+        </handlingCost>
+        <unitCost>
+            <currency>GBP</currency>
+            <amount>4.00</amount>
+        </unitCost>
+        <shipNodeItemId>str1234</shipNodeItemId>
+        <initialAvailabilityCode>str1234</initialAvailabilityCode>
+        <availabilityThreshold>
+            <low>123</low>
+            <mid>123</mid>
+            <high>123</high>
+        </availabilityThreshold>
+        <inventoryOwnerId>str1234</inventoryOwnerId>
+        <programEligibilities></programEligibilities>
+        <!-- END: Required Dummy Values -->
+        <itemShipNodeSupplies>
+            <itemShipNodeSupply>
+                <mdsfamId>{$itemLogistics['mdsFamId']}</mdsfamId>
+                <vendorStockId>{$itemLogistics['vendorStockId']}</vendorStockId>
+            </itemShipNodeSupply>
+        </itemShipNodeSupplies>
+    </shipNode>
+</shipNodes>
+XML;
+    }
+
     public function render()
     {
         return <<<XML
@@ -258,14 +387,20 @@ XML;
         <productLongDescription>{$this->longDescription}</productLongDescription>
         <productTaxCode>{$this->taxCode}</productTaxCode>
         <ProductIds>
-            <ProductId><productIdType>UPC</productIdType><productId>{$this->upc}</productId></ProductId>
+            <ProductId>
+                <productIdType>UPC</productIdType>
+                <productId>{$this->upc}</productId>
+            </ProductId>
         </ProductIds>
         {$this->brand}
         <productSetupType>STANDALONE</productSetupType>
         <ProductAttributes>{$this->attributes['Product']}</ProductAttributes>
         <ComplianceAttributes>{$this->attributes['Compliance']}</ComplianceAttributes>
         <MarketAttributes>{$this->attributes['MarketInProduct']}</MarketAttributes>
-        <Assets processMode="REPLACE" action="CREATE"><sku>{$this->sku}</sku>{$this->assets}</Assets>
+        <Assets processMode="REPLACE" action="CREATE">
+            <sku>{$this->sku}</sku>
+            {$this->assets}
+        </Assets>
     </Product>
     <Offer>
         <sku>{$this->sku}</sku>
@@ -273,6 +408,7 @@ XML;
         {$this->dates}
         {$this->status}
         {$this->shipping}
+        <itemLogistics>{$this->itemLogistics}</itemLogistics>
         <ItemPrice>{$this->pricing}</ItemPrice>
         <OfferAttributes>{$this->attributes['Offer']}</OfferAttributes>
         <MarketAttributes>{$this->attributes['MarketInOffer']}</MarketAttributes>

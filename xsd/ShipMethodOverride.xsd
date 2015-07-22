@@ -9,7 +9,7 @@
   xmlns="http://walmart.com/"
   targetNamespace="http://walmart.com/"
   elementFormDefault="qualified"
-  version="1.2">
+  version="1.4">
 
   <xsd:include schemaLocation="ItemCommons.xsd" />
  

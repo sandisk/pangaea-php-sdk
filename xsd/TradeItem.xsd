@@ -9,7 +9,7 @@
   xmlns="http://walmart.com/"
   targetNamespace="http://walmart.com/"
   elementFormDefault="qualified"
-  version="1.2">
+  version="1.4">
 
   <xsd:include schemaLocation="SupplyCommons.xsd" />
 
@@ -85,7 +85,7 @@
       <xsd:element name="compositeWoodCertification" type="CompositeWoodCertification" minOccurs="0"/>
       <xsd:element name="hasRigidPlasticPackaging" type="xsd:boolean" minOccurs="0"/>
       <xsd:element name="royaltyProgram" type="RoyaltyProgram" minOccurs="0"/>
-      <xsd:element name="wercsStatus" type="Status" minOccurs="0"/>
+      <xsd:element name="wercsStatus" type="SupplyItemStatus" minOccurs="0"/>
       <xsd:element name="gpcBrickNumber" type="alpha15" minOccurs="0"/>
       <xsd:element name="childTradeItems" type="TradeItemRelationship" minOccurs="0" maxOccurs="unbounded"/>
       <xsd:element name="tradeItemChildQuantity" type="Quantity" minOccurs="0"/>
