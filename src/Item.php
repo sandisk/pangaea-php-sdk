@@ -276,13 +276,15 @@ XML;
         $itemLogisticsAttributes = [];
 
         foreach ($itemLogisticsParams as $key => $value) {
+            $hasValue = mb_strlen($value) > 0;
+
             $itemLogisticsElements[$key] = '';
 
-            if (mb_strlen($value) > 0) {
+            if ($hasValue) {
                 $itemLogisticsElements[$key] = '<' . $key . '>' . Xml::escape($value) . '</' . $key . '>';
             }
 
-            if (isset($attributeLookup[$key])) {
+            if ($hasValue && isset($attributeLookup[$key])) {
                 $itemLogisticsAttributes[$attributeLookup[$key]] = (string) $value;
             }
         }
