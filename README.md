@@ -1,3 +1,6 @@
+[![Build Status](https://semaphoreci.com/api/v1/projects/f79de448-d5c0-4e0f-b0e6-a80df6d7906e/490306/badge.svg)](https://semaphoreci.com/gabriel403/pangaea-php-sdk)
+
+
 PHP library for working with Pangaea platform
 ===
 
