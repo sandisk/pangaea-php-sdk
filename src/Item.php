@@ -149,7 +149,7 @@ XML;
      */
     public function setBrand($brand)
     {
-        if (! empty($brand)) {
+        if (mb_strlen($brand) > 0) {
             $this->brand = '<brand>' . Xml::escape($brand) . '</brand>';
         }
     }
@@ -253,38 +253,43 @@ XML;
      * Set the item logistics.
      * Corresponding attributes will also be added to the product attributes group too.
      *
-     * @param $legacyDistributorId
-     * @param $mdsFamId
-     * @param $vendorStockId
+     * @param null $legacyDistributorId
+     * @param null $mdsFamId
+     * @param null $vendorStockId
      */
-    public function setItemLogistics($legacyDistributorId, $mdsFamId, $vendorStockId)
+    public function setItemLogistics($legacyDistributorId = null, $mdsfamId = null, $vendorStockId = null)
     {
-        $itemLogistics = [
+        $itemLogisticsParams = [
             'legacyDistributorId' => $legacyDistributorId,
-            'mdsFamId'            => $mdsFamId,
+            'mdsfamId'            => $mdsfamId,
             'vendorStockId'       => $vendorStockId,
         ];
 
         // The name to use when adding them to the product attributes group.
         $attributeLookup = [
             'legacyDistributorId' => 'supplier_number',
-            'mdsFamId'            => 'mds_fam_id',
+            'mdsfamId'            => 'mds_fam_id',
             'vendorStockId'       => 'supplier_stock_number',
         ];
 
+        $itemLogisticsElements   = [];
         $itemLogisticsAttributes = [];
 
-        foreach ($itemLogistics as $key => $value) {
-            if (isset($attributeLookup[$key])) {
+        foreach ($itemLogisticsParams as $key => $value) {
+            $hasValue = mb_strlen($value) > 0;
+
+            $itemLogisticsElements[$key] = '';
+
+            if ($hasValue) {
+                $itemLogisticsElements[$key] = '<' . $key . '>' . Xml::escape($value) . '</' . $key . '>';
+            }
+
+            if ($hasValue && isset($attributeLookup[$key])) {
                 $itemLogisticsAttributes[$attributeLookup[$key]] = (string) $value;
             }
         }
 
         $this->addAttributes('Product', $itemLogisticsAttributes);
-
-        $itemLogistics = array_map(function($value) {
-            return Xml::escape((string) $value);
-        }, $itemLogistics);
 
         $this->itemLogistics = <<< XML
 <!-- START: Required Dummy Values -->
@@ -340,7 +345,7 @@ XML;
 <!-- END: Required Dummy Values -->
 <shipNodes>
     <shipNode>
-        <legacyDistributorId>{$itemLogistics['legacyDistributorId']}</legacyDistributorId>
+        {$itemLogisticsElements['legacyDistributorId']}
         <!-- START: Required Dummy Values -->
         <itemShipNodeStatus>str1234</itemShipNodeStatus>
         <preOrderMaxQty>
@@ -367,8 +372,8 @@ XML;
         <!-- END: Required Dummy Values -->
         <itemShipNodeSupplies>
             <itemShipNodeSupply>
-                <mdsfamId>{$itemLogistics['mdsFamId']}</mdsfamId>
-                <vendorStockId>{$itemLogistics['vendorStockId']}</vendorStockId>
+                {$itemLogisticsElements['mdsfamId']}
+                {$itemLogisticsElements['vendorStockId']}
             </itemShipNodeSupply>
         </itemShipNodeSupplies>
     </shipNode>
