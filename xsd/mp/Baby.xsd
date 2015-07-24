@@ -98,11 +98,11 @@
                     </xsd:annotation>
                     <xsd:simpleType>
                          <xsd:restriction base="xsd:string">
+                              <xsd:enumeration value="Unisex"/>
+                              <xsd:enumeration value="Women"/>
                               <xsd:enumeration value="Men"/>
                               <xsd:enumeration value="Boys"/>
                               <xsd:enumeration value="Girls"/>
-                              <xsd:enumeration value="Women"/>
-                              <xsd:enumeration value="Unisex"/>
                          </xsd:restriction>
                     </xsd:simpleType>
                </xsd:element>
@@ -129,22 +129,22 @@
                     </xsd:annotation>
                     <xsd:simpleType>
                          <xsd:restriction base="xsd:string">
-                              <xsd:enumeration value="Women's Plus"/>
-                              <xsd:enumeration value="Men"/>
-                              <xsd:enumeration value="Juniors"/>
-                              <xsd:enumeration value="Men's Big  Tall"/>
-                              <xsd:enumeration value="Newborn Boy"/>
-                              <xsd:enumeration value="Baby Girl"/>
-                              <xsd:enumeration value="Girls"/>
-                              <xsd:enumeration value="Baby Boy"/>
-                              <xsd:enumeration value="School Uniforms"/>
-                              <xsd:enumeration value="Boys"/>
-                              <xsd:enumeration value="Newborn Girl"/>
-                              <xsd:enumeration value="Maternity Wear"/>
-                              <xsd:enumeration value="Petites"/>
-                              <xsd:enumeration value="Maternity Plus"/>
                               <xsd:enumeration value="Young Men's"/>
+                              <xsd:enumeration value="Maternity Plus"/>
+                              <xsd:enumeration value="School Uniforms"/>
+                              <xsd:enumeration value="Men's Big  Tall"/>
+                              <xsd:enumeration value="Women's Plus"/>
+                              <xsd:enumeration value="Petites"/>
+                              <xsd:enumeration value="Maternity Wear"/>
+                              <xsd:enumeration value="Newborn Girl"/>
+                              <xsd:enumeration value="Boys"/>
+                              <xsd:enumeration value="Baby Boy"/>
+                              <xsd:enumeration value="Girls"/>
+                              <xsd:enumeration value="Baby Girl"/>
+                              <xsd:enumeration value="Newborn Boy"/>
+                              <xsd:enumeration value="Juniors"/>
                               <xsd:enumeration value="Women"/>
+                              <xsd:enumeration value="Men"/>
                          </xsd:restriction>
                     </xsd:simpleType>
                </xsd:element>
@@ -218,11 +218,11 @@
                     </xsd:annotation>
                     <xsd:simpleType>
                          <xsd:restriction base="xsd:string">
+                              <xsd:enumeration value="Unisex"/>
+                              <xsd:enumeration value="Women"/>
                               <xsd:enumeration value="Men"/>
                               <xsd:enumeration value="Boys"/>
                               <xsd:enumeration value="Girls"/>
-                              <xsd:enumeration value="Women"/>
-                              <xsd:enumeration value="Unisex"/>
                          </xsd:restriction>
                     </xsd:simpleType>
                </xsd:element>
@@ -286,151 +286,6 @@
                               <xsd:maxLength value="4000"/>
                          </xsd:restriction>
                     </xsd:simpleType>
-               </xsd:element>
-          </xsd:sequence>
-     </xsd:complexType>
-     <xsd:complexType name="BabyToys">
-          <xsd:sequence>
-               <xsd:element name="animalBreed" minOccurs="0" maxOccurs="1">
-                    <xsd:annotation>
-                         <xsd:documentation>The specific breed or species of animal. Example: German Shepherd; Goldfish; European Spacefoot Toad</xsd:documentation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Recommended"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-                    <xsd:simpleType>
-                         <xsd:restriction base="xsd:string">
-                              <xsd:maxLength value="4000"/>
-                         </xsd:restriction>
-                    </xsd:simpleType>
-               </xsd:element>
-               <xsd:element name="ageRange" minOccurs="1" maxOccurs="1">
-                    <xsd:annotation>
-                         <xsd:documentation> Example: 0-12 Months; 12-24 Months; 2-4 Years; 5-7 Years; 8-11 Years; 12 Years  Up; All Ages</xsd:documentation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Required"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-                    <xsd:simpleType>
-                         <xsd:restriction base="xsd:string">
-                              <xsd:enumeration value="0-12 Months"/>
-                              <xsd:enumeration value="12-24 Months"/>
-                              <xsd:enumeration value="2-4 Years"/>
-                              <xsd:enumeration value="5-7 Years"/>
-                              <xsd:enumeration value="12  Up"/>
-                              <xsd:enumeration value="8-11 Years"/>
-                         </xsd:restriction>
-                    </xsd:simpleType>
-               </xsd:element>
-               <xsd:element name="theme" minOccurs="0" maxOccurs="1" type="Theme">
-                    <xsd:annotation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Recommended"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-               </xsd:element>
-               <xsd:element name="batteriesRequired" minOccurs="0" maxOccurs="1">
-                    <xsd:annotation>
-                         <xsd:documentation>Indicates if batteries are required to use the item. Batteries may or may not be included. To specify battery inclusion and type, use the "Has Batteries" and "Battery Technology Type" attributes in the root spec. Example: Y; N</xsd:documentation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Recommended"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-                    <xsd:simpleType>
-                         <xsd:restriction base="xsd:boolean"/>
-                    </xsd:simpleType>
-               </xsd:element>
-               <xsd:element name="batterySize" minOccurs="0" maxOccurs="1">
-                    <xsd:annotation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Recommended"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-                    <xsd:simpleType>
-                         <xsd:restriction base="xsd:string">
-                              <xsd:maxLength value="4000"/>
-                         </xsd:restriction>
-                    </xsd:simpleType>
-               </xsd:element>
-               <xsd:element name="awardsWon" minOccurs="0" maxOccurs="1" type="AwardsWon">
-                    <xsd:annotation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Recommended"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-               </xsd:element>
-               <xsd:element name="animalType" minOccurs="0" maxOccurs="1">
-                    <xsd:annotation>
-                         <xsd:documentation>The common generic name for the type of animal. Example: Dog; Cat; Bird; Hamster; Lizard; Frog; Fish; Horse</xsd:documentation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Recommended"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-                    <xsd:simpleType>
-                         <xsd:restriction base="xsd:string">
-                              <xsd:maxLength value="4000"/>
-                         </xsd:restriction>
-                    </xsd:simpleType>
-               </xsd:element>
-               <xsd:element name="isPowered" minOccurs="0" maxOccurs="1">
-                    <xsd:annotation>
-                         <xsd:documentation>Indicates that an item is powered. Example: Y; N</xsd:documentation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Recommended"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-                    <xsd:simpleType>
-                         <xsd:restriction base="xsd:boolean"/>
-                    </xsd:simpleType>
-               </xsd:element>
-               <xsd:element name="powerType" minOccurs="0" maxOccurs="1">
-                    <xsd:annotation>
-                         <xsd:documentation>Provides information on the exact type of power used by the item. Example: Electric; Batteries</xsd:documentation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Conditionally Required"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-                    <xsd:simpleType>
-                         <xsd:restriction base="xsd:string">
-                              <xsd:maxLength value="4000"/>
-                         </xsd:restriction>
-                    </xsd:simpleType>
-               </xsd:element>
-               <xsd:element name="isRemoteControlIncluded" minOccurs="0" maxOccurs="1">
-                    <xsd:annotation>
-                         <xsd:documentation>Is a remote control included with the item? Example: Y; N</xsd:documentation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Recommended"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-                    <xsd:simpleType>
-                         <xsd:restriction base="xsd:boolean"/>
-                    </xsd:simpleType>
-               </xsd:element>
-               <xsd:element name="makesNoise" minOccurs="0" maxOccurs="1">
-                    <xsd:annotation>
-                         <xsd:documentation>Indicates that the item has a noise-making feature. Example: Y; N</xsd:documentation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Recommended"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-                    <xsd:simpleType>
-                         <xsd:restriction base="xsd:boolean"/>
-                    </xsd:simpleType>
-               </xsd:element>
-               <xsd:element name="fillMaterial" minOccurs="0" maxOccurs="1" type="FillMaterial">
-                    <xsd:annotation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Recommended"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-               </xsd:element>
-               <xsd:element name="educationalFocus" minOccurs="0" maxOccurs="1" type="EducationalFocus">
-                    <xsd:annotation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Recommended"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
                </xsd:element>
           </xsd:sequence>
      </xsd:complexType>
@@ -573,6 +428,151 @@
                               <xsd:maxLength value="4000"/>
                          </xsd:restriction>
                     </xsd:simpleType>
+               </xsd:element>
+          </xsd:sequence>
+     </xsd:complexType>
+     <xsd:complexType name="BabyToys">
+          <xsd:sequence>
+               <xsd:element name="animalBreed" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                         <xsd:documentation>The specific breed or species of animal. Example: German Shepherd; Goldfish; European Spacefoot Toad</xsd:documentation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Recommended"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+                    <xsd:simpleType>
+                         <xsd:restriction base="xsd:string">
+                              <xsd:maxLength value="4000"/>
+                         </xsd:restriction>
+                    </xsd:simpleType>
+               </xsd:element>
+               <xsd:element name="ageRange" minOccurs="1" maxOccurs="1">
+                    <xsd:annotation>
+                         <xsd:documentation> Example: 0-12 Months; 12-24 Months; 2-4 Years; 5-7 Years; 8-11 Years; 12 Years  Up; All Ages</xsd:documentation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Required"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+                    <xsd:simpleType>
+                         <xsd:restriction base="xsd:string">
+                              <xsd:enumeration value="0-12 Months"/>
+                              <xsd:enumeration value="12-24 Months"/>
+                              <xsd:enumeration value="2-4 Years"/>
+                              <xsd:enumeration value="5-7 Years"/>
+                              <xsd:enumeration value="8-11 Years"/>
+                              <xsd:enumeration value="12  Up"/>
+                         </xsd:restriction>
+                    </xsd:simpleType>
+               </xsd:element>
+               <xsd:element name="theme" minOccurs="0" maxOccurs="1" type="Theme">
+                    <xsd:annotation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Recommended"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+               </xsd:element>
+               <xsd:element name="batteriesRequired" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                         <xsd:documentation>Indicates if batteries are required to use the item. Batteries may or may not be included. To specify battery inclusion and type, use the "Has Batteries" and "Battery Technology Type" attributes in the root spec. Example: Y; N</xsd:documentation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Recommended"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+                    <xsd:simpleType>
+                         <xsd:restriction base="xsd:boolean"/>
+                    </xsd:simpleType>
+               </xsd:element>
+               <xsd:element name="batterySize" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Recommended"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+                    <xsd:simpleType>
+                         <xsd:restriction base="xsd:string">
+                              <xsd:maxLength value="4000"/>
+                         </xsd:restriction>
+                    </xsd:simpleType>
+               </xsd:element>
+               <xsd:element name="awardsWon" minOccurs="0" maxOccurs="1" type="AwardsWon">
+                    <xsd:annotation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Recommended"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+               </xsd:element>
+               <xsd:element name="animalType" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                         <xsd:documentation>The common generic name for the type of animal. Example: Dog; Cat; Bird; Hamster; Lizard; Frog; Fish; Horse</xsd:documentation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Recommended"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+                    <xsd:simpleType>
+                         <xsd:restriction base="xsd:string">
+                              <xsd:maxLength value="4000"/>
+                         </xsd:restriction>
+                    </xsd:simpleType>
+               </xsd:element>
+               <xsd:element name="isPowered" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                         <xsd:documentation>Indicates that an item is powered. Example: Y; N</xsd:documentation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Recommended"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+                    <xsd:simpleType>
+                         <xsd:restriction base="xsd:boolean"/>
+                    </xsd:simpleType>
+               </xsd:element>
+               <xsd:element name="powerType" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                         <xsd:documentation>Provides information on the exact type of power used by the item. Example: Electric; Batteries</xsd:documentation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Conditionally Required"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+                    <xsd:simpleType>
+                         <xsd:restriction base="xsd:string">
+                              <xsd:maxLength value="4000"/>
+                         </xsd:restriction>
+                    </xsd:simpleType>
+               </xsd:element>
+               <xsd:element name="isRemoteControlIncluded" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                         <xsd:documentation>Is a remote control included with the item? Example: Y; N</xsd:documentation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Recommended"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+                    <xsd:simpleType>
+                         <xsd:restriction base="xsd:boolean"/>
+                    </xsd:simpleType>
+               </xsd:element>
+               <xsd:element name="makesNoise" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                         <xsd:documentation>Indicates that the item has a noise-making feature. Example: Y; N</xsd:documentation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Recommended"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+                    <xsd:simpleType>
+                         <xsd:restriction base="xsd:boolean"/>
+                    </xsd:simpleType>
+               </xsd:element>
+               <xsd:element name="fillMaterial" minOccurs="0" maxOccurs="1" type="FillMaterial">
+                    <xsd:annotation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Recommended"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+               </xsd:element>
+               <xsd:element name="educationalFocus" minOccurs="0" maxOccurs="1" type="EducationalFocus">
+                    <xsd:annotation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Recommended"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
                </xsd:element>
           </xsd:sequence>
      </xsd:complexType>
@@ -793,6 +793,8 @@ Nutrient information must contain:
 Make up a number for "Variant Group ID," and add this to all variations of the same product. Partners must ensure uniqueness of their Variant Group IDs.</xsd:documentation>
                          <xsd:appinfo>
                               <requiredLevel value="Conditionally Required"/>
+                              <conditionalAttributes> <conditionalAttribute name="variantAttributeNames"/>
+                              </conditionalAttributes>
                          </xsd:appinfo>
                     </xsd:annotation>
                     <xsd:simpleType>
@@ -821,8 +823,8 @@ Make up a number for "Variant Group ID," and add this to all variations of the s
                               <xsd:enumeration value="12-24 Months"/>
                               <xsd:enumeration value="2-4 Years"/>
                               <xsd:enumeration value="5-7 Years"/>
-                              <xsd:enumeration value="12  Up"/>
                               <xsd:enumeration value="8-11 Years"/>
+                              <xsd:enumeration value="12  Up"/>
                          </xsd:restriction>
                     </xsd:simpleType>
                </xsd:element>
@@ -838,6 +840,8 @@ Make up a number for "Variant Group ID," and add this to all variations of the s
                     <xsd:annotation>
                          <xsd:appinfo>
                               <requiredLevel value="Conditionally Required"/>
+                              <conditionalAttributes> <conditionalAttribute name="variantGroupId"/>
+                              </conditionalAttributes>
                          </xsd:appinfo>
                     </xsd:annotation>
                </xsd:element>
@@ -940,11 +944,11 @@ Make up a number for "Variant Group ID," and add this to all variations of the s
                     </xsd:annotation>
                     <xsd:simpleType>
                          <xsd:restriction base="xsd:string">
+                              <xsd:enumeration value="Unisex"/>
+                              <xsd:enumeration value="Women"/>
                               <xsd:enumeration value="Men"/>
                               <xsd:enumeration value="Boys"/>
                               <xsd:enumeration value="Girls"/>
-                              <xsd:enumeration value="Women"/>
-                              <xsd:enumeration value="Unisex"/>
                          </xsd:restriction>
                     </xsd:simpleType>
                </xsd:element>
@@ -1060,6 +1064,8 @@ Make up a number for "Variant Group ID," and add this to all variations of the s
                     <xsd:annotation>
                          <xsd:appinfo>
                               <requiredLevel value="Conditionally Required"/>
+                              <conditionalAttributes> <conditionalAttribute name="isMadeFromRecycledMaterial" value="Y"/>
+                              </conditionalAttributes>
                          </xsd:appinfo>
                     </xsd:annotation>
                </xsd:element>
@@ -1190,8 +1196,8 @@ Make up a number for "Variant Group ID," and add this to all variations of the s
                     <xsd:element name="BabyClothing" type="BabyClothing"/>
                     <xsd:element name="BabyFootwear" type="BabyFootwear"/>
                     <xsd:element name="Strollers" type="Strollers"/>
-                    <xsd:element name="BabyToys" type="BabyToys"/>
                     <xsd:element name="BabyFurniture" type="BabyFurniture"/>
+                    <xsd:element name="BabyToys" type="BabyToys"/>
                     <xsd:element name="BabyFood" type="BabyFood"/>
                </xsd:choice>
           </xsd:sequence>

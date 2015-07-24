@@ -293,11 +293,18 @@ XML;
 
         $this->itemLogistics = <<< XML
 <!-- START: Required Dummy Values -->
-<reportingHierarchy></reportingHierarchy>
+<reportingHierarchy>
+    <reportingHierarchyLevel>
+        <levelId>1</levelId>
+        <nodeId>str1234</nodeId>
+    </reportingHierarchyLevel>
+</reportingHierarchy>
 <marketAttributes></marketAttributes>
-<isPreOrder>false</isPreOrder>
-<streetDate>2015-03-30</streetDate>
-<streetDateType>str1234</streetDateType>
+<preorderInfo>
+    <isPreOrder>false</isPreOrder>
+    <streetDate>2015-03-30</streetDate>
+    <streetDateType>str1234</streetDateType>
+</preorderInfo>
 <programEligibilities></programEligibilities>
 <packages></packages>
 <isPerishable>false</isPerishable>
@@ -338,16 +345,16 @@ XML;
 <!-- START: Required Dummy Values -->
 <fulfillmentOptions></fulfillmentOptions>
 <shipAsIs>str1234</shipAsIs>
-<isSignatureOnDeliveryReq>false</isSignatureOnDeliveryReq>
+<signatureOnDelivery>NEVER</signatureOnDelivery>
 <isConveyable>false</isConveyable>
-<bundleFulfillmentMode>false</bundleFulfillmentMode>
+<bundleFulfillmentMode>SHIP_ALONE</bundleFulfillmentMode>
 <storageType>AMBIENT</storageType>
 <!-- END: Required Dummy Values -->
 <shipNodes>
     <shipNode>
         {$itemLogisticsElements['legacyDistributorId']}
         <!-- START: Required Dummy Values -->
-        <itemShipNodeStatus>str1234</itemShipNodeStatus>
+        <shipNodeStatus>ACTIVE</shipNodeStatus>
         <preOrderMaxQty>
             <value>1</value>
             <unit>EA</unit>
@@ -361,7 +368,7 @@ XML;
             <amount>4.00</amount>
         </unitCost>
         <shipNodeItemId>str1234</shipNodeItemId>
-        <initialAvailabilityCode>str1234</initialAvailabilityCode>
+        <initialAvailabilityCode>AA</initialAvailabilityCode>
         <availabilityThreshold>
             <low>123</low>
             <mid>123</mid>
@@ -370,12 +377,12 @@ XML;
         <inventoryOwnerId>str1234</inventoryOwnerId>
         <programEligibilities></programEligibilities>
         <!-- END: Required Dummy Values -->
-        <itemShipNodeSupplies>
-            <itemShipNodeSupply>
+        <shipNodeSupplies>
+            <shipNodeSupply>
                 {$itemLogisticsElements['mdsfamId']}
                 {$itemLogisticsElements['vendorStockId']}
-            </itemShipNodeSupply>
-        </itemShipNodeSupplies>
+            </shipNodeSupply>
+        </shipNodeSupplies>
     </shipNode>
 </shipNodes>
 XML;

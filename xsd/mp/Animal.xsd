@@ -199,6 +199,8 @@
                          <xsd:documentation> Example: S; M; L; 2; 4; 6</xsd:documentation>
                          <xsd:appinfo>
                               <requiredLevel value="Recommended"/>
+                              <conditionalAttributes> <conditionalAttribute name="sockSize" value="null"/> <conditionalAttribute name="dressShirtSize" value="null"/> <conditionalAttribute name="waistSize" value="null"/> <conditionalAttribute name="pantSize" value="null"/> <conditionalAttribute name="braSize" value="null"/>
+                              </conditionalAttributes>
                          </xsd:appinfo>
                     </xsd:annotation>
                     <xsd:simpleType>
@@ -401,6 +403,8 @@
 Make up a number for "Variant Group ID," and add this to all variations of the same product. Partners must ensure uniqueness of their Variant Group IDs.</xsd:documentation>
                          <xsd:appinfo>
                               <requiredLevel value="Conditionally Required"/>
+                              <conditionalAttributes> <conditionalAttribute name="variantAttributeNames"/>
+                              </conditionalAttributes>
                          </xsd:appinfo>
                     </xsd:annotation>
                     <xsd:simpleType>
@@ -454,6 +458,8 @@ Make up a number for "Variant Group ID," and add this to all variations of the s
                     <xsd:annotation>
                          <xsd:appinfo>
                               <requiredLevel value="Conditionally Required"/>
+                              <conditionalAttributes> <conditionalAttribute name="variantGroupId"/>
+                              </conditionalAttributes>
                          </xsd:appinfo>
                     </xsd:annotation>
                </xsd:element>

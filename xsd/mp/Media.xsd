@@ -208,6 +208,8 @@
                     <xsd:annotation>
                          <xsd:appinfo>
                               <requiredLevel value="Conditionally Required"/>
+                              <conditionalAttributes> <conditionalAttribute name="isDubbed" value="Y"/>
+                              </conditionalAttributes>
                          </xsd:appinfo>
                     </xsd:annotation>
                </xsd:element>
@@ -226,6 +228,8 @@
                     <xsd:annotation>
                          <xsd:appinfo>
                               <requiredLevel value="Conditionally Required"/>
+                              <conditionalAttributes> <conditionalAttribute name="hasSubtitles" value="Y"/>
+                              </conditionalAttributes>
                          </xsd:appinfo>
                     </xsd:annotation>
                </xsd:element>
@@ -469,11 +473,11 @@
                     </xsd:annotation>
                     <xsd:simpleType>
                          <xsd:restriction base="xsd:string">
+                              <xsd:enumeration value="Unisex"/>
+                              <xsd:enumeration value="Women"/>
                               <xsd:enumeration value="Men"/>
                               <xsd:enumeration value="Boys"/>
                               <xsd:enumeration value="Girls"/>
-                              <xsd:enumeration value="Women"/>
-                              <xsd:enumeration value="Unisex"/>
                          </xsd:restriction>
                     </xsd:simpleType>
                </xsd:element>
@@ -644,8 +648,8 @@
                     </xsd:annotation>
                     <xsd:simpleType>
                          <xsd:restriction base="xsd:string">
-                              <xsd:enumeration value="Fiction"/>
                               <xsd:enumeration value="Nonfiction"/>
+                              <xsd:enumeration value="Fiction"/>
                          </xsd:restriction>
                     </xsd:simpleType>
                </xsd:element>
@@ -756,13 +760,13 @@
                     </xsd:annotation>
                     <xsd:simpleType>
                          <xsd:restriction base="xsd:string">
-                              <xsd:enumeration value="NC-17"/>
+                              <xsd:enumeration value="Unrated"/>
+                              <xsd:enumeration value="PG"/>
                               <xsd:enumeration value="PG-13"/>
                               <xsd:enumeration value="G"/>
                               <xsd:enumeration value="R"/>
-                              <xsd:enumeration value="PG"/>
+                              <xsd:enumeration value="NC-17"/>
                               <xsd:enumeration value="Not Rated"/>
-                              <xsd:enumeration value="Unrated"/>
                          </xsd:restriction>
                     </xsd:simpleType>
                </xsd:element>
@@ -922,6 +926,8 @@
                     <xsd:annotation>
                          <xsd:appinfo>
                               <requiredLevel value="Conditionally Required"/>
+                              <conditionalAttributes> <conditionalAttribute name="isDubbed" value="Y"/>
+                              </conditionalAttributes>
                          </xsd:appinfo>
                     </xsd:annotation>
                </xsd:element>
@@ -940,6 +946,8 @@
                     <xsd:annotation>
                          <xsd:appinfo>
                               <requiredLevel value="Conditionally Required"/>
+                              <conditionalAttributes> <conditionalAttribute name="hasSubtitles" value="Y"/>
+                              </conditionalAttributes>
                          </xsd:appinfo>
                     </xsd:annotation>
                </xsd:element>
@@ -1011,6 +1019,8 @@
 Make up a number for "Variant Group ID," and add this to all variations of the same product. Partners must ensure uniqueness of their Variant Group IDs.</xsd:documentation>
                          <xsd:appinfo>
                               <requiredLevel value="Conditionally Required"/>
+                              <conditionalAttributes> <conditionalAttribute name="variantAttributeNames"/>
+                              </conditionalAttributes>
                          </xsd:appinfo>
                     </xsd:annotation>
                     <xsd:simpleType>
@@ -1023,6 +1033,8 @@ Make up a number for "Variant Group ID," and add this to all variations of the s
                     <xsd:annotation>
                          <xsd:appinfo>
                               <requiredLevel value="Conditionally Required"/>
+                              <conditionalAttributes> <conditionalAttribute name="variantGroupId"/>
+                              </conditionalAttributes>
                          </xsd:appinfo>
                     </xsd:annotation>
                </xsd:element>

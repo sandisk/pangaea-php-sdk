@@ -11,7 +11,6 @@
   elementFormDefault="qualified"
   version="1.4">
 
-  <xsd:include schemaLocation="MPItemCommons.xsd" />
   <xsd:include schemaLocation="FeedCommons.xsd" />
 
   <xsd:element name="PartnerFeedResponse">
