@@ -154,25 +154,11 @@
                </xsd:element>
           </xsd:sequence>
      </xsd:complexType>
-     <xsd:complexType name="MusicCasesAndBags">
+     <xsd:complexType name="InstrumentAccessories">
           <xsd:sequence>
-               <xsd:element name="fabricContent" minOccurs="0" maxOccurs="1" type="FabricContent">
+               <xsd:element name="hasSignalBooster" minOccurs="0" maxOccurs="1">
                     <xsd:annotation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Recommended"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-               </xsd:element>
-               <xsd:element name="fabricCareInstructions" minOccurs="0" maxOccurs="1" type="FabricCareInstructions">
-                    <xsd:annotation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Recommended"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-               </xsd:element>
-               <xsd:element name="hardOrSoftCase" minOccurs="0" maxOccurs="1">
-                    <xsd:annotation>
-                         <xsd:documentation>Indicates whether a case is a hard or soft. Example: Hard; Soft</xsd:documentation>
+                         <xsd:documentation>Denotes if any portion of the item has a signal booster. This information will be displayed on the item page. Example: Y; N</xsd:documentation>
                          <xsd:appinfo>
                               <requiredLevel value="Recommended"/>
                          </xsd:appinfo>
@@ -181,9 +167,50 @@
                          <xsd:restriction base="xsd:boolean"/>
                     </xsd:simpleType>
                </xsd:element>
-               <xsd:element name="isWheeled" minOccurs="0" maxOccurs="1">
+               <xsd:element name="hasWirelessMicrophone" minOccurs="0" maxOccurs="1">
                     <xsd:annotation>
-                         <xsd:documentation>Indicates that an item has wheels and can be rolled. Example: Y; N</xsd:documentation>
+                         <xsd:documentation>Denotes if any portion of the item has a wireless microphone. This information will be displayed on the item page. Example: Y; N</xsd:documentation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Recommended"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+                    <xsd:simpleType>
+                         <xsd:restriction base="xsd:boolean"/>
+                    </xsd:simpleType>
+               </xsd:element>
+               <xsd:element name="batteriesRequired" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                         <xsd:documentation>Indicates if batteries are required to use the item. Batteries may or may not be included. To specify battery inclusion and type, use the "Has Batteries" and "Battery Technology Type" attributes in the root spec. Example: Y; N</xsd:documentation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Recommended"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+                    <xsd:simpleType>
+                         <xsd:restriction base="xsd:boolean"/>
+                    </xsd:simpleType>
+               </xsd:element>
+               <xsd:element name="batterySize" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Recommended"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+                    <xsd:simpleType>
+                         <xsd:restriction base="xsd:string">
+                              <xsd:maxLength value="4000"/>
+                         </xsd:restriction>
+                    </xsd:simpleType>
+               </xsd:element>
+               <xsd:element name="pattern" minOccurs="0" maxOccurs="1" type="Pattern">
+                    <xsd:annotation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Recommended"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+               </xsd:element>
+               <xsd:element name="isRemoteControlIncluded" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                         <xsd:documentation>Is a remote control included with the item? Example: Y; N</xsd:documentation>
                          <xsd:appinfo>
                               <requiredLevel value="Recommended"/>
                          </xsd:appinfo>
@@ -199,9 +226,16 @@
                          </xsd:appinfo>
                     </xsd:annotation>
                </xsd:element>
-               <xsd:element name="shape" minOccurs="0" maxOccurs="1">
+               <xsd:element name="inputsAndOutputs" minOccurs="1" maxOccurs="1" type="InputsAndOutputs">
                     <xsd:annotation>
-                         <xsd:documentation>Physical shape of the item. Example: Aviator; Cateye; Horned; Oval; Rectangle; Round; Square; Wayfarer</xsd:documentation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Required"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+               </xsd:element>
+               <xsd:element name="displayTechnology" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                         <xsd:documentation>The primary technology used for the item's display. Example: OLED; Retina Display; DLP; Plasma; LCD</xsd:documentation>
                          <xsd:appinfo>
                               <requiredLevel value="Recommended"/>
                          </xsd:appinfo>
@@ -211,6 +245,32 @@
                               <xsd:maxLength value="4000"/>
                          </xsd:restriction>
                     </xsd:simpleType>
+               </xsd:element>
+               <xsd:element name="hasBluetooth" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                         <xsd:documentation>Does the item provide wireless communication compatibility with the Bluetooth standard? Example: Y; N</xsd:documentation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Recommended"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+                    <xsd:simpleType>
+                         <xsd:restriction base="xsd:boolean"/>
+                    </xsd:simpleType>
+               </xsd:element>
+               <xsd:element name="batteryLife" minOccurs="0" maxOccurs="1" type="TimeUnit">
+                    <xsd:annotation>
+                         <xsd:documentation>Life of the device's battery under ideal conditions (maximum run time). Example: 23 h; 6 h</xsd:documentation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Recommended"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+               </xsd:element>
+               <xsd:element name="wirelessTechnologies" minOccurs="0" maxOccurs="1" type="WirelessTechnologies">
+                    <xsd:annotation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Recommended"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
                </xsd:element>
           </xsd:sequence>
      </xsd:complexType>
@@ -461,11 +521,25 @@
                </xsd:element>
           </xsd:sequence>
      </xsd:complexType>
-     <xsd:complexType name="InstrumentAccessories">
+     <xsd:complexType name="MusicCasesAndBags">
           <xsd:sequence>
-               <xsd:element name="hasSignalBooster" minOccurs="0" maxOccurs="1">
+               <xsd:element name="fabricContent" minOccurs="0" maxOccurs="1" type="FabricContent">
                     <xsd:annotation>
-                         <xsd:documentation>Denotes if any portion of the item has a signal booster. This information will be displayed on the item page. Example: Y; N</xsd:documentation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Recommended"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+               </xsd:element>
+               <xsd:element name="fabricCareInstructions" minOccurs="0" maxOccurs="1" type="FabricCareInstructions">
+                    <xsd:annotation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Recommended"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+               </xsd:element>
+               <xsd:element name="hardOrSoftCase" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                         <xsd:documentation>Indicates whether a case is a hard or soft. Example: Hard; Soft</xsd:documentation>
                          <xsd:appinfo>
                               <requiredLevel value="Recommended"/>
                          </xsd:appinfo>
@@ -474,50 +548,9 @@
                          <xsd:restriction base="xsd:boolean"/>
                     </xsd:simpleType>
                </xsd:element>
-               <xsd:element name="hasWirelessMicrophone" minOccurs="0" maxOccurs="1">
+               <xsd:element name="isWheeled" minOccurs="0" maxOccurs="1">
                     <xsd:annotation>
-                         <xsd:documentation>Denotes if any portion of the item has a wireless microphone. This information will be displayed on the item page. Example: Y; N</xsd:documentation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Recommended"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-                    <xsd:simpleType>
-                         <xsd:restriction base="xsd:boolean"/>
-                    </xsd:simpleType>
-               </xsd:element>
-               <xsd:element name="batteriesRequired" minOccurs="0" maxOccurs="1">
-                    <xsd:annotation>
-                         <xsd:documentation>Indicates if batteries are required to use the item. Batteries may or may not be included. To specify battery inclusion and type, use the "Has Batteries" and "Battery Technology Type" attributes in the root spec. Example: Y; N</xsd:documentation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Recommended"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-                    <xsd:simpleType>
-                         <xsd:restriction base="xsd:boolean"/>
-                    </xsd:simpleType>
-               </xsd:element>
-               <xsd:element name="batterySize" minOccurs="0" maxOccurs="1">
-                    <xsd:annotation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Recommended"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-                    <xsd:simpleType>
-                         <xsd:restriction base="xsd:string">
-                              <xsd:maxLength value="4000"/>
-                         </xsd:restriction>
-                    </xsd:simpleType>
-               </xsd:element>
-               <xsd:element name="pattern" minOccurs="0" maxOccurs="1" type="Pattern">
-                    <xsd:annotation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Recommended"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-               </xsd:element>
-               <xsd:element name="isRemoteControlIncluded" minOccurs="0" maxOccurs="1">
-                    <xsd:annotation>
-                         <xsd:documentation>Is a remote control included with the item? Example: Y; N</xsd:documentation>
+                         <xsd:documentation>Indicates that an item has wheels and can be rolled. Example: Y; N</xsd:documentation>
                          <xsd:appinfo>
                               <requiredLevel value="Recommended"/>
                          </xsd:appinfo>
@@ -533,16 +566,9 @@
                          </xsd:appinfo>
                     </xsd:annotation>
                </xsd:element>
-               <xsd:element name="inputsAndOutputs" minOccurs="1" maxOccurs="1" type="InputsAndOutputs">
+               <xsd:element name="shape" minOccurs="0" maxOccurs="1">
                     <xsd:annotation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Required"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-               </xsd:element>
-               <xsd:element name="displayTechnology" minOccurs="0" maxOccurs="1">
-                    <xsd:annotation>
-                         <xsd:documentation>The primary technology used for the item's display. Example: OLED; Retina Display; DLP; Plasma; LCD</xsd:documentation>
+                         <xsd:documentation>Physical shape of the item. Example: Aviator; Cateye; Horned; Oval; Rectangle; Round; Square; Wayfarer</xsd:documentation>
                          <xsd:appinfo>
                               <requiredLevel value="Recommended"/>
                          </xsd:appinfo>
@@ -552,32 +578,6 @@
                               <xsd:maxLength value="4000"/>
                          </xsd:restriction>
                     </xsd:simpleType>
-               </xsd:element>
-               <xsd:element name="hasBluetooth" minOccurs="0" maxOccurs="1">
-                    <xsd:annotation>
-                         <xsd:documentation>Does the item provide wireless communication compatibility with the Bluetooth standard? Example: Y; N</xsd:documentation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Recommended"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-                    <xsd:simpleType>
-                         <xsd:restriction base="xsd:boolean"/>
-                    </xsd:simpleType>
-               </xsd:element>
-               <xsd:element name="batteryLife" minOccurs="0" maxOccurs="1" type="TimeUnit">
-                    <xsd:annotation>
-                         <xsd:documentation>Life of the device's battery under ideal conditions (maximum run time). Example: 23 h; 6 h</xsd:documentation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Recommended"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-               </xsd:element>
-               <xsd:element name="wirelessTechnologies" minOccurs="0" maxOccurs="1" type="WirelessTechnologies">
-                    <xsd:annotation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Recommended"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
                </xsd:element>
           </xsd:sequence>
      </xsd:complexType>
@@ -590,6 +590,8 @@
 Make up a number for "Variant Group ID," and add this to all variations of the same product. Partners must ensure uniqueness of their Variant Group IDs.</xsd:documentation>
                          <xsd:appinfo>
                               <requiredLevel value="Conditionally Required"/>
+                              <conditionalAttributes> <conditionalAttribute name="variantAttributeNames"/>
+                              </conditionalAttributes>
                          </xsd:appinfo>
                     </xsd:annotation>
                     <xsd:simpleType>
@@ -609,6 +611,8 @@ Make up a number for "Variant Group ID," and add this to all variations of the s
                     <xsd:annotation>
                          <xsd:appinfo>
                               <requiredLevel value="Conditionally Required"/>
+                              <conditionalAttributes> <conditionalAttribute name="variantGroupId"/>
+                              </conditionalAttributes>
                          </xsd:appinfo>
                     </xsd:annotation>
                </xsd:element>
@@ -751,9 +755,9 @@ Make up a number for "Variant Group ID," and add this to all variations of the s
                </xsd:element>
                <xsd:choice minOccurs="0" maxOccurs="1">
                     <xsd:element name="SoundAndRecording" type="SoundAndRecording"/>
-                    <xsd:element name="MusicCasesAndBags" type="MusicCasesAndBags"/>
-                    <xsd:element name="MusicalInstruments" type="MusicalInstruments"/>
                     <xsd:element name="InstrumentAccessories" type="InstrumentAccessories"/>
+                    <xsd:element name="MusicalInstruments" type="MusicalInstruments"/>
+                    <xsd:element name="MusicCasesAndBags" type="MusicCasesAndBags"/>
                </xsd:choice>
           </xsd:sequence>
      </xsd:complexType>

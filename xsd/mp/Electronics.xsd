@@ -523,15 +523,15 @@
                     </xsd:annotation>
                     <xsd:simpleType>
                          <xsd:restriction base="xsd:string">
-                              <xsd:enumeration value="Teen"/>
                               <xsd:enumeration value="Pending"/>
                               <xsd:enumeration value="Adults Only"/>
+                              <xsd:enumeration value="Everyone 10+"/>
+                              <xsd:enumeration value="Everyone"/>
+                              <xsd:enumeration value="Mature"/>
+                              <xsd:enumeration value="Teen"/>
                               <xsd:enumeration value="Early Childhood"/>
                               <xsd:enumeration value="Unrated"/>
-                              <xsd:enumeration value="Everyone"/>
-                              <xsd:enumeration value="Everyone 10+"/>
                               <xsd:enumeration value="Not Rated"/>
-                              <xsd:enumeration value="Mature"/>
                          </xsd:restriction>
                     </xsd:simpleType>
                </xsd:element>
@@ -1184,6 +1184,8 @@
 Make up a number for "Variant Group ID," and add this to all variations of the same product. Partners must ensure uniqueness of their Variant Group IDs.</xsd:documentation>
                          <xsd:appinfo>
                               <requiredLevel value="Conditionally Required"/>
+                              <conditionalAttributes> <conditionalAttribute name="variantAttributeNames"/>
+                              </conditionalAttributes>
                          </xsd:appinfo>
                     </xsd:annotation>
                     <xsd:simpleType>
@@ -1203,6 +1205,8 @@ Make up a number for "Variant Group ID," and add this to all variations of the s
                     <xsd:annotation>
                          <xsd:appinfo>
                               <requiredLevel value="Conditionally Required"/>
+                              <conditionalAttributes> <conditionalAttribute name="variantGroupId"/>
+                              </conditionalAttributes>
                          </xsd:appinfo>
                     </xsd:annotation>
                </xsd:element>
@@ -1219,7 +1223,7 @@ Make up a number for "Variant Group ID," and add this to all variations of the s
                </xsd:element>
                <xsd:element name="isEnergyGuideLabelRequired" minOccurs="0" maxOccurs="1">
                     <xsd:annotation>
-                         <xsd:documentation>Denotes whether the label is required for the item. The FTCâ&#128;&#153;s Appliance Labeling Rule requires retailers to display energy cost information for certain refrigerators, freezers, furnaces, televisions, clothes washers, dishwashers, water heaters, pool heaters, and room air conditioners. Example: Y; N</xsd:documentation>
+                         <xsd:documentation>Denotes whether the label is required for the item. The FTC's Appliance Labeling Rule requires retailers to display energy cost information for certain refrigerators, freezers, furnaces, televisions, clothes washers, dishwashers, water heaters, pool heaters, and room air conditioners. Example: Y; N</xsd:documentation>
                          <xsd:appinfo>
                               <requiredLevel value="Recommended"/>
                          </xsd:appinfo>
@@ -1233,6 +1237,8 @@ Make up a number for "Variant Group ID," and add this to all variations of the s
                          <xsd:documentation>Image URL of the energy guide label. Example: http://walmart.com/energy_guide_label.html</xsd:documentation>
                          <xsd:appinfo>
                               <requiredLevel value="Conditionally Required"/>
+                              <conditionalAttributes> <conditionalAttribute name="isEnergyGuideLabelRequired" value="Y"/>
+                              </conditionalAttributes>
                          </xsd:appinfo>
                     </xsd:annotation>
                     <xsd:simpleType>

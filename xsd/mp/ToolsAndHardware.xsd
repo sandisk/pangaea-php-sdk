@@ -4,7 +4,7 @@
           <xsd:sequence>
                <xsd:element name="isEnergyGuideLabelRequired" minOccurs="0" maxOccurs="1">
                     <xsd:annotation>
-                         <xsd:documentation>Denotes whether the label is required for the item. The FTCâ&#128;&#153;s Appliance Labeling Rule requires retailers to display energy cost information for certain refrigerators, freezers, furnaces, televisions, clothes washers, dishwashers, water heaters, pool heaters, and room air conditioners. Example: Y; N</xsd:documentation>
+                         <xsd:documentation>Denotes whether the label is required for the item. The FTC's Appliance Labeling Rule requires retailers to display energy cost information for certain refrigerators, freezers, furnaces, televisions, clothes washers, dishwashers, water heaters, pool heaters, and room air conditioners. Example: Y; N</xsd:documentation>
                          <xsd:appinfo>
                               <requiredLevel value="Recommended"/>
                          </xsd:appinfo>
@@ -18,6 +18,8 @@
                          <xsd:documentation>Image URL of the energy guide label. Example: http://walmart.com/energy_guide_label.html</xsd:documentation>
                          <xsd:appinfo>
                               <requiredLevel value="Conditionally Required"/>
+                              <conditionalAttributes> <conditionalAttribute name="isEnergyGuideLabelRequired" value="Y"/>
+                              </conditionalAttributes>
                          </xsd:appinfo>
                     </xsd:annotation>
                     <xsd:simpleType>
@@ -376,6 +378,109 @@
                </xsd:element>
           </xsd:sequence>
      </xsd:complexType>
+     <xsd:complexType name="Hardware">
+          <xsd:sequence>
+               <xsd:element name="finish" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                         <xsd:documentation>Overall finish of the item. Example: Natural; Unfinished; Brown; Espresso; Oak</xsd:documentation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Recommended"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+                    <xsd:simpleType>
+                         <xsd:restriction base="xsd:string">
+                              <xsd:maxLength value="4000"/>
+                         </xsd:restriction>
+                    </xsd:simpleType>
+               </xsd:element>
+               <xsd:element name="homeDecorStyle" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                         <xsd:documentation>Describes home furnishings and decorations according to various themes, styles, and tastes. Example: French; Vintage; Traditional; Contemporary; Rustic</xsd:documentation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Recommended"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+                    <xsd:simpleType>
+                         <xsd:restriction base="xsd:string">
+                              <xsd:maxLength value="4000"/>
+                         </xsd:restriction>
+                    </xsd:simpleType>
+               </xsd:element>
+               <xsd:element name="mountType" minOccurs="0" maxOccurs="1" type="MountType">
+                    <xsd:annotation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Recommended"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+               </xsd:element>
+               <xsd:element name="maximumWeight" minOccurs="0" maxOccurs="1" type="WeightUnit">
+                    <xsd:annotation>
+                         <xsd:documentation>Especially for use with outdoor play structures. Example: 220 lb</xsd:documentation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Recommended"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+               </xsd:element>
+               <xsd:element name="backsetSize" minOccurs="0" maxOccurs="1" type="LengthUnit">
+                    <xsd:annotation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Recommended"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+               </xsd:element>
+               <xsd:element name="liftHeight" minOccurs="0" maxOccurs="1" type="LengthUnit">
+                    <xsd:annotation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Recommended"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+               </xsd:element>
+               <xsd:element name="isLockable" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                         <xsd:documentation> Example: Y; N</xsd:documentation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Recommended"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+                    <xsd:simpleType>
+                         <xsd:restriction base="xsd:boolean"/>
+                    </xsd:simpleType>
+               </xsd:element>
+               <xsd:element name="maximumForceResisted" minOccurs="0" maxOccurs="1" type="WeightUnit">
+                    <xsd:annotation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Recommended"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+               </xsd:element>
+               <xsd:element name="petSize" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                         <xsd:documentation> Example: 5-8 lbs; 14-19 lbs</xsd:documentation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Recommended"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+                    <xsd:simpleType>
+                         <xsd:restriction base="xsd:string">
+                              <xsd:maxLength value="4000"/>
+                         </xsd:restriction>
+                    </xsd:simpleType>
+               </xsd:element>
+               <xsd:element name="threadStandard" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                         <xsd:documentation> Example: UNC; Metric Fine</xsd:documentation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Recommended"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+                    <xsd:simpleType>
+                         <xsd:restriction base="xsd:string">
+                              <xsd:maxLength value="4000"/>
+                         </xsd:restriction>
+                    </xsd:simpleType>
+               </xsd:element>
+          </xsd:sequence>
+     </xsd:complexType>
      <xsd:complexType name="BuildingSupply">
           <xsd:sequence>
                <xsd:element name="homeDecorStyle" minOccurs="0" maxOccurs="1">
@@ -400,10 +505,10 @@
                     <xsd:simpleType>
                          <xsd:restriction base="xsd:string">
                               <xsd:enumeration value="AC 5"/>
-                              <xsd:enumeration value="AC 2"/>
-                              <xsd:enumeration value="AC 3"/>
-                              <xsd:enumeration value="AC 4"/>
                               <xsd:enumeration value="AC 1"/>
+                              <xsd:enumeration value="AC 4"/>
+                              <xsd:enumeration value="AC 3"/>
+                              <xsd:enumeration value="AC 2"/>
                          </xsd:restriction>
                     </xsd:simpleType>
                </xsd:element>
@@ -545,6 +650,8 @@
                     <xsd:annotation>
                          <xsd:appinfo>
                               <requiredLevel value="Conditionally Required"/>
+                              <conditionalAttributes> <conditionalAttribute name="isMadeFromRecycledMaterial" value="Y"/>
+                              </conditionalAttributes>
                          </xsd:appinfo>
                     </xsd:annotation>
                </xsd:element>
@@ -812,109 +919,6 @@
                               <xsd:enumeration value="CEE Tier I"/>
                               <xsd:enumeration value="CEE Tier II"/>
                               <xsd:enumeration value="CEE Tier III"/>
-                         </xsd:restriction>
-                    </xsd:simpleType>
-               </xsd:element>
-          </xsd:sequence>
-     </xsd:complexType>
-     <xsd:complexType name="Hardware">
-          <xsd:sequence>
-               <xsd:element name="finish" minOccurs="0" maxOccurs="1">
-                    <xsd:annotation>
-                         <xsd:documentation>Overall finish of the item. Example: Natural; Unfinished; Brown; Espresso; Oak</xsd:documentation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Recommended"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-                    <xsd:simpleType>
-                         <xsd:restriction base="xsd:string">
-                              <xsd:maxLength value="4000"/>
-                         </xsd:restriction>
-                    </xsd:simpleType>
-               </xsd:element>
-               <xsd:element name="homeDecorStyle" minOccurs="0" maxOccurs="1">
-                    <xsd:annotation>
-                         <xsd:documentation>Describes home furnishings and decorations according to various themes, styles, and tastes. Example: French; Vintage; Traditional; Contemporary; Rustic</xsd:documentation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Recommended"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-                    <xsd:simpleType>
-                         <xsd:restriction base="xsd:string">
-                              <xsd:maxLength value="4000"/>
-                         </xsd:restriction>
-                    </xsd:simpleType>
-               </xsd:element>
-               <xsd:element name="mountType" minOccurs="0" maxOccurs="1" type="MountType">
-                    <xsd:annotation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Recommended"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-               </xsd:element>
-               <xsd:element name="maximumWeight" minOccurs="0" maxOccurs="1" type="WeightUnit">
-                    <xsd:annotation>
-                         <xsd:documentation>Especially for use with outdoor play structures. Example: 220 lb</xsd:documentation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Recommended"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-               </xsd:element>
-               <xsd:element name="backsetSize" minOccurs="0" maxOccurs="1" type="LengthUnit">
-                    <xsd:annotation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Recommended"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-               </xsd:element>
-               <xsd:element name="liftHeight" minOccurs="0" maxOccurs="1" type="LengthUnit">
-                    <xsd:annotation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Recommended"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-               </xsd:element>
-               <xsd:element name="isLockable" minOccurs="0" maxOccurs="1">
-                    <xsd:annotation>
-                         <xsd:documentation> Example: Y; N</xsd:documentation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Recommended"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-                    <xsd:simpleType>
-                         <xsd:restriction base="xsd:boolean"/>
-                    </xsd:simpleType>
-               </xsd:element>
-               <xsd:element name="maximumForceResisted" minOccurs="0" maxOccurs="1" type="WeightUnit">
-                    <xsd:annotation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Recommended"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-               </xsd:element>
-               <xsd:element name="petSize" minOccurs="0" maxOccurs="1">
-                    <xsd:annotation>
-                         <xsd:documentation> Example: 5-8 lbs; 14-19 lbs</xsd:documentation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Recommended"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-                    <xsd:simpleType>
-                         <xsd:restriction base="xsd:string">
-                              <xsd:maxLength value="4000"/>
-                         </xsd:restriction>
-                    </xsd:simpleType>
-               </xsd:element>
-               <xsd:element name="threadStandard" minOccurs="0" maxOccurs="1">
-                    <xsd:annotation>
-                         <xsd:documentation> Example: UNC; Metric Fine</xsd:documentation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Recommended"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-                    <xsd:simpleType>
-                         <xsd:restriction base="xsd:string">
-                              <xsd:maxLength value="4000"/>
                          </xsd:restriction>
                     </xsd:simpleType>
                </xsd:element>
@@ -1940,6 +1944,8 @@ Label must include brightness specified lumens, estimated energy cost per year, 
 Make up a number for "Variant Group ID," and add this to all variations of the same product. Partners must ensure uniqueness of their Variant Group IDs.</xsd:documentation>
                          <xsd:appinfo>
                               <requiredLevel value="Conditionally Required"/>
+                              <conditionalAttributes> <conditionalAttribute name="variantAttributeNames"/>
+                              </conditionalAttributes>
                          </xsd:appinfo>
                     </xsd:annotation>
                     <xsd:simpleType>
@@ -1966,6 +1972,8 @@ Make up a number for "Variant Group ID," and add this to all variations of the s
                     <xsd:annotation>
                          <xsd:appinfo>
                               <requiredLevel value="Conditionally Required"/>
+                              <conditionalAttributes> <conditionalAttribute name="variantGroupId"/>
+                              </conditionalAttributes>
                          </xsd:appinfo>
                     </xsd:annotation>
                </xsd:element>
@@ -2110,8 +2118,8 @@ Make up a number for "Variant Group ID," and add this to all variations of the s
                </xsd:element>
                <xsd:choice minOccurs="0" maxOccurs="1">
                     <xsd:element name="PlumbingAndHVAC" type="PlumbingAndHVAC"/>
-                    <xsd:element name="BuildingSupply" type="BuildingSupply"/>
                     <xsd:element name="Hardware" type="Hardware"/>
+                    <xsd:element name="BuildingSupply" type="BuildingSupply"/>
                     <xsd:element name="Tools" type="Tools"/>
                     <xsd:element name="Electrical" type="Electrical"/>
                </xsd:choice>

@@ -15,8 +15,8 @@
 
   <xsd:complexType name="ReportingHierarchyLevel">
     <xsd:sequence>
-      <xsd:element name="level" type="xsd:int"/>
-      <xsd:element name="id" type="xsd:string"/>
+      <xsd:element name="levelId" type="xsd:string"/>
+      <xsd:element name="nodeId" type="xsd:string"/>
     </xsd:sequence>
   </xsd:complexType>
 
@@ -27,6 +27,7 @@
       <xsd:enumeration value="STORE"/>
       <xsd:enumeration value="MP"/>
       <xsd:enumeration value="PUT"/>
+      <xsd:enumeration value="ELECTRONIC"/>
     </xsd:restriction>
   </xsd:simpleType>
 
@@ -79,7 +80,7 @@
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="itemSourcingOptions">
+      <xsd:element name="itemSourcingOptions" minOccurs="0" maxOccurs="1">
         <xsd:complexType>
           <xsd:sequence>
             <xsd:element name="itemSourcingOption" type="ItemSourcingOption" minOccurs="0" maxOccurs="unbounded">
@@ -92,7 +93,7 @@
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>
-      <xsd:element name="shipMethods">
+      <xsd:element name="shipMethods" minOccurs="0" maxOccurs="1">
         <xsd:complexType>
           <xsd:sequence>
             <xsd:element name="shipMethod" type="ShipMethod" minOccurs="0" maxOccurs="unbounded">
@@ -105,7 +106,7 @@
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>
-      <xsd:element name="allowCashOnDelivery" type="xsd:boolean" minOccurs="0">
+      <xsd:element name="allowCashOnDelivery" type="xsd:boolean" minOccurs="0" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation>
             allow cash on delivery?            
@@ -132,7 +133,7 @@
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="deliveryOptions">
+      <xsd:element name="deliveryOptions" minOccurs="0" maxOccurs="1">
         <xsd:complexType>
           <xsd:sequence>
             <xsd:element name="deliveryOption" type="DeliveryOption" minOccurs="0" maxOccurs="unbounded">
@@ -148,6 +149,21 @@
     </xsd:sequence>
   </xsd:complexType>
 
+  <xsd:simpleType name="AvailabilityCode">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="AA"/>
+      <xsd:enumeration value="BO"/>
+      <xsd:enumeration value="JT"/>
+      <xsd:enumeration value="AC"/>
+      <xsd:enumeration value="RO"/>
+      <xsd:enumeration value="SE"/>
+      <xsd:enumeration value="PO"/>
+      <xsd:enumeration value="NA"/>
+      <xsd:enumeration value="CS"/>
+      <xsd:enumeration value="DT"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
   <xsd:complexType name="AvailabilityThreshold">
     <xsd:sequence>
       <xsd:element name="low" type="xsd:int" minOccurs="0"/>
@@ -156,9 +172,23 @@
     </xsd:sequence>
   </xsd:complexType>
 
+  <xsd:simpleType name="ProgramName">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="TAHOE"/>
+      <xsd:enumeration value="LOCKER"/>
+      <xsd:enumeration value="S2S"/>
+      <xsd:enumeration value="S2H"/>
+      <xsd:enumeration value="PUT"/>
+      <xsd:enumeration value="LAYAWAY"/>
+      <xsd:enumeration value="GLOBAL_STORE"/>
+      <xsd:enumeration value="PAID_BY_GIFTCARD"/>
+      <xsd:enumeration value="CURBSIDE_PICKUP"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
   <xsd:complexType name="ProgramEligibility">
     <xsd:sequence>
-      <xsd:element name="eligibilityName" type="xsd:string">
+      <xsd:element name="programName" type="ProgramName">
         <xsd:annotation>
           <xsd:documentation>            
           </xsd:documentation>
@@ -173,46 +203,76 @@
     </xsd:sequence>
   </xsd:complexType>
 
-  <xsd:complexType name="PreferredDistributor">
-    <xsd:annotation>
-      <xsd:documentation>            
-        TODO: what's the source of this data?
-      </xsd:documentation>
-    </xsd:annotation>
+  <xsd:complexType name="GiftOptions">
     <xsd:sequence>
-      <xsd:element name="legacyDistributorId" type="xsd:string" minOccurs="0">
-        <xsd:annotation>
-          <xsd:documentation>            
-          TODO: how can partners know this?
-          </xsd:documentation>
-        </xsd:annotation>
-      </xsd:element>
-      <xsd:element name="itemShipNodeOrgId" type="xsd:string" minOccurs="0">
+      <xsd:element name="shipNodeOrgId" type="xsd:string" minOccurs="0" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation>            
           UUID
-          TODO: how can partners know this?
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="effectiveFrom" type="xsd:dateTime" minOccurs="0">
+      <xsd:element name="legacyDistributorId" type="xsd:string" minOccurs="0" maxOccurs="1">
         <xsd:annotation>
-          <xsd:documentation>            
-          TODO: how can partners know this?
+          <xsd:documentation>
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="effectiveTill" type="xsd:dateTime" minOccurs="0">
+      <xsd:element name="allowGiftWrap" type="xsd:boolean" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>          
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="allowGiftMessage" type="xsd:boolean" minOccurs="0" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation>            
-          TODO: how can partners know this?
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="allowGiftReceipt" type="xsd:boolean" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="PreferredDistributor">
+    <xsd:sequence>
+      <xsd:element name="itemShipNodeOrgId" type="xsd:string" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>            
+          UUID
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="legacyDistributorId" type="xsd:string" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>            
+          legacy distributor ID for cross reference
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="effectiveFrom" type="xsd:dateTime" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>            
+            effective from
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="effectiveTill" type="xsd:dateTime" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>            
+            effective till
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
       <xsd:element name="rank" type="xsd:int">
         <xsd:annotation>
           <xsd:documentation>            
-          TODO: how can partners know this?
+            rank
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
@@ -220,39 +280,41 @@
   </xsd:complexType>
 
   <xsd:complexType name="ItemShipNodeSupply">
-    <xsd:annotation>
-      <xsd:documentation>         
-      TODO: what's the source of this data?   
-      </xsd:documentation>
-    </xsd:annotation>
     <xsd:sequence>
-      <xsd:element name="supplierOrgId" type="xsd:string" minOccurs="0">
+      <xsd:element name="supplierOrgId" type="xsd:string" minOccurs="0" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation>     
-          UUID       
+            supplier org UUID  
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="primarySupplyItemId" type="xsd:string" minOccurs="0">
+      <xsd:element name="legacySupplierOrgId" type="xsd:string" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>     
+            legacy supplier org ID for cross reference purposes
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="primarySupplyItemId" type="xsd:string" minOccurs="0" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation>            
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="alternateSupplyItemId" type="xsd:string" minOccurs="0">
+      <xsd:element name="alternateSupplyItemId" type="xsd:string" minOccurs="0" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation>            
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="mdsfamId" type="xsd:string" minOccurs="0">
+      <xsd:element name="mdsfamId" type="xsd:string" minOccurs="0" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation>           
             merchendaise family ID 
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="vendorStockId" type="xsd:string" minOccurs="0">
+      <xsd:element name="vendorStockId" type="xsd:string" minOccurs="0" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation>            
           </xsd:documentation>
@@ -261,86 +323,93 @@
     </xsd:sequence>
   </xsd:complexType>
 
+  <xsd:simpleType name="ShipNodeStatus">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="ACTIVE"/>
+      <xsd:enumeration value="INACTIVE"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
   <xsd:complexType name="ItemShipNode">
-    <xsd:annotation>
-      <xsd:documentation>
-        what's the source of this data?
-      </xsd:documentation>
-    </xsd:annotation>  
     <xsd:sequence>
-      <xsd:element name="legacyDistributorId" type="xsd:string" minOccurs="1">
+      <xsd:element name="legacyDistributorId" type="xsd:string" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>            
+            legacy distributor ID
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="shipNodeStatus" type="ShipNodeStatus" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>            
+            ship node status
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="preOrderMaxQty" type="Measurement" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>    
+            max quantity        
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="handlingCost" type="Money" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>       
+            handling cost     
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="unitCost" type="Money" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>     
+            unit cost       
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="shipNodeItemId" type="xsd:string" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>   
+            ship node item ID         
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="initialAvailabilityCode" type="AvailabilityCode" minOccurs="0" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation>            
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="itemShipNodeStatus" type="xsd:string" minOccurs="1">
-        <xsd:annotation>
-          <xsd:documentation>            
-            TODO: why is it a string instead of being an enum?
-          </xsd:documentation>
-        </xsd:annotation>
-      </xsd:element>
-      <xsd:element name="preOrderMaxQty" type="Measurement" minOccurs="0">
+      <xsd:element name="availabilityThreshold" type="AvailabilityThreshold" minOccurs="0" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation>            
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="handlingCost" type="Money" minOccurs="0">
-        <xsd:annotation>
-          <xsd:documentation>            
-          </xsd:documentation>
-        </xsd:annotation>
-      </xsd:element>
-      <xsd:element name="unitCost" type="Money" minOccurs="0">
-        <xsd:annotation>
-          <xsd:documentation>            
-          </xsd:documentation>
-        </xsd:annotation>
-      </xsd:element>
-      <xsd:element name="shipNodeItemId" type="xsd:string" minOccurs="0">
-        <xsd:annotation>
-          <xsd:documentation>            
-          </xsd:documentation>
-        </xsd:annotation>
-      </xsd:element>
-      <xsd:element name="initialAvailabilityCode" type="xsd:string" minOccurs="0">
-        <xsd:annotation>
-          <xsd:documentation>            
-          </xsd:documentation>
-        </xsd:annotation>
-      </xsd:element>
-      <xsd:element name="availabilityThreshold" type="AvailabilityThreshold" minOccurs="0">
-        <xsd:annotation>
-          <xsd:documentation>            
-          </xsd:documentation>
-        </xsd:annotation>
-      </xsd:element>
-      <xsd:element name="inventoryOwnerId" type="xsd:string" minOccurs="0">
+      <xsd:element name="inventoryOwnerId" type="xsd:string" minOccurs="0" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation>         
           UUID   
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="programEligibilities">
+      <xsd:element name="programEligibilities" minOccurs="0" maxOccurs="1">
         <xsd:complexType>
           <xsd:sequence>
             <xsd:element name="programEligibility" type="ProgramEligibility" minOccurs="0" maxOccurs="unbounded">
               <xsd:annotation>
                 <xsd:documentation>
-                  TODO: add documentation
+                  ship node programs the item is eligible for
                 </xsd:documentation>
               </xsd:annotation>
             </xsd:element>
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>
-      <xsd:element name="itemShipNodeSupplies">
+      <xsd:element name="shipNodeSupplies" minOccurs="0" maxOccurs="1">
         <xsd:complexType>
           <xsd:sequence>
-            <xsd:element name="itemShipNodeSupply" type="ItemShipNodeSupply" minOccurs="0" maxOccurs="unbounded">
+            <xsd:element name="shipNodeSupply" type="ItemShipNodeSupply" minOccurs="0" maxOccurs="unbounded">
               <xsd:annotation>
                 <xsd:documentation>
                   TODO: add documentation
@@ -355,32 +424,32 @@
   
   <xsd:complexType name="PackageDimensions">
     <xsd:sequence>
-      <xsd:element name="packageID" type="xsd:string" minOccurs="0">
+      <xsd:element name="packageID" type="xsd:string" minOccurs="0" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation>
             Represents ID of package
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="packageLength" type="Measurement" minOccurs="0">
+      <xsd:element name="packageLength" type="Measurement" minOccurs="0" maxOccurs="1">
         <xsd:annotation> 
           <xsd:documentation>
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="packageWidth" type="Measurement" minOccurs="0">
+      <xsd:element name="packageWidth" type="Measurement" minOccurs="0" maxOccurs="1">
         <xsd:annotation> 
           <xsd:documentation>
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="packageHeight" type="Measurement" minOccurs="0">
+      <xsd:element name="packageHeight" type="Measurement" minOccurs="0" maxOccurs="1">
         <xsd:annotation> 
           <xsd:documentation>
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="packageWeight" type="Measurement" minOccurs="0">
+      <xsd:element name="packageWeight" type="Measurement" minOccurs="0" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation>
             Represents weight
@@ -398,12 +467,72 @@
     </xsd:restriction>
   </xsd:simpleType>
     
+  <xsd:simpleType name="ShipClass">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="REGULAR"/>
+      <xsd:enumeration value="ORMD"/>
+      <xsd:enumeration value="PERISHABLE"/>
+      <xsd:enumeration value="PERIODICAL"/>
+      <xsd:enumeration value="ELECTRONIC_DELIVERY"/>
+      <xsd:enumeration value="TIRE"/>
+      <xsd:enumeration value="SUBSCRIPTION_ITEM"/>
+      <xsd:enumeration value="LITHIUM_ION"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="BundleFulfillmentMode">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="SHIP_ALONE"/>
+      <xsd:enumeration value="SHIP_TOGETHER"/>
+      <xsd:enumeration value="DELIVER_TOGETHER"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="SignatureOnDelivery">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="ALWAYS"/>
+      <xsd:enumeration value="NEVER"/>
+      <xsd:enumeration value="CHECK_PRICE"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="StreetDateType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="DELIVER_BY"/>
+      <xsd:enumeration value="SHIP_BY"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:complexType name="PreorderInfo">
+    <xsd:sequence>
+      <xsd:element name="isPreOrder" type="xsd:boolean" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="streetDate" type="xsd:date" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="streetDateType" type="xsd:string" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>
+            TODO: add documentation
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
   <xsd:complexType name="ItemLogistics">
     <xsd:sequence>
-      <xsd:element name="reportingHierarchy">
+      <xsd:element name="reportingHierarchy" minOccurs="1" maxOccurs="1">
         <xsd:complexType>
           <xsd:sequence>
-            <xsd:element name="reportingHierarchyLevel" type="ReportingHierarchyLevel" minOccurs="0" maxOccurs="unbounded">
+            <xsd:element name="reportingHierarchyLevel" type="ReportingHierarchyLevel" minOccurs="1" maxOccurs="unbounded">
               <xsd:annotation>
                 <xsd:documentation>
                   Reporting hierarchy
@@ -413,33 +542,21 @@
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>
-      <xsd:element name="marketAttributes" type="NameValueAttributes" minOccurs="0">
+      <xsd:element name="marketAttributes" type="NameValueAttributes" minOccurs="0" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation>
             market attributes
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="isPreOrder" type="xsd:boolean">
+      <xsd:element name="preorderInfo" type="PreorderInfo" minOccurs="0" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation>
+            Preorder attributes
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="streetDate" type="xsd:date">
-        <xsd:annotation>
-          <xsd:documentation>
-          </xsd:documentation>
-        </xsd:annotation>
-      </xsd:element>
-      <xsd:element name="streetDateType" type="xsd:string">
-        <xsd:annotation>
-          <xsd:documentation>
-            TODO: add documentation
-          </xsd:documentation>
-        </xsd:annotation>
-      </xsd:element>
-      <xsd:element name="programEligibilities">
+      <xsd:element name="programEligibilities" minOccurs="0" maxOccurs="1">
         <xsd:complexType>
           <xsd:sequence>
             <xsd:element name="programEligibility" type="ProgramEligibility" minOccurs="0" maxOccurs="unbounded">
@@ -452,7 +569,7 @@
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>
-      <xsd:element name="packages">
+      <xsd:element name="packages" minOccurs="0" maxOccurs="1">
         <xsd:complexType>
           <xsd:sequence>
             <xsd:element name="package" type="PackageDimensions" minOccurs="0" maxOccurs="unbounded">
@@ -465,67 +582,84 @@
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>
-      <xsd:element name="isPerishable" type="xsd:boolean">
+      <xsd:element name="isPerishable" type="xsd:boolean" minOccurs="0" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation>
             if the item is perishable
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="isHazmat" type="xsd:boolean">
+      <xsd:element name="isHazmat" type="xsd:boolean" minOccurs="0" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation>
             if the item is an hazardous material
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="inventoryAvailabilityThreshold" type="AvailabilityThreshold" minOccurs="1">
+      <xsd:element name="isAirShippable" type="xsd:boolean" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>
+            if the item is shippable by air
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="isORMD" type="xsd:boolean" minOccurs="0" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>
+            if the item is an ORDM
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="inventoryAvailabilityThreshold" type="AvailabilityThreshold" minOccurs="1" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation>
           inventory availability threshold
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="onHandSafetyFactorQuantity" type="Measurement" minOccurs="1">
+      <xsd:element name="onHandSafetyFactorQuantity" type="Measurement" minOccurs="1" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation>
+            how much to avoid out of stock status
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="inventoryLeadTime" type="xsd:int" minOccurs="0">
+      <xsd:element name="inventoryLeadTime" type="xsd:int" minOccurs="0" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation>
+            int days
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="assumeInfiniteInventory" type="xsd:boolean" minOccurs="1">
+      <xsd:element name="assumeInfiniteInventory" type="xsd:boolean" minOccurs="0" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation>
+            true if one cannot run out of the item
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>      
-      <xsd:element name="unitCost" type="Money">
+      <xsd:element name="unitCost" type="Money" minOccurs="0" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation>
             cost of the item
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="primarySupplyItemId" type="xsd:string">
+      <xsd:element name="primarySupplyItemId" type="xsd:string" minOccurs="0" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation>
             supply item ID
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="alternateSupplyItemId" type="xsd:string">
+      <xsd:element name="alternateSupplyItemId" type="xsd:string" minOccurs="0" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation>
             altername supply item ID
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="preferredDistributors">
+      <xsd:element name="preferredDistributors" minOccurs="0" maxOccurs="1">
         <xsd:complexType>
           <xsd:sequence>
             <xsd:element name="preferredDistributor" type="PreferredDistributor" minOccurs="0" maxOccurs="unbounded">
@@ -538,7 +672,7 @@
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>
-      <xsd:element name="fulfillmentOptions">
+      <xsd:element name="fulfillmentOptions" minOccurs="0" maxOccurs="1">
         <xsd:complexType>
           <xsd:sequence>
             <xsd:element name="fulfillmentOption" type="FulfillmentOption" minOccurs="0" maxOccurs="unbounded">
@@ -551,55 +685,55 @@
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>
-      <xsd:element name="shipSizeCode" type="xsd:string" minOccurs="0">
+      <xsd:element name="shipSizeCode" type="xsd:string" minOccurs="0" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation>
-            TODO: add documentation
+            ship size code
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="shipClass" type="xsd:string" minOccurs="0">
+      <xsd:element name="shipClass" type="ShipClass" minOccurs="0" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation>
-            TODO: add documentation
+            item ship class
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="shipAsIs" type="xsd:string" minOccurs="1">
+      <xsd:element name="shipAsIs" type="xsd:string" minOccurs="1" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation>
-            TODO: add documentation
+            ship as is
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="isSignatureOnDeliveryReq" type="xsd:boolean" minOccurs="1">
+      <xsd:element name="signatureOnDelivery" type="SignatureOnDelivery" minOccurs="1" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation>
-            if signature is required on delivery
+            signature required on delivery
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="isConveyable" type="xsd:boolean" minOccurs="0">
+      <xsd:element name="isConveyable" type="xsd:boolean" minOccurs="0" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation>
-            TODO: add documentation
+            conveyable
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="bundleFulfillmentMode" type="xsd:string" minOccurs="1">
+      <xsd:element name="bundleFulfillmentMode" type="BundleFulfillmentMode" minOccurs="1" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation>
-            TODO: add documentation
+            bundle fulfillment mode
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="storageType" type="StorageType" minOccurs="0">
+      <xsd:element name="storageType" type="StorageType" minOccurs="0" maxOccurs="1">
         <xsd:annotation>
           <xsd:documentation>
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="shipNodes">
+      <xsd:element name="shipNodes" minOccurs="0" maxOccurs="1">
         <xsd:complexType>
           <xsd:sequence>
             <xsd:element name="shipNode" type="ItemShipNode" minOccurs="0" maxOccurs="unbounded">
@@ -612,59 +746,73 @@
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>
-      <xsd:element name="isReturnable" type="xsd:boolean" minOccurs="0">    
+      <xsd:element name="itemGiftOptions" minOccurs="0" maxOccurs="1">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="giftOptions" type="GiftOptions" minOccurs="0" maxOccurs="unbounded">
+              <xsd:annotation>
+                <xsd:documentation>
+                  Ship Nodes
+                </xsd:documentation>
+              </xsd:annotation>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="isReturnable" type="xsd:boolean" minOccurs="0" maxOccurs="1">    
         <xsd:annotation>
           <xsd:documentation>
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="isReturnExpected" type="xsd:boolean" minOccurs="0">    
+      <xsd:element name="isReturnExpected" type="xsd:boolean" minOccurs="0" maxOccurs="1">    
         <xsd:annotation>
           <xsd:documentation>
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="isPhysicalItemExpected" type="xsd:boolean" minOccurs="0">    
+      <xsd:element name="isPhysicalItemExpected" type="xsd:boolean" minOccurs="0" maxOccurs="1">    
         <xsd:annotation>
           <xsd:documentation>
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="isStoreReturnAllowed" type="xsd:boolean" minOccurs="0">    
+      <xsd:element name="isStoreReturnAllowed" type="xsd:boolean" minOccurs="0" maxOccurs="1">    
         <xsd:annotation>
           <xsd:documentation>
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="isReturnInsuranceNeeded" type="xsd:boolean" minOccurs="0">    
+      <xsd:element name="isReturnInsuranceNeeded" type="xsd:boolean" minOccurs="0" maxOccurs="1">    
         <xsd:annotation>
           <xsd:documentation>
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="returnWindow" type="xsd:int" minOccurs="0">    
+      <xsd:element name="returnWindow" type="xsd:int" minOccurs="0" maxOccurs="1">    
         <xsd:annotation>
           <xsd:documentation>
+            return window in number of days
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="restockingFee" type="xsd:decimal" minOccurs="0">    
+      <xsd:element name="restockingFee" type="xsd:decimal" minOccurs="0" maxOccurs="1">    
         <xsd:annotation>
           <xsd:documentation>
           TODO: should be Money?
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="restockingFeePercentage" type="xsd:decimal" minOccurs="0">    
+      <xsd:element name="restockingFeePercentage" type="xsd:decimal" minOccurs="0" maxOccurs="1">    
         <xsd:annotation>
           <xsd:documentation>
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element name="preferredReturnChannel" type="xsd:string" minOccurs="0">    
+      <xsd:element name="preferredReturnChannel" type="xsd:string" minOccurs="0" maxOccurs="1">    
         <xsd:annotation>
           <xsd:documentation>
-          TODO: add documentation
+            preferred return channel
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>

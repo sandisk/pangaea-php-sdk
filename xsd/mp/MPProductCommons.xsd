@@ -565,6 +565,34 @@ Ex: If partner provides data for "Collar Size," and "Collar Size" is not in the 
                </xsd:element>
           </xsd:sequence>
      </xsd:complexType>
+     <xsd:complexType name="HolidayLightingStyle">
+          <xsd:annotation>
+               <xsd:documentation> Example: Blinking Lights; String Lights</xsd:documentation>
+          </xsd:annotation>
+          <xsd:sequence>
+               <xsd:element name="holidayLightingStyleValue" minOccurs="0" maxOccurs="unbounded">
+                    <xsd:simpleType>
+                         <xsd:restriction base="xsd:string">
+                              <xsd:maxLength value="4000"/>
+                         </xsd:restriction>
+                    </xsd:simpleType>
+               </xsd:element>
+          </xsd:sequence>
+     </xsd:complexType>
+     <xsd:complexType name="TargetAudience">
+          <xsd:annotation>
+               <xsd:documentation>The demographic for which the item is targeted. Example: Family; Parties; Kids</xsd:documentation>
+          </xsd:annotation>
+          <xsd:sequence>
+               <xsd:element name="targetAudienceValue" minOccurs="0" maxOccurs="unbounded">
+                    <xsd:simpleType>
+                         <xsd:restriction base="xsd:string">
+                              <xsd:maxLength value="4000"/>
+                         </xsd:restriction>
+                    </xsd:simpleType>
+               </xsd:element>
+          </xsd:sequence>
+     </xsd:complexType>
      <xsd:complexType name="HairLength">
           <xsd:annotation>
                <xsd:documentation>The length of hair that grooming product is intended for. Example: Short; Medium; Long</xsd:documentation>
@@ -599,34 +627,6 @@ Ex: If partner provides data for "Collar Size," and "Collar Size" is not in the 
           </xsd:annotation>
           <xsd:sequence>
                <xsd:element name="nutrientContentClaim" minOccurs="0" maxOccurs="unbounded">
-                    <xsd:simpleType>
-                         <xsd:restriction base="xsd:string">
-                              <xsd:maxLength value="4000"/>
-                         </xsd:restriction>
-                    </xsd:simpleType>
-               </xsd:element>
-          </xsd:sequence>
-     </xsd:complexType>
-     <xsd:complexType name="HolidayLightingStyle">
-          <xsd:annotation>
-               <xsd:documentation> Example: Blinking Lights; String Lights</xsd:documentation>
-          </xsd:annotation>
-          <xsd:sequence>
-               <xsd:element name="holidayLightingStyleValue" minOccurs="0" maxOccurs="unbounded">
-                    <xsd:simpleType>
-                         <xsd:restriction base="xsd:string">
-                              <xsd:maxLength value="4000"/>
-                         </xsd:restriction>
-                    </xsd:simpleType>
-               </xsd:element>
-          </xsd:sequence>
-     </xsd:complexType>
-     <xsd:complexType name="TargetAudience">
-          <xsd:annotation>
-               <xsd:documentation>The demographic for which the item is targeted. Example: Family; Parties; Kids</xsd:documentation>
-          </xsd:annotation>
-          <xsd:sequence>
-               <xsd:element name="targetAudienceValue" minOccurs="0" maxOccurs="unbounded">
                     <xsd:simpleType>
                          <xsd:restriction base="xsd:string">
                               <xsd:maxLength value="4000"/>
@@ -1237,6 +1237,20 @@ Ex: If partner provides data for "Collar Size," and "Collar Size" is not in the 
                </xsd:element>
           </xsd:sequence>
      </xsd:complexType>
+     <xsd:complexType name="HandleMaterial">
+          <xsd:annotation>
+               <xsd:documentation>Material of the handle, if different from the rest of the item. Example: Leather; Imitation Leather; Fabric; Suede</xsd:documentation>
+          </xsd:annotation>
+          <xsd:sequence>
+               <xsd:element name="handleMaterialValue" minOccurs="0" maxOccurs="unbounded">
+                    <xsd:simpleType>
+                         <xsd:restriction base="xsd:string">
+                              <xsd:maxLength value="4000"/>
+                         </xsd:restriction>
+                    </xsd:simpleType>
+               </xsd:element>
+          </xsd:sequence>
+     </xsd:complexType>
      <xsd:complexType name="Gemstone">
           <xsd:annotation>
                <xsd:documentation> Example: Amethyst; Aquamarine; Citrine; Coral; Crystal; Cubic Zirconia; Diamond; Emerald; Garnet; Jade; Mother of Pearl; Multigemstone; Onyx; Opal; Pearl; Peridot; Quartz; Ruby; Sapphire; Tanzanite; Tiger's Eye; Topaz; Turquoise</xsd:documentation>
@@ -1279,12 +1293,9 @@ Ex: If partner provides data for "Collar Size," and "Collar Size" is not in the 
                </xsd:element>
           </xsd:sequence>
      </xsd:complexType>
-     <xsd:complexType name="HandleMaterial">
-          <xsd:annotation>
-               <xsd:documentation>Material of the handle, if different from the rest of the item. Example: Leather; Imitation Leather; Fabric; Suede</xsd:documentation>
-          </xsd:annotation>
+     <xsd:complexType name="WatchBandMaterial">
           <xsd:sequence>
-               <xsd:element name="handleMaterialValue" minOccurs="0" maxOccurs="unbounded">
+               <xsd:element name="watchBandMaterialValue" minOccurs="0" maxOccurs="unbounded">
                     <xsd:simpleType>
                          <xsd:restriction base="xsd:string">
                               <xsd:maxLength value="4000"/>
@@ -1293,19 +1304,12 @@ Ex: If partner provides data for "Collar Size," and "Collar Size" is not in the 
                </xsd:element>
           </xsd:sequence>
      </xsd:complexType>
-     <xsd:complexType name="FuelEconomyUnit">
+     <xsd:complexType name="WatchStyle">
+          <xsd:annotation>
+               <xsd:documentation>Level of formality or type of dress Example: Casual; Dress; Fashion; Sport</xsd:documentation>
+          </xsd:annotation>
           <xsd:sequence>
-               <xsd:element name="unit" minOccurs="1" maxOccurs="1" type="FuelEconomyUnitOfMeasure"/>
-               <xsd:element name="measure" minOccurs="1" maxOccurs="1">
-                    <xsd:simpleType>
-                         <xsd:restriction base="xsd:decimal"/>
-                    </xsd:simpleType>
-               </xsd:element>
-          </xsd:sequence>
-     </xsd:complexType>
-     <xsd:complexType name="InterfaceType">
-          <xsd:sequence>
-               <xsd:element name="interfaceTypeValue" minOccurs="0" maxOccurs="unbounded">
+               <xsd:element name="watchStyleValue" minOccurs="0" maxOccurs="unbounded">
                     <xsd:simpleType>
                          <xsd:restriction base="xsd:string">
                               <xsd:maxLength value="4000"/>
@@ -1360,6 +1364,8 @@ Ex: If partner provides data for "Collar Size," and "Collar Size" is not in the 
                          <xsd:documentation>Waist size in inches. Example: 38 in</xsd:documentation>
                          <xsd:appinfo>
                               <requiredLevel value="Conditionally Required"/>
+                              <conditionalAttributes> <conditionalAttribute name="clothingSize" value="null"/>
+                              </conditionalAttributes>
                          </xsd:appinfo>
                     </xsd:annotation>
                </xsd:element>
@@ -1402,23 +1408,19 @@ Ex: If partner provides data for "Collar Size," and "Collar Size" is not in the 
                </xsd:element>
           </xsd:sequence>
      </xsd:complexType>
-     <xsd:complexType name="WatchBandMaterial">
+     <xsd:complexType name="FuelEconomyUnit">
           <xsd:sequence>
-               <xsd:element name="watchBandMaterialValue" minOccurs="0" maxOccurs="unbounded">
+               <xsd:element name="unit" minOccurs="1" maxOccurs="1" type="FuelEconomyUnitOfMeasure"/>
+               <xsd:element name="measure" minOccurs="1" maxOccurs="1">
                     <xsd:simpleType>
-                         <xsd:restriction base="xsd:string">
-                              <xsd:maxLength value="4000"/>
-                         </xsd:restriction>
+                         <xsd:restriction base="xsd:decimal"/>
                     </xsd:simpleType>
                </xsd:element>
           </xsd:sequence>
      </xsd:complexType>
-     <xsd:complexType name="WatchStyle">
-          <xsd:annotation>
-               <xsd:documentation>Level of formality or type of dress Example: Casual; Dress; Fashion; Sport</xsd:documentation>
-          </xsd:annotation>
+     <xsd:complexType name="InterfaceType">
           <xsd:sequence>
-               <xsd:element name="watchStyleValue" minOccurs="0" maxOccurs="unbounded">
+               <xsd:element name="interfaceTypeValue" minOccurs="0" maxOccurs="unbounded">
                     <xsd:simpleType>
                          <xsd:restriction base="xsd:string">
                               <xsd:maxLength value="4000"/>
@@ -1516,11 +1518,11 @@ Ex: If partner provides data for "Collar Size," and "Collar Size" is not in the 
                     </xsd:annotation>
                     <xsd:simpleType>
                          <xsd:restriction base="xsd:string">
-                              <xsd:enumeration value="EAN"/>
-                              <xsd:enumeration value="ISBN"/>
-                              <xsd:enumeration value="GTIN"/>
                               <xsd:enumeration value="UPC"/>
+                              <xsd:enumeration value="GTIN"/>
+                              <xsd:enumeration value="EAN"/>
                               <xsd:enumeration value="ISSN"/>
+                              <xsd:enumeration value="ISBN"/>
                          </xsd:restriction>
                     </xsd:simpleType>
                </xsd:element>
@@ -1580,21 +1582,21 @@ Ex: If partner provides data for "Collar Size," and "Collar Size" is not in the 
                     </xsd:annotation>
                     <xsd:simpleType>
                          <xsd:restriction base="xsd:string">
-                              <xsd:enumeration value="Silver"/>
-                              <xsd:enumeration value="Alkaline"/>
-                              <xsd:enumeration value="Nickel Cadmium"/>
-                              <xsd:enumeration value="Lead Acid"/>
+                              <xsd:enumeration value="Lithium Ion"/>
                               <xsd:enumeration value="Nickel Metal Hydride"/>
                               <xsd:enumeration value="Does Not Contain a Battery"/>
-                              <xsd:enumeration value="Carbon Zinc"/>
                               <xsd:enumeration value="Lead Acid (Non-Spillable)"/>
                               <xsd:enumeration value="Lithium Primary"/>
+                              <xsd:enumeration value="Multiple Types"/>
+                              <xsd:enumeration value="Carbon Zinc"/>
                               <xsd:enumeration value="Magnesium"/>
                               <xsd:enumeration value="Mercury"/>
                               <xsd:enumeration value="Thermal"/>
-                              <xsd:enumeration value="Multiple Types"/>
                               <xsd:enumeration value="Other"/>
-                              <xsd:enumeration value="Lithium Ion"/>
+                              <xsd:enumeration value="Nickel Cadmium"/>
+                              <xsd:enumeration value="Lead Acid"/>
+                              <xsd:enumeration value="Silver"/>
+                              <xsd:enumeration value="Alkaline"/>
                          </xsd:restriction>
                     </xsd:simpleType>
                </xsd:element>
@@ -1904,17 +1906,17 @@ Ex: If partner provides data for "Collar Size," and "Collar Size" is not in the 
      </xsd:complexType>
      <xsd:simpleType name="AngleUnitOfMeasure">
           <xsd:restriction base="xsd:string">
-               <xsd:enumeration value="Radian"/>
                <xsd:enumeration value="Degree"/>
+               <xsd:enumeration value="Radian"/>
                <xsd:enumeration value="Steradian"/>
           </xsd:restriction>
      </xsd:simpleType>
      <xsd:simpleType name="AreaUnitOfMeasure">
           <xsd:restriction base="xsd:string">
-               <xsd:enumeration value="Square Inches"/>
                <xsd:enumeration value="Square Centimeters"/>
                <xsd:enumeration value="Square Millimeters"/>
                <xsd:enumeration value="Square Feet"/>
+               <xsd:enumeration value="Square Inches"/>
                <xsd:enumeration value="Square Meters"/>
                <xsd:enumeration value="Square Yards"/>
           </xsd:restriction>
@@ -1922,15 +1924,15 @@ Ex: If partner provides data for "Collar Size," and "Collar Size" is not in the 
      <xsd:simpleType name="LengthUnitOfMeasure">
           <xsd:restriction base="xsd:string">
                <xsd:enumeration value="Inches"/>
-               <xsd:enumeration value="Feet"/>
-               <xsd:enumeration value="Yards"/>
-               <xsd:enumeration value="Meters"/>
-               <xsd:enumeration value="Miles"/>
-               <xsd:enumeration value="Millimeters"/>
-               <xsd:enumeration value="Mil"/>
-               <xsd:enumeration value="Centimeters"/>
                <xsd:enumeration value="Micrometers"/>
+               <xsd:enumeration value="Feet"/>
+               <xsd:enumeration value="Millimeters"/>
+               <xsd:enumeration value="Centimeters"/>
+               <xsd:enumeration value="Meters"/>
+               <xsd:enumeration value="Yards"/>
                <xsd:enumeration value="French"/>
+               <xsd:enumeration value="Miles"/>
+               <xsd:enumeration value="Mil"/>
           </xsd:restriction>
      </xsd:simpleType>
      <xsd:simpleType name="PercentageUnitOfMeasure">
@@ -1940,41 +1942,41 @@ Ex: If partner provides data for "Collar Size," and "Collar Size" is not in the 
      </xsd:simpleType>
      <xsd:simpleType name="VolumetricFlowRateUnitOfMeasure">
           <xsd:restriction base="xsd:string">
-               <xsd:enumeration value="liters per minute"/>
-               <xsd:enumeration value="gallons per minute"/>
                <xsd:enumeration value="liters per second"/>
                <xsd:enumeration value="cubic meters per second"/>
                <xsd:enumeration value="cubic feet per second"/>
                <xsd:enumeration value="cubic meters per minute"/>
                <xsd:enumeration value="gallons per second"/>
                <xsd:enumeration value="cubic feet per minute"/>
+               <xsd:enumeration value="liters per minute"/>
+               <xsd:enumeration value="gallons per minute"/>
           </xsd:restriction>
      </xsd:simpleType>
      <xsd:simpleType name="PressureUnitOfMeasure">
           <xsd:restriction base="xsd:string">
                <xsd:enumeration value="Pounds Per Square Inch"/>
-               <xsd:enumeration value="Psig/Bar"/>
                <xsd:enumeration value="Barye"/>
-               <xsd:enumeration value="Bar"/>
                <xsd:enumeration value="Pieze"/>
                <xsd:enumeration value="Pascal"/>
+               <xsd:enumeration value="Psig/Bar"/>
+               <xsd:enumeration value="Bar"/>
                <xsd:enumeration value="Torr"/>
           </xsd:restriction>
      </xsd:simpleType>
      <xsd:simpleType name="VolumeUnitOfMeasure">
           <xsd:restriction base="xsd:string">
-               <xsd:enumeration value="Milliliters"/>
-               <xsd:enumeration value="Pints"/>
-               <xsd:enumeration value="Cubic Yards"/>
-               <xsd:enumeration value="Cubic Feet"/>
-               <xsd:enumeration value="Quarts"/>
-               <xsd:enumeration value="Fluid Ounces"/>
                <xsd:enumeration value="US Gallons"/>
                <xsd:enumeration value="Imperial (UK) Gallons"/>
+               <xsd:enumeration value="Cubic Feet"/>
                <xsd:enumeration value="Cubic Inches"/>
-               <xsd:enumeration value="Liters"/>
-               <xsd:enumeration value="Cubic Meters"/>
                <xsd:enumeration value="Cubic Centimeters"/>
+               <xsd:enumeration value="Cubic Meters"/>
+               <xsd:enumeration value="Milliliters"/>
+               <xsd:enumeration value="Cubic Yards"/>
+               <xsd:enumeration value="Fluid Ounces"/>
+               <xsd:enumeration value="Quarts"/>
+               <xsd:enumeration value="Liters"/>
+               <xsd:enumeration value="Pints"/>
           </xsd:restriction>
      </xsd:simpleType>
      <xsd:simpleType name="CurrencyUnitOfMeasure">
@@ -1984,32 +1986,32 @@ Ex: If partner provides data for "Collar Size," and "Collar Size" is not in the 
      </xsd:simpleType>
      <xsd:simpleType name="ResolutionUnitOfMeasure">
           <xsd:restriction base="xsd:string">
-               <xsd:enumeration value="Dots Per Inch"/>
                <xsd:enumeration value="Dots Per Square Inch"/>
-               <xsd:enumeration value="Texels"/>
                <xsd:enumeration value="Pixels Per Inch"/>
+               <xsd:enumeration value="Volumetric Pixels"/>
                <xsd:enumeration value="Megapixels"/>
                <xsd:enumeration value="Resolution Element"/>
                <xsd:enumeration value="Surface Element"/>
-               <xsd:enumeration value="Volumetric Pixels"/>
+               <xsd:enumeration value="Dots Per Inch"/>
+               <xsd:enumeration value="Texels"/>
           </xsd:restriction>
      </xsd:simpleType>
      <xsd:simpleType name="ElectricalMeasurementUnitOfMeasure">
           <xsd:restriction base="xsd:string">
                <xsd:enumeration value="Volts"/>
-               <xsd:enumeration value="Amps"/>
                <xsd:enumeration value="Coulombs"/>
+               <xsd:enumeration value="Amps"/>
           </xsd:restriction>
      </xsd:simpleType>
      <xsd:simpleType name="WeightUnitOfMeasure">
           <xsd:restriction base="xsd:string">
                <xsd:enumeration value="Kilograms Per Meter"/>
-               <xsd:enumeration value="Carat"/>
                <xsd:enumeration value="Kilograms"/>
                <xsd:enumeration value="Milligrams"/>
                <xsd:enumeration value="Ounces"/>
-               <xsd:enumeration value="Grams"/>
                <xsd:enumeration value="Pounds"/>
+               <xsd:enumeration value="Grams"/>
+               <xsd:enumeration value="Carat"/>
           </xsd:restriction>
      </xsd:simpleType>
      <xsd:simpleType name="FuelEconomyUnitOfMeasure">
@@ -2020,24 +2022,24 @@ Ex: If partner provides data for "Collar Size," and "Collar Size" is not in the 
      <xsd:simpleType name="TimeUnitOfMeasure">
           <xsd:restriction base="xsd:string">
                <xsd:enumeration value="Minutes"/>
-               <xsd:enumeration value="Hours"/>
                <xsd:enumeration value="Seconds"/>
+               <xsd:enumeration value="Months"/>
+               <xsd:enumeration value="Hours"/>
                <xsd:enumeration value="Milliseconds"/>
                <xsd:enumeration value="Days"/>
-               <xsd:enumeration value="Months"/>
                <xsd:enumeration value="Years"/>
           </xsd:restriction>
      </xsd:simpleType>
      <xsd:simpleType name="BrightnessUnitOfMeasure">
           <xsd:restriction base="xsd:string">
-               <xsd:enumeration value="Lux"/>
-               <xsd:enumeration value="Lux Seconds"/>
+               <xsd:enumeration value="Lumen Seconds Per Meter"/>
                <xsd:enumeration value="Lumens"/>
-               <xsd:enumeration value="Candelas"/>
-               <xsd:enumeration value="Lumen Seconds"/>
                <xsd:enumeration value="Candelas Per Square Meter"/>
                <xsd:enumeration value="Lumens Per Watt"/>
-               <xsd:enumeration value="Lumen Seconds Per Meter"/>
+               <xsd:enumeration value="Lux Seconds"/>
+               <xsd:enumeration value="Lumen Seconds"/>
+               <xsd:enumeration value="Candelas"/>
+               <xsd:enumeration value="Lux"/>
           </xsd:restriction>
      </xsd:simpleType>
      <xsd:simpleType name="FrequencyUnitOfMeasure">
@@ -2050,21 +2052,21 @@ Ex: If partner provides data for "Collar Size," and "Collar Size" is not in the 
      </xsd:simpleType>
      <xsd:simpleType name="SpeedUnitOfMeasure">
           <xsd:restriction base="xsd:string">
-               <xsd:enumeration value="Meters Per Second"/>
+               <xsd:enumeration value="Kilometers Per Hour"/>
                <xsd:enumeration value="Meters Per Second Squared"/>
-               <xsd:enumeration value="Feet Per Minute"/>
+               <xsd:enumeration value="Meters Per Second"/>
                <xsd:enumeration value="Radian Per Second"/>
                <xsd:enumeration value="Revolutions Per Minute"/>
+               <xsd:enumeration value="Feet Per Minute"/>
                <xsd:enumeration value="Miles Per Hour"/>
-               <xsd:enumeration value="Kilometers Per Hour"/>
           </xsd:restriction>
      </xsd:simpleType>
      <xsd:simpleType name="PowerUnitOfMeasure">
           <xsd:restriction base="xsd:string">
-               <xsd:enumeration value="Joules"/>
                <xsd:enumeration value="Horsepower"/>
-               <xsd:enumeration value="Watts"/>
+               <xsd:enumeration value="Joules"/>
                <xsd:enumeration value="Decibels"/>
+               <xsd:enumeration value="Watts"/>
           </xsd:restriction>
      </xsd:simpleType>
      <xsd:simpleType name="DigitalCapacityUnitOfMeasure">
@@ -2081,32 +2083,32 @@ Ex: If partner provides data for "Collar Size," and "Collar Size" is not in the 
      </xsd:simpleType>
      <xsd:simpleType name="PPUUnitOfMeasure">
           <xsd:restriction base="xsd:string">
-               <xsd:enumeration value="Ounce"/>
+               <xsd:enumeration value="Inch"/>
+               <xsd:enumeration value="Kilogram"/>
                <xsd:enumeration value="Each"/>
+               <xsd:enumeration value="Ounce"/>
+               <xsd:enumeration value="Centimeter"/>
                <xsd:enumeration value="Per 100 Sheet"/>
                <xsd:enumeration value="Pound"/>
                <xsd:enumeration value="Square Foot"/>
-               <xsd:enumeration value="Centimeter"/>
-               <xsd:enumeration value="Per 100 Count"/>
                <xsd:enumeration value="Milliliter"/>
-               <xsd:enumeration value="Quart"/>
+               <xsd:enumeration value="Cubic Foot"/>
+               <xsd:enumeration value="Pint"/>
                <xsd:enumeration value="Foot"/>
                <xsd:enumeration value="Gram"/>
-               <xsd:enumeration value="Gallon"/>
-               <xsd:enumeration value="Pint"/>
+               <xsd:enumeration value="Per 100 Count"/>
+               <xsd:enumeration value="Quart"/>
                <xsd:enumeration value="Fluid Ounce"/>
+               <xsd:enumeration value="Gallon"/>
                <xsd:enumeration value="Liter"/>
-               <xsd:enumeration value="Cubic Foot"/>
-               <xsd:enumeration value="Kilogram"/>
-               <xsd:enumeration value="Inch"/>
           </xsd:restriction>
      </xsd:simpleType>
      <xsd:simpleType name="TemperatureUnitOfMeasure">
           <xsd:restriction base="xsd:string">
-               <xsd:enumeration value="Degrees Centigrade"/>
-               <xsd:enumeration value="Degrees Celsius"/>
-               <xsd:enumeration value="Kelvin"/>
                <xsd:enumeration value="Degrees Fahrenheit"/>
+               <xsd:enumeration value="Degrees Celsius"/>
+               <xsd:enumeration value="Degrees Centigrade"/>
+               <xsd:enumeration value="Kelvin"/>
           </xsd:restriction>
      </xsd:simpleType>
 </xsd:schema>

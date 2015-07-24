@@ -1,16 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<!--
-  Schema for data exchanged between Walmart and its partners.
-  Copyright 2015 Walmart Corporation. All rights reserved.
--->
-
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-  xmlns="http://walmart.com/"
-  targetNamespace="http://walmart.com/" 
-  elementFormDefault="qualified"
-  version="1.4">
-
+<?xml version="1.0" encoding="UTF-8"?><!--  Schema for data exchanged between Walmart and its partners. Copyright 2015 Walmart Corporation. All rights reserved. --><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://walmart.com/" targetNamespace="http://walmart.com/" elementFormDefault="qualified" version="1.4">
      <xsd:include schemaLocation="MPProductCommons.xsd"/>
      <xsd:complexType name="WomensSwimsuits">
           <xsd:sequence>
@@ -68,6 +56,8 @@ Full-Figure; Sport Bras; Underwire; Wire-Free; Lightly Lined; T-Shirt</xsd:docum
                          <xsd:documentation>Waist size in inches. Example: 38 in</xsd:documentation>
                          <xsd:appinfo>
                               <requiredLevel value="Conditionally Required"/>
+                              <conditionalAttributes> <conditionalAttribute name="clothingSize" value="null"/>
+                              </conditionalAttributes>
                          </xsd:appinfo>
                     </xsd:annotation>
                </xsd:element>
@@ -92,6 +82,8 @@ Full-Figure; Sport Bras; Underwire; Wire-Free; Lightly Lined; T-Shirt</xsd:docum
                     <xsd:annotation>
                          <xsd:appinfo>
                               <requiredLevel value="Conditionally Required"/>
+                              <conditionalAttributes> <conditionalAttribute name="clothingSize" value="null"/>
+                              </conditionalAttributes>
                          </xsd:appinfo>
                     </xsd:annotation>
                </xsd:element>
@@ -142,6 +134,8 @@ Full-Figure; Sport Bras; Underwire; Wire-Free; Lightly Lined; T-Shirt</xsd:docum
                     <xsd:annotation>
                          <xsd:appinfo>
                               <requiredLevel value="Conditionally Required"/>
+                              <conditionalAttributes> <conditionalAttribute name="clothingSize" value="null"/>
+                              </conditionalAttributes>
                          </xsd:appinfo>
                     </xsd:annotation>
                     <xsd:simpleType>
@@ -236,6 +230,8 @@ Full-Figure; Sport Bras; Underwire; Wire-Free; Lightly Lined; T-Shirt</xsd:docum
                     <xsd:annotation>
                          <xsd:appinfo>
                               <requiredLevel value="Conditionally Required"/>
+                              <conditionalAttributes> <conditionalAttribute name="clothingSize" value="null"/>
+                              </conditionalAttributes>
                          </xsd:appinfo>
                     </xsd:annotation>
                </xsd:element>
@@ -255,6 +251,38 @@ Full-Figure; Sport Bras; Underwire; Wire-Free; Lightly Lined; T-Shirt</xsd:docum
                <xsd:element name="sleeveStyle" minOccurs="0" maxOccurs="1">
                     <xsd:annotation>
                          <xsd:documentation> Example: Short Sleeve; Cap Sleeve; Long Sleeve; Sleeveless; 3/4 Sleeve</xsd:documentation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Recommended"/>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+                    <xsd:simpleType>
+                         <xsd:restriction base="xsd:string">
+                              <xsd:maxLength value="4000"/>
+                         </xsd:restriction>
+                    </xsd:simpleType>
+               </xsd:element>
+          </xsd:sequence>
+     </xsd:complexType>
+     <xsd:complexType name="Socks">
+          <xsd:sequence>
+               <xsd:element name="sockSize" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                         <xsd:documentation> Example: 7-9; 9-11</xsd:documentation>
+                         <xsd:appinfo>
+                              <requiredLevel value="Conditionally Required"/>
+                              <conditionalAttributes> <conditionalAttribute name="clothingSize" value="null"/>
+                              </conditionalAttributes>
+                         </xsd:appinfo>
+                    </xsd:annotation>
+                    <xsd:simpleType>
+                         <xsd:restriction base="xsd:string">
+                              <xsd:maxLength value="4000"/>
+                         </xsd:restriction>
+                    </xsd:simpleType>
+               </xsd:element>
+               <xsd:element name="sockStyle" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                         <xsd:documentation> Example: Dress; Athletic; Casual;  Knee-High; Trouser; Tube</xsd:documentation>
                          <xsd:appinfo>
                               <requiredLevel value="Recommended"/>
                          </xsd:appinfo>
@@ -297,36 +325,6 @@ Full-Figure; Sport Bras; Underwire; Wire-Free; Lightly Lined; T-Shirt</xsd:docum
                </xsd:element>
           </xsd:sequence>
      </xsd:complexType>
-     <xsd:complexType name="Socks">
-          <xsd:sequence>
-               <xsd:element name="sockSize" minOccurs="0" maxOccurs="1">
-                    <xsd:annotation>
-                         <xsd:documentation> Example: 7-9; 9-11</xsd:documentation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Conditionally Required"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-                    <xsd:simpleType>
-                         <xsd:restriction base="xsd:string">
-                              <xsd:maxLength value="4000"/>
-                         </xsd:restriction>
-                    </xsd:simpleType>
-               </xsd:element>
-               <xsd:element name="sockStyle" minOccurs="0" maxOccurs="1">
-                    <xsd:annotation>
-                         <xsd:documentation> Example: Dress; Athletic; Casual;  Knee-High; Trouser; Tube</xsd:documentation>
-                         <xsd:appinfo>
-                              <requiredLevel value="Recommended"/>
-                         </xsd:appinfo>
-                    </xsd:annotation>
-                    <xsd:simpleType>
-                         <xsd:restriction base="xsd:string">
-                              <xsd:maxLength value="4000"/>
-                         </xsd:restriction>
-                    </xsd:simpleType>
-               </xsd:element>
-          </xsd:sequence>
-     </xsd:complexType>
      <xsd:complexType name="Clothing">
           <xsd:sequence>
                <xsd:element name="variantGroupId" minOccurs="0" maxOccurs="1">
@@ -336,6 +334,8 @@ Full-Figure; Sport Bras; Underwire; Wire-Free; Lightly Lined; T-Shirt</xsd:docum
 Make up a number for "Variant Group ID," and add this to all variations of the same product. Partners must ensure uniqueness of their Variant Group IDs.</xsd:documentation>
                          <xsd:appinfo>
                               <requiredLevel value="Conditionally Required"/>
+                              <conditionalAttributes> <conditionalAttribute name="variantAttributeNames"/>
+                              </conditionalAttributes>
                          </xsd:appinfo>
                     </xsd:annotation>
                     <xsd:simpleType>
@@ -355,6 +355,8 @@ Make up a number for "Variant Group ID," and add this to all variations of the s
                     <xsd:annotation>
                          <xsd:appinfo>
                               <requiredLevel value="Conditionally Required"/>
+                              <conditionalAttributes> <conditionalAttribute name="variantGroupId"/>
+                              </conditionalAttributes>
                          </xsd:appinfo>
                     </xsd:annotation>
                </xsd:element>
@@ -427,6 +429,8 @@ Make up a number for "Variant Group ID," and add this to all variations of the s
                          <xsd:documentation> Example: S; M; L; 2; 4; 6</xsd:documentation>
                          <xsd:appinfo>
                               <requiredLevel value="Conditionally Required"/>
+                              <conditionalAttributes> <conditionalAttribute name="sockSize" value="null"/> <conditionalAttribute name="dressShirtSize" value="null"/> <conditionalAttribute name="waistSize" value="null"/> <conditionalAttribute name="pantSize" value="null"/> <conditionalAttribute name="braSize" value="null"/>
+                              </conditionalAttributes>
                          </xsd:appinfo>
                     </xsd:annotation>
                     <xsd:simpleType>
@@ -444,11 +448,11 @@ Make up a number for "Variant Group ID," and add this to all variations of the s
                     </xsd:annotation>
                     <xsd:simpleType>
                          <xsd:restriction base="xsd:string">
+                              <xsd:enumeration value="Unisex"/>
+                              <xsd:enumeration value="Women"/>
                               <xsd:enumeration value="Men"/>
                               <xsd:enumeration value="Boys"/>
                               <xsd:enumeration value="Girls"/>
-                              <xsd:enumeration value="Women"/>
-                              <xsd:enumeration value="Unisex"/>
                          </xsd:restriction>
                     </xsd:simpleType>
                </xsd:element>
@@ -475,17 +479,17 @@ Make up a number for "Variant Group ID," and add this to all variations of the s
                     </xsd:annotation>
                     <xsd:simpleType>
                          <xsd:restriction base="xsd:string">
-                              <xsd:enumeration value="Big"/>
-                              <xsd:enumeration value="Husky"/>
-                              <xsd:enumeration value="Slim"/>
-                              <xsd:enumeration value="Big  Tall"/>
-                              <xsd:enumeration value="Tall"/>
                               <xsd:enumeration value="Junior Plus"/>
                               <xsd:enumeration value="Petite Plus"/>
-                              <xsd:enumeration value="Petite"/>
+                              <xsd:enumeration value="Big  Tall"/>
                               <xsd:enumeration value="Plus"/>
                               <xsd:enumeration value="Juniors"/>
                               <xsd:enumeration value="Regular"/>
+                              <xsd:enumeration value="Big"/>
+                              <xsd:enumeration value="Husky"/>
+                              <xsd:enumeration value="Slim"/>
+                              <xsd:enumeration value="Tall"/>
+                              <xsd:enumeration value="Petite"/>
                          </xsd:restriction>
                     </xsd:simpleType>
                </xsd:element>
@@ -530,22 +534,22 @@ Make up a number for "Variant Group ID," and add this to all variations of the s
                     </xsd:annotation>
                     <xsd:simpleType>
                          <xsd:restriction base="xsd:string">
-                              <xsd:enumeration value="Women's Plus"/>
-                              <xsd:enumeration value="Men"/>
-                              <xsd:enumeration value="Juniors"/>
-                              <xsd:enumeration value="Men's Big  Tall"/>
-                              <xsd:enumeration value="Newborn Boy"/>
-                              <xsd:enumeration value="Baby Girl"/>
-                              <xsd:enumeration value="Girls"/>
-                              <xsd:enumeration value="Baby Boy"/>
-                              <xsd:enumeration value="School Uniforms"/>
-                              <xsd:enumeration value="Boys"/>
-                              <xsd:enumeration value="Newborn Girl"/>
-                              <xsd:enumeration value="Maternity Wear"/>
-                              <xsd:enumeration value="Petites"/>
-                              <xsd:enumeration value="Maternity Plus"/>
                               <xsd:enumeration value="Young Men's"/>
+                              <xsd:enumeration value="Maternity Plus"/>
+                              <xsd:enumeration value="School Uniforms"/>
+                              <xsd:enumeration value="Men's Big  Tall"/>
+                              <xsd:enumeration value="Women's Plus"/>
+                              <xsd:enumeration value="Petites"/>
+                              <xsd:enumeration value="Maternity Wear"/>
+                              <xsd:enumeration value="Newborn Girl"/>
+                              <xsd:enumeration value="Boys"/>
+                              <xsd:enumeration value="Baby Boy"/>
+                              <xsd:enumeration value="Girls"/>
+                              <xsd:enumeration value="Baby Girl"/>
+                              <xsd:enumeration value="Newborn Boy"/>
+                              <xsd:enumeration value="Juniors"/>
                               <xsd:enumeration value="Women"/>
+                              <xsd:enumeration value="Men"/>
                          </xsd:restriction>
                     </xsd:simpleType>
                </xsd:element>
@@ -575,6 +579,8 @@ Make up a number for "Variant Group ID," and add this to all variations of the s
                     <xsd:annotation>
                          <xsd:appinfo>
                               <requiredLevel value="Conditionally Required"/>
+                              <conditionalAttributes> <conditionalAttribute name="isMadeFromRecycledMaterial" value="Y"/>
+                              </conditionalAttributes>
                          </xsd:appinfo>
                     </xsd:annotation>
                </xsd:element>
@@ -612,8 +618,8 @@ Make up a number for "Variant Group ID," and add this to all variations of the s
                     <xsd:element name="ClothingAccessories" type="ClothingAccessories"/>
                     <xsd:element name="Dresses" type="Dresses"/>
                     <xsd:element name="DressShirts" type="DressShirts"/>
-                    <xsd:element name="Panties" type="Panties"/>
                     <xsd:element name="Socks" type="Socks"/>
+                    <xsd:element name="Panties" type="Panties"/>
                </xsd:choice>
           </xsd:sequence>
      </xsd:complexType>
