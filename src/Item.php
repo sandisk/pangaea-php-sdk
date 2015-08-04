@@ -130,7 +130,7 @@ class Item
      */
     public function setPublishStatus($status)
     {
-        $status = strtoupper($status);
+        $status = mb_strtoupper($status);
 
         if (! in_array($status, static::PUBLISHED_STATUSES)) {
             throw new PangaeaException(sprintf('Invalid publish status "%s"', $status));
@@ -148,7 +148,7 @@ class Item
      */
     public function setLifecycleStatus($status)
     {
-        $status = strtoupper($status);
+        $status = mb_strtoupper($status);
 
         if (! in_array($status, static::LIFECYCLE_STATUSES)) {
             throw new PangaeaException(sprintf('Invalid lifecycle status "%s"', $status));
