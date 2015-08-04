@@ -20,7 +20,8 @@ class ItemsTest extends AbstractTest
         $item->setDescriptions('Short description', 'Longer description about the item...');
         $item->setTaxCode(20);
         $item->setDates('2015-01-01', '2025-01-01');
-        $item->setStatus(true, false);
+        $item->setPublishStatus('UNPUBLISHED');
+        $item->setLifecycleStatus('ACTIVE');
         $item->setDimensions(50, 1.5, 74.67, 'CM');
         $item->setWeight(0.5, 'G');
         $item->setPricing(14.99, 9.99, 12.49, '2015-01-01');
@@ -56,11 +57,13 @@ class ItemsTest extends AbstractTest
         $feed->addItem($item);
 
         $this->feed = $feed;
+        $this->item = $item;
     }
 
     public function tearDown()
     {
         $this->feed = null;
+        $this->item = null;
     }
 
     public function testItemsXml()
@@ -69,6 +72,22 @@ class ItemsTest extends AbstractTest
         $outputXml = $this->feed->getXml();
 
         $this->assertXmlStringEqualsXmlString($sampleXml, $outputXml);
+    }
+
+    /**
+     * @expectedException \Pangaea\PangaeaException
+     */
+    public function testInvalidPublishStatusException()
+    {
+        $this->item->setPublishStatus('FOOBAR');
+    }
+
+    /**
+     * @expectedException \Pangaea\PangaeaException
+     */
+    public function testInvalidLifecycleStatusException()
+    {
+        $this->item->setLifecycleStatus('FOOBAR');
     }
 
     public function testSaveItemsXml()
