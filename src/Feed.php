@@ -86,7 +86,7 @@ XML;
     {
         $result = file_put_contents($path, $this->render());
 
-        Xml::validate($path, __DIR__ . '/../xsd/Feed.xsd');
+        Xml::validate($path, __DIR__ . '/../xsd/feed/Feed.xsd');
 
         return $result > 0;
     }
