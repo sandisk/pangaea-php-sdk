@@ -3,11 +3,137 @@ namespace Pangaea;
 
 class Item
 {
-    const SPEC_DEFAULT_END_DATE  = '2049-12-31'; // as specified by Walmart
-    const VALID_ATTRIBUTE_GROUPS = ['Product', 'Compliance', 'MarketInProduct', 'MarketInOffer', 'Offer'];
+    /**
+     * Default End Date (as specified by Walmart).
+     *
+     * @const
+     */
+    const SPEC_DEFAULT_END_DATE  = '2049-12-31';
 
-    private $sku, $upc, $title, $shortDescription, $longDescription, $taxCode, $assets, $attributes, $brand, $itemLogistics;
-    private $shipping = '';
+    /**
+     * Valid Attribute Groups.
+     *
+     * @const
+     */
+    const VALID_ATTRIBUTE_GROUPS = [
+        'Product',
+        'Compliance',
+        'MarketInProduct',
+        'MarketInOffer',
+        'Offer'
+    ];
+
+    /**
+     * Valid Lifecycle Statuses.
+     *
+     * @const
+     */
+    const LIFECYCLE_STATUSES = [
+        'ACTIVE',
+        'ARCHIVED',
+        'RETIRED',
+    ];
+
+    /**
+     * Valid Published Statuses.
+     *
+     * @const
+     */
+    const PUBLISHED_STATUSES = [
+        'IN_PROGRESS',
+        'READY_TO_PUBLISH',
+        'PUBLISHED',
+        'UNPUBLISHED',
+        'SYSTEM_PROBLEM',
+        'STAGE',
+    ];
+
+    /**
+     * SKU
+     *
+     * @var mixed
+     */
+    private $sku;
+
+    /**
+     * UPC
+     *
+     * @var mixed
+     */
+    private $upc;
+
+    /**
+     * Title
+     *
+     * @var mixed
+     */
+    private $title;
+
+    /**
+     * Short Description
+     *
+     * @var mixed
+     */
+    private $shortDescription;
+
+    /**
+     * Long Description
+     *
+     * @var mixed
+     */
+    private $longDescription;
+
+    /**
+     * Tax Code
+     *
+     * @var mixed
+     */
+    private $taxCode;
+
+    /**
+     * Assets
+     *
+     * @var mixed
+     */
+    private $assets;
+
+    /**
+     * Attributes
+     *
+     * @var array
+     */
+    private $attributes = [];
+
+    /**
+     * Brand
+     *
+     * @var mixed
+     */
+    private $brand;
+
+    /**
+     * Item Logistics XML
+     *
+     * @var mixed
+     */
+    private $itemLogistics;
+
+    /**
+     * Shipping Dimensions XML
+     *
+     * @var string
+     */
+    private $shipping;
+
+    /**
+     * Publish and Lifecycle Statuses.
+     *
+     * @var array
+     */
+    private $status = [
+        'publish'   => '',
+        'lifecycle' => '',
+    ];
 
     /**
      * Create a new product item for a specific SKU and UPC
@@ -64,17 +190,39 @@ class Item
     }
 
     /**
-     * Items have two statuses, whether published and whether active (aka 'lifecycle')
+     * Set the publish status.
      *
-     * @param $published
-     * @param $active
+     * @param $status
+     * @return void
+     * @throws PangaeaException
      */
-    public function setStatus($published, $active)
+    public function setPublishStatus($status)
     {
-        $published = ($published ? 'UNPUBLISHED' : 'PUBLISHED');
-        $active    = ($active ? 'RETIRED' : 'ACTIVE');
+        $status = mb_strtoupper($status);
 
-        $this->status = "<publishStatus>$published</publishStatus><lifecycleStatus>$active</lifecycleStatus>";
+        if (! in_array($status, static::PUBLISHED_STATUSES)) {
+            throw new PangaeaException(sprintf('Invalid publish status "%s"', $status));
+        }
+
+        $this->status['publish'] = '<publishStatus>' . Xml::escape($status) . '</publishStatus>';
+    }
+
+    /**
+     * Set the lifecycle status.
+     *
+     * @param $status
+     * @return void
+     * @throws PangaeaException
+     */
+    public function setLifecycleStatus($status)
+    {
+        $status = mb_strtoupper($status);
+
+        if (! in_array($status, static::LIFECYCLE_STATUSES)) {
+            throw new PangaeaException(sprintf('Invalid lifecycle status "%s"', $status));
+        }
+
+        $this->status['lifecycle'] = '<lifecycleStatus>' . Xml::escape($status) . '</lifecycleStatus>';
     }
 
     /**
@@ -418,7 +566,8 @@ XML;
         <sku>{$this->sku}</sku>
         <offerType>ONLINE_ONLY</offerType>
         {$this->dates}
-        {$this->status}
+        {$this->status['publish']}
+        {$this->status['lifecycle']}
         {$this->shipping}
         <itemLogistics>{$this->itemLogistics}</itemLogistics>
         <ItemPrice>{$this->pricing}</ItemPrice>

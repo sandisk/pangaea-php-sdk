@@ -6,10 +6,16 @@ PHP library for working with Pangaea platform
 
 Produces data feeds for Walmarts global e-commerce platform, Pangaea:
 
-- product items as XML
-- category taxonomy as JSON
+- Product items as XML
+- Category taxonomy as JSON
 
 XML files are automatically validated against the included XSD schema files.
+
+
+Requirements
+---
+
+This library requires PHP 5.6+ and the [multibyte string extension](http://php.net/manual/en/book.mbstring.php) to be installed.
 
 
 Install
@@ -20,6 +26,7 @@ Via Composer:
 ``` bash
 $ composer require fusionspim/pangaea-php-sdk
 ```
+
 
 Usage
 ---
