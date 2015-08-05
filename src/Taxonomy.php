@@ -25,7 +25,7 @@ class Taxonomy
      * @return string
      * @throws PangaeaException
      */
-    protected function build()
+    private function build()
     {
         $json = json_encode($this->items, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 

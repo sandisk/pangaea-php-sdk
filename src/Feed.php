@@ -8,7 +8,18 @@ namespace Pangaea;
  */
 class Feed
 {
+    /**
+     * Timestamp
+     *
+     * @var string
+     */
     private $timestamp;
+
+    /**
+     * Items XML
+     *
+     * @var string
+     */
     private $items;
 
     /**
