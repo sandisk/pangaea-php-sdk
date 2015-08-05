@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Schema for data exchanged between Walmart and its partners.
+  Copyright 2015 Walmart Corporation. All rights reserved.
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns="http://walmart.com/"
+  targetNamespace="http://walmart.com/"
+  elementFormDefault="qualified"
+  version="1.4">
+
+  <xsd:include schemaLocation="SupplyCommons.xsd" />
+
+  <xsd:complexType name="TradeItem">
+    <xsd:sequence>
+      <xsd:element name="id" type="alpha36" minOccurs="0"/>
+      <xsd:element name="version" type="alpha10" minOccurs="0"/>
+      <xsd:element name="description" type="LocalizedText" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="gtin" minOccurs="0">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:pattern value="([0-9])*"/>
+            <xsd:maxLength value="14"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="gtinFormat" type="alpha25" minOccurs="0"/>
+      <xsd:element ref="upc" minOccurs="0"/>
+      <xsd:element name="isMasterCarton" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="palletTi" type="xsd:unsignedInt" minOccurs="0"/>
+      <xsd:element name="palletHi" type="xsd:unsignedInt" minOccurs="0"/>
+      <xsd:element name="providerGLN" minOccurs="0">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:pattern value="([0-9])*"/>
+            <xsd:maxLength value="13"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="recipientGLN" minOccurs="0">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:pattern value="([0-9])*"/>
+            <xsd:maxLength value="13"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="targetMarket" type="alpha2" minOccurs="0"/>
+      <xsd:element name="weightFormatType" type="WeightFormatType" minOccurs="0"/>
+      <xsd:element name="tradeItemType" type="TradeItemType" minOccurs="0"/>
+      <xsd:element name="volume" type="Volume" minOccurs="0"/>
+      <xsd:element name="weight" type="Weight" minOccurs="0"/>
+      <xsd:element name="netWeight" type="Weight" minOccurs="0"/>
+      <xsd:element name="dimensions" type="Dimensions" minOccurs="0"/>
+      <xsd:element name="supplierStockId" type="alpha25" minOccurs="0"/>
+      <xsd:element name="brand" type="Brand" minOccurs="0"/>
+      <xsd:element name="pluNumber" type="xsd:unsignedInt" minOccurs="0"/>
+      <xsd:element name="hasSecurityTag" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="hasRFID" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="isGuaranteedSales" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="cube" type="Cube" minOccurs="0"/>
+      <xsd:element name="isDisplayAvailable" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="sanitaryRegistration" type="SanitaryRegistration" minOccurs="0"/>
+      <xsd:element name="msrp" type="Amount" minOccurs="0"/>
+      <xsd:element name="walmartPrePrice" type="Amount" minOccurs="0"/>
+      <xsd:element name="qualityControlType" type="QualityControlType" minOccurs="0"/>
+      <xsd:element name="palletRoundingPercent" type="xsd:decimal" minOccurs="0"/>
+      <xsd:element name="palletSizeType" type="PalletSizeType" minOccurs="0"/>
+      <xsd:element name="supplierFirstOrderableDate" type="xsd:date" minOccurs="0"/>
+      <xsd:element name="supplierFirstShippableDate" type="xsd:date" minOccurs="0"/>
+      <xsd:element name="supplierFirstAvailableDate" type="xsd:date" minOccurs="0"/>
+      <xsd:element name="supplierLastShippableDate" type="xsd:date" minOccurs="0"/>
+      <xsd:element name="brandAcquisitionType" type="BrandAcquisitionType" minOccurs="0"/>
+      <xsd:element name="supplierIncrementalOrderQuantity" type="Quantity" minOccurs="0"/>
+      <xsd:element name="supplierMinimumOrderQuantity" type="Quantity" minOccurs="0"/>
+      <xsd:element name="supplierLeadTime" type="Quantity" minOccurs="0"/>
+      <xsd:element name="isCatchWeight" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="orderSizingFactor" type="Quantity" minOccurs="0"/>
+      <xsd:element name="isDEAReported" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="fireHealthSafetyDCSlot" type="DCSlot" minOccurs="0"/>
+      <xsd:element name="storeMinimumLifeRemainingToReceive" type="Quantity" minOccurs="0"/>
+      <xsd:element name="manufacturer" type="Manufacturer" minOccurs="0"/>
+      <xsd:element name="compositeWoodCertification" type="CompositeWoodCertification" minOccurs="0"/>
+      <xsd:element name="hasRigidPlasticPackaging" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="royaltyProgram" type="RoyaltyProgram" minOccurs="0"/>
+      <xsd:element name="wercsStatus" type="SupplyItemStatus" minOccurs="0"/>
+      <xsd:element name="gpcBrickNumber" type="alpha15" minOccurs="0"/>
+      <xsd:element name="childTradeItems" type="TradeItemRelationship" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="tradeItemChildQuantity" type="Quantity" minOccurs="0"/>
+      <xsd:element name="tradeItemAttributes" type="Attribute" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="tradeItemClassifications" type="Classification" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element ref="createdByUserId" minOccurs="0"/>
+      <xsd:element ref="createTimestamp" minOccurs="0"/>
+      <xsd:element ref="lastUpdateProgramId" minOccurs="0"/>
+      <xsd:element ref="lastUpdateTimestamp" minOccurs="0"/>
+      <xsd:element ref="lastUpdateUserId" minOccurs="0"/>
+      <xsd:element name="tradeItemIngredients" type="TradeItemIngredient" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="isCARBCompliant" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="isSCAQMDCompliant" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="parentTradeItems" type="TradeItem" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="consumerItemNumber" type="xsd:unsignedInt" minOccurs="0"/>
+      <xsd:element name="isConveyable" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="crushFactor" type="CrushFactor" minOccurs="0"/>
+      <xsd:element name="isOrderable" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="isConsumable" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="batteryType" type="BatteryType" minOccurs="0"/>
+      <xsd:element name="sellTotalContentQuantity" type="Quantity" minOccurs="0"/>
+      <xsd:element name="hasMSDS" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="primaryDistributorId" type="alpha40" minOccurs="0"/>
+      <xsd:element name="lastGDSNPublishedTimestamp" type="xsd:dateTime" minOccurs="0"/>
+      <xsd:element name="itemPOType" type="alpha25" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

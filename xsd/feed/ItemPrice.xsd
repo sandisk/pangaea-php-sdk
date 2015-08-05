@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Schema for data exchanged between Walmart and its partners.
+  Copyright 2015 Walmart Corporation. All rights reserved.
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns="http://walmart.com/"
+  targetNamespace="http://walmart.com/"
+  elementFormDefault="qualified"
+  version="1.4">
+
+  <xsd:include schemaLocation="ItemCommons.xsd"/>
+
+  <xsd:element name="ItemPrice" type="ItemPrice"/>
+
+  <xsd:complexType name="ItemPrice">
+    <xsd:sequence>
+      <xsd:element name="martId" type="xsd:int" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            Mart ID
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="sku" minOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>
+            The partner's unique item identifier.
+            Walmart will include this value in all partner communications regarding item information, 
+            including order interfaces and reports
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="255"/>
+            <xsd:minLength value="1"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="storeId" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+             Represents id of the store Front
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="BaseRetail" type="DetailedPrice" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            National price for an offer. Applicable to all stores and online. Excludes VAT.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="CustomerRetail" type="DetailedPrice" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            National price for an offer. Applicable to all stores and online. Includes VAT.
+            Required for all EU tenants.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="MaxSalesRetailPrice" type="Money" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            Represents Price Information (is this really MSRP?)
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="MinAdvertisementPrice" type="Money" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            Represents Price Information  
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="allowZeroOrNullPrice" type="xsd:boolean" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            allow zero or null price
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="StoreFrontPrice" type="StoreFrontPrice" minOccurs="1" maxOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>
+            Represents collection of StoreFrontPrice 
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Rebate" type="Rebate" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            Represents unique identifier of Store Front Id 
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      </xsd:sequence>
+      <xsd:attribute name="processMode" use="optional" default="INCREMENTAL">
+        <xsd:annotation>
+          <xsd:documentation>
+            The Process Mode indicates the type of file being sent.
+            Possible values:
+            INCREMENTAL:
+              Indicates that a delta file is being sent and only those items
+              indicated in the file will be added and/or updated.
+            REPLACE:
+              Indicates that the  item catalog will be
+              replaced with the items in the feed. Any items in the Walmart catalog
+              not in the file will no longer display on the site.
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="REPLACE" />
+            <xsd:enumeration value="INCREMENTAL" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+      <xsd:attribute name="action" use="optional" default="CREATE">
+        <xsd:annotation>
+          <xsd:documentation>
+             Specifies the type of operation to be performed for the corresponding item.
+             If no value is specified, the CREATE action will be utilized.
+             Possible values:
+               CREATE:  The CREATE action should be used when sending the full item feed.
+               UPDATE:  The UPDATE action should be used when sending higher frequency updates for price and availability.
+               RETIRE:  The RETIRE action should be used to remove an item from the website
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="CREATE" />
+            <xsd:enumeration value="UPDATE" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+  </xsd:complexType>
+
+  <xsd:complexType name="StoreFrontPrice">
+    <xsd:sequence>
+      <xsd:element name="PriceInfo" type="PriceInfo" minOccurs="1" maxOccurs="10">       
+        <xsd:annotation>
+          <xsd:documentation>
+            Represents Price Information for a particular Store Front.Remove the Collection.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="PricingAttributes" type="NameValueAttributes" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            bag of additional attributes
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="PriceInfo">  
+    <xsd:sequence>
+      <xsd:element name="CurrentPrice" type="DetailedPrice" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            The listing price of the item. 
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="PurchaseOptionPrices" type="PurchaseOptionPrices" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            prices by purchase options: buy and rent
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="ComparisonPrice" type="DetailedPrice" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            Represents Comparison Price 
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="PriceDisplayCodes" type="PriceDisplayCodes" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            Represents Price Display Codes 
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="savingsPercent" type="xsd:double" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            Represents Savings Percent 
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="savingsAmount" type="xsd:double" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            Represents Savings Amount 
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="customPriceType" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+            <xsd:documentation>
+              Represents Custom Price 
+            </xsd:documentation>
+          </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="effectiveDate" type="xsd:dateTime" minOccurs="1">
+          <xsd:annotation>
+            <xsd:documentation>
+              Represents Date from which the Price will become effective 
+            </xsd:documentation>
+          </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="expirationDate" type="xsd:dateTime" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            Represents Date at which the Price expires  
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:complexType name="Rebate">
+    <xsd:sequence>
+      <xsd:element name="infoURL" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            The URL to be displayed on the item details page where rebate information can be downloaded in PDF format.  
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rebateType" minOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>
+            Rebates allow the seller to advertise either Manufacturer mail-in rebates or Seller mail-in rebates 
+            with the following options:
+              AMOUNT
+              PRODUCT   
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="AMOUNT" />
+            <xsd:enumeration value="PRODUCT" /> 
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="RebateAmount" type="Money" minOccurs="1">
+          <xsd:annotation>
+            <xsd:documentation>
+              Used to specify the rebate amount to be displayed on the product details page.   
+            </xsd:documentation>
+          </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="startDate" type="xsd:dateTime" minOccurs="1">
+          <xsd:annotation>
+            <xsd:documentation>
+              Represents Start Date of the Rebate.Default to current date
+            </xsd:documentation>
+          </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="endDate" type="xsd:dateTime" minOccurs="0">
+        <xsd:annotation>
+            <xsd:documentation>
+              The expiration date of the rebate flag.  Used to control the display of the flag and the content 
+              for the corresponding partner. 
+                  A rebate can be removed by updating the expiration date.
+                  Required if rebate is available.  
+            </xsd:documentation>
+          </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:complexType name="PurchaseOptionPrices">
+    <xsd:sequence>
+      <xsd:element name="PurchaseOptionPrice" type="PurchaseOptionPrice" minOccurs="0" maxOccurs="100"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="PurchaseOptionPrice">
+    <xsd:sequence>
+      <xsd:element name="purchaseType" minOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>
+            type of puchase
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="BUY" />
+            <xsd:enumeration value="RENT" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="rentDuration" type="TimeMeasure" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            if the option is rent, rental duration in minutes
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="playDuration" type="TimeMeasure" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            if the option is rent, play duration in minutes (for games)
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="price" type="Money" minOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>
+            cost to buy, or rent for the given duration
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+       
+  <xsd:complexType name="DetailedPrice">
+    <xsd:sequence>
+      <xsd:element name="value" type="Money" minOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="minValue" type="Money" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="maxValue" type="Money" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="unitValue" type="Money" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="unitQuantity" type="Measurement" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>      
+      <xsd:element name="priceType" type="PriceType" minOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>
+            Represents Price types defined in PriceType enumeration 
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+    
+  <xsd:complexType name="PriceDisplayCodes">
+    <xsd:sequence>
+      <xsd:element name="isRollback" type="xsd:boolean" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            Represents if the price is a rolled back price  
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="isStrikethrough" type="xsd:boolean" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            Represents if price is strike through  
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="isReducedPrice" type="xsd:boolean" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            Represents  if  it is reduced price
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="isClearance" type="xsd:boolean" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            Represents  Clearance Price  
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="isHidePriceForSOI" type="xsd:boolean" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            Represents  
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="isEligibleForAssociateDiscount" type="xsd:boolean" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            Represents
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="submapType" minOccurs="0" type="PriceSubmapType">
+        <xsd:annotation>
+          <xsd:documentation>
+            Represents the functional area where price is applied 
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+	<xsd:simpleType name="PriceSubmapType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="ITEM" />
+			<xsd:enumeration value="CART" />
+			<xsd:enumeration value="CHECKOUT" />
+		</xsd:restriction>
+	</xsd:simpleType>      
+  
+  <xsd:simpleType name="PriceType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="BASE" />
+      <xsd:enumeration value="CLEARANCE" /> 
+      <xsd:enumeration value="REDUCED" /> 
+      <xsd:enumeration value="SAVINGS_PCT" /> 
+      <xsd:enumeration value="SAVINGS_AMT" />
+      <xsd:enumeration value="LIST_PRICE" />
+      <xsd:enumeration value="S1_CONVERSION_EVENT" />
+      <xsd:enumeration value="HO_PRICE_CHANGE" />
+      <xsd:enumeration value="HO_COMP_PRICE_CHAGE" /> 
+      <xsd:enumeration value="HO_CLEAR_PRICE" />
+      <xsd:enumeration value="HO_PRICE_ADJ_CHANGE" />
+      <xsd:enumeration value="HO_SPL_PRICE_CHANGE" />
+      <xsd:enumeration value="STORE_PRICE_DIFF" />
+      <xsd:enumeration value="HO_NEW_ITEMS" />
+      <xsd:enumeration value="LOCAL_ITEM_RETAIL_CHANGE" />
+      <xsd:enumeration value="SAVE_EVEN_MORE_PRICE_CHANGE" />
+      <xsd:enumeration value="ROLLBACK" />
+      <xsd:enumeration value="UPC_MAINTENCE_PRICE_CHANGE" />
+      <xsd:enumeration value="HOME_OFFICE_IMM_ACTIVATION" />
+      <xsd:enumeration value="STORE_PRICE_DIFFERENCE" />
+      <xsd:enumeration value="INSTORE_COMP_PRICE" />
+      <xsd:enumeration value="INSTORE_CLEARANCE_PRICE" />
+      <xsd:enumeration value="HO_ADVERTISEMENTS" />
+      <xsd:enumeration value="STORE_ADVERTISEMENTS" />
+      <xsd:enumeration value="STORE_ADDITIONS_HO_ADVERTSEMENTS" />
+      <xsd:enumeration value="UNKNOWN" />      
+    </xsd:restriction>
+  </xsd:simpleType>
+  
+</xsd:schema>
