@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Schema for data exchanged between Walmart and its partners.
+  Copyright 2015 Walmart Corporation. All rights reserved.
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  xmlns="http://walmart.com/"
+  targetNamespace="http://walmart.com/"
+  elementFormDefault="qualified"
+  version="1.4">
+
+  <xsd:include schemaLocation="../mp/MPItemCommons.xsd" />
+
+  <xsd:complexType name="ProductIds">
+    <xsd:sequence>
+      <xsd:element name="ProductId" type="ProductId" minOccurs="0" maxOccurs="unbounded"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="ProductId">
+    <xsd:sequence>
+      <xsd:element name="productIdType" minOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>
+            Product identifier type
+            GTIN is GTIN-14
+            UPC is GTIN-12
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="WPID" />
+            <xsd:enumeration value="UPC" />
+            <xsd:enumeration value="GTIN" />
+            <xsd:enumeration value="ISSN" />
+            <xsd:enumeration value="ISBN" />
+            <xsd:enumeration value="EAN" />
+            <xsd:enumeration value="WUPC" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="productId" minOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>
+            Product identifier value
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="14"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="NameValueAttributes">
+    <xsd:sequence>
+      <xsd:element name="NameValueAttribute" type="NameValueAttribute" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+	  
+  <xsd:complexType name="NameValueAttribute">
+    <xsd:sequence>
+	    <xsd:element name="name" type="xsd:string" minOccurs="1">
+	      <xsd:annotation>
+	        <xsd:documentation>
+	          name
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="type" type="ValueType" minOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>
+            type
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="isVariant" type="xsd:boolean" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            is it a variant attribute
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="variantResourceType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            variant resource type
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="DEFAULT" />
+            <xsd:enumeration value="LOCATOR" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="value" type="GenericAttributeValue" minOccurs="1" maxOccurs="unbounded">
+        <xsd:annotation>
+          <xsd:documentation>
+            Set of values for the attribute
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="GenericAttributeValue">
+    <xsd:sequence>
+      <xsd:element name="value" type="xsd:string" minOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>
+            value expressed in string
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="group" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            list of values
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="source" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            value source
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rank" type="xsd:int" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            list of values
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="isVariant" type="xsd:boolean" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            list of values
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>
