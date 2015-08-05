@@ -13,6 +13,12 @@
 
   <xsd:include schemaLocation="MPProductCommons.xsd"/>
 
+  <xsd:simpleType name="UUID">
+    <xsd:restriction base="xsd:string">
+        <xsd:pattern value="[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
   <xsd:complexType name="Measurement">
     <xsd:sequence>
       <xsd:element name="value" type="xsd:double" minOccurs="1">

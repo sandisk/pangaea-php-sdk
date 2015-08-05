@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Schema for data exchanged between Walmart and its partners.
+  Copyright 2015 Walmart Corporation. All rights reserved.
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  xmlns="http://walmart.com/"
+  targetNamespace="http://walmart.com/"
+  elementFormDefault="qualified"
+  version="1.4">
+
+  <xsd:include schemaLocation="ItemCommons.xsd" />
+ 
+  <xsd:complexType name="ShipMethodOverride">
+    <xsd:sequence>
+      <xsd:element name="sku" minOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>
+            Walmart will include this value in all communications regarding item information,
+            including order interfaces and reports
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="255"/>
+            <xsd:minLength value="1"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="shipCategoryId" type="xsd:int" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="isS2SOnly" type="xsd:boolean" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="isFedExS2SDisabled" type="xsd:boolean" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="s2sRestriction" type="xsd:int" minOccurs="0" maxOccurs="unbounded">
+        <xsd:annotation>
+          <xsd:documentation>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="s2hRestriction" type="xsd:int" minOccurs="0" maxOccurs="unbounded">
+        <xsd:annotation>
+          <xsd:documentation>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="RegionShipMethod" type="RegionShipMethod" minOccurs="0" maxOccurs="unbounded">
+        <xsd:annotation>
+          <xsd:documentation>
+            ship method overrides
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="ShipMethodAttributes" type="NameValueAttributes" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>
+            bag of additional attributes 
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+    <xsd:attribute name="processMode" use="optional" default="REPLACE">
+      <xsd:annotation>
+        <xsd:documentation>
+          The Process Mode indicates the type of file being sent.
+          Possible values:
+          INCREMENTAL:
+            Indicates that a delta file is being sent and only those items
+            indicated in the file will be added and/or updated.
+          REPLACE:
+            Indicates that the  item catalog will be
+            replaced with the items in the feed. Any items in the Walmart catalog
+            not in the file will no longer display on the site.
+        </xsd:documentation>
+      </xsd:annotation>
+      <xsd:simpleType>
+        <xsd:restriction base="xsd:string">
+         <xsd:enumeration value="REPLACE" />
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:attribute>
+  </xsd:complexType>  
+
+  <xsd:complexType name="RegionShipMethod">
+    <xsd:sequence>
+      <xsd:element name="isDisallowed" type="xsd:boolean" default="false" minOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>
+            disallow
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="region" minOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>
+            Represents Ship Region Codes
+          </xsd:documentation>
+        </xsd:annotation>
+	      <xsd:simpleType>
+		      <xsd:restriction base="xsd:string">
+			      <xsd:enumeration value="1001" />
+			      <xsd:enumeration value="1002" />
+			      <xsd:enumeration value="1003" />
+			      <xsd:enumeration value="1004" />
+			      <xsd:enumeration value="1005" />
+			      <xsd:enumeration value="1006" />
+			      <xsd:enumeration value="1007" />
+		      </xsd:restriction>
+	      </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="shipMethod" type="ShipMethod" minOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>
+            Specifies the ship method for the corresponding region to be overridden. 
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+    
+    
+</xsd:schema>
