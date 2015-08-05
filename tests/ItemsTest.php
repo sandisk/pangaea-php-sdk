@@ -75,7 +75,8 @@ class ItemsTest extends AbstractTest
     }
 
     /**
-     * @expectedException \Pangaea\PangaeaException
+     * @expectedException              \Pangaea\PangaeaException
+     * @expectedExceptionMessageRegExp /Invalid publish status ".*"/
      */
     public function testInvalidPublishStatusException()
     {
@@ -83,7 +84,8 @@ class ItemsTest extends AbstractTest
     }
 
     /**
-     * @expectedException \Pangaea\PangaeaException
+     * @expectedException              \Pangaea\PangaeaException
+     * @expectedExceptionMessageRegExp /Invalid lifecycle status ".*"/
      */
     public function testInvalidLifecycleStatusException()
     {
