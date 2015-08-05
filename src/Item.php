@@ -4,7 +4,7 @@ namespace Pangaea;
 class Item
 {
     /**
-     * Specification Default End Date (as specified by Walmart).
+     * Default End Date (as specified by Walmart).
      *
      * @const
      */
@@ -49,16 +49,84 @@ class Item
     ];
 
     /**
-     * Internals.
+     * SKU
      *
      * @var mixed
      */
-    private $sku, $upc, $title, $shortDescription, $longDescription, $taxCode, $assets, $attributes, $brand, $itemLogistics;
-
-    private $shipping = '';
+    private $sku;
 
     /**
-     * Offer statuses.
+     * UPC
+     *
+     * @var mixed
+     */
+    private $upc;
+
+    /**
+     * Title
+     *
+     * @var mixed
+     */
+    private $title;
+
+    /**
+     * Short Description
+     *
+     * @var mixed
+     */
+    private $shortDescription;
+
+    /**
+     * Long Description
+     *
+     * @var mixed
+     */
+    private $longDescription;
+
+    /**
+     * Tax Code
+     *
+     * @var mixed
+     */
+    private $taxCode;
+
+    /**
+     * Assets
+     *
+     * @var mixed
+     */
+    private $assets;
+
+    /**
+     * Attributes
+     *
+     * @var array
+     */
+    private $attributes = [];
+
+    /**
+     * Brand
+     *
+     * @var mixed
+     */
+    private $brand;
+
+    /**
+     * Item Logistics XML
+     *
+     * @var mixed
+     */
+    private $itemLogistics;
+
+    /**
+     * Shipping Dimensions XML
+     *
+     * @var string
+     */
+    private $shipping;
+
+    /**
+     * Publish and Lifecycle Statuses.
      *
      * @var array
      */
