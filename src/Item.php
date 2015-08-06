@@ -450,8 +450,8 @@ XML;
 <marketAttributes></marketAttributes>
 <preorderInfo>
     <isPreOrder>false</isPreOrder>
-    <streetDate>2015-03-30</streetDate>
-    <streetDateType>str1234</streetDateType>
+    <streetDate>2015-03-30T00:00:00</streetDate>
+    <streetDateType>DELIVER_BY</streetDateType>
 </preorderInfo>
 <programEligibilities></programEligibilities>
 <packages></packages>
@@ -492,7 +492,7 @@ XML;
 <!-- END: Dummy LIMO Values -->
 <!-- START: Required Dummy Values -->
 <fulfillmentOptions></fulfillmentOptions>
-<shipAsIs>str1234</shipAsIs>
+<shipAsIs>true</shipAsIs>
 <signatureOnDelivery>NEVER</signatureOnDelivery>
 <isConveyable>false</isConveyable>
 <bundleFulfillmentMode>SHIP_ALONE</bundleFulfillmentMode>
@@ -522,7 +522,7 @@ XML;
             <mid>123</mid>
             <high>123</high>
         </availabilityThreshold>
-        <inventoryOwnerId>str1234</inventoryOwnerId>
+        <inventoryOwnerId>EEB3A0D4-309A-4DAA-9296-77BE4AEFB2CE</inventoryOwnerId>
         <programEligibilities></programEligibilities>
         <!-- END: Required Dummy Values -->
         <shipNodeSupplies>
