@@ -10,6 +10,8 @@ class ItemsTest extends AbstractTest
 {
     protected $feed;
 
+    protected $item;
+
     public function setUp()
     {
         $feed = new Feed('2015-01-01 12:34:56');
