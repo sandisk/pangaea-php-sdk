@@ -102,8 +102,7 @@ class ItemsTest extends AbstractTest
     {
         $this->item->setTitle('product number 123 &amp;bull;');
         $this->feed->addItem($this->item);
-
-        $this->assertTrue($this->feed->save(__DIR__ . '/output/items.xml'));
+        $this->feed->save(__DIR__ . '/output/items.xml');
     }
 
     public function testSaveItemsXml()
