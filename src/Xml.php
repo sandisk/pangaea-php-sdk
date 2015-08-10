@@ -2,6 +2,7 @@
 namespace Pangaea;
 
 use \DOMDocument;
+use \Pangaea\PangaeaException;
 
 class Xml
 {
@@ -42,6 +43,10 @@ class Xml
 
         libxml_use_internal_errors(true);
 
+        set_error_handler(function ($severity, $message, $file, $line) {
+            throw new PangaeaException($message, $severity, $severity, $file, $line);
+        });
+
         // possibly more efficient to pass a $dom object rather than save/reload, but cleaner to assume already saved
         $dom                     = new DOMDocument('1.0', 'UTF-8');
         $dom->preserveWhiteSpace = false;
@@ -49,6 +54,8 @@ class Xml
         $dom->load($filePath);
         $dom->normalizeDocument();
         $dom->save($filePath);
+
+        restore_error_handler();
 
         if (! $dom->schemaValidate(realpath($schemaPath))) {
             throw new PangaeaException(static::errorSummary());

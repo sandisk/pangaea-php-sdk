@@ -94,6 +94,18 @@ class ItemsTest extends AbstractTest
         $this->item->setLifecycleStatus('FOOBAR');
     }
 
+    /**
+     * @expectedException               \Pangaea\PangaeaException
+     * @expectedExceptionMessageRegExp  /Entity 'bull' not defined/
+     */
+    public function testProductsInvalidEntitiesException()
+    {
+        $this->item->setTitle('product number 123 &amp;bull;');
+        $this->feed->addItem($this->item);
+
+        $this->assertTrue($this->feed->save(__DIR__ . '/output/items.xml'));
+    }
+
     public function testSaveItemsXml()
     {
         $this->assertTrue($this->feed->save(__DIR__ . '/output/items.xml'));
