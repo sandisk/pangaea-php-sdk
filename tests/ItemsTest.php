@@ -42,7 +42,7 @@ class ItemsTest extends PHPUnit_Framework_TestCase
             'export_include'    => ''
         ]);
 
-        $item->addVariantMetaData('colours', [
+        $item->addVariantMetaData([
             new VariantMetaDataAttribute('colour', 'red',    'LOCATOR'),
             new VariantMetaDataAttribute('colour', 'orange', 'LOCATOR'),
             new VariantMetaDataAttribute('colour', 'yellow', 'LOCATOR'),
@@ -52,7 +52,7 @@ class ItemsTest extends PHPUnit_Framework_TestCase
             new VariantMetaDataAttribute('colour', 'violet', 'LOCATOR'),
         ]);
 
-        $item->addVariantMetaData('sizes', [
+        $item->addVariantMetaData([
             new VariantMetaDataAttribute('size', 'XS',  'DEFAULT'),
             new VariantMetaDataAttribute('size', 'S',   'DEFAULT'),
             new VariantMetaDataAttribute('size', 'M',   'DEFAULT'),
@@ -123,8 +123,21 @@ class ItemsTest extends PHPUnit_Framework_TestCase
     public function testProductsInvalidEntitiesException()
     {
         $this->item->setTitle('product number 123 &amp;bull;');
+
         $this->feed->addItem($this->item);
         $this->feed->save(__DIR__ . '/output/items.xml');
+    }
+
+    /**
+     * @expectedException         \Pangaea\PangaeaException
+     * @expectedExceptionMessage  Variant Meta Data must be an instance of VariantMetaDataAttribute
+     */
+    public function testProductsVariantMetaDataInvalidObjectException()
+    {
+        $invalidObject      = new \stdClass();
+        $invalidObject->foo = 'bar';
+
+        $this->item->addVariantMetaData($invalidObject);
     }
 
     public function testSaveItemsXml()

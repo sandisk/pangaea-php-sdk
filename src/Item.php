@@ -322,11 +322,14 @@ XML;
      * @todo: this should allow empty string values (valid for some attributes) but skip element if value is null...
      *
      * @param $group
-     * @param array $attributes multi-dimensional, with names specified as keys then either a single value or an array of values
+     * @param mixed $attributes             A multi-dimensional array with names as keys then either a single value or an array of values.
+     *                                      A NameValueAttribute object.
      * @throw \Pangaea\PangaeaException
      */
-    public function addAttributes($group, array $attributes)
+    public function addAttributes($group, $attributes)
     {
+        $attributes = (array) $attributes;
+
         if (! in_array($group, static::VALID_ATTRIBUTE_GROUPS)) {
             throw new PangaeaException('Invalid attribute group');
         }
@@ -339,7 +342,7 @@ XML;
 
         foreach ($attributes as $id => $values) {
             // Convert a value into a basic attribute.
-            if (! is_object($values)) {
+            if (! is_numeric($id) && ! is_object($values)) {
                 $values = new NameValueAttribute($id, $values);
             }
 
@@ -358,17 +361,19 @@ XML;
      * @param $autoRank
      * @throw \Pangaea\PangaeaException
      */
-    public function addVariantMetaData($group, $attributes, $autoRank = true)
+    public function addVariantMetaData($attributes, $autoRank = true)
     {
         $attributes = (array) $attributes;
-
-        if (! isset($this->variantMetaDataAttributes[$group])) {
-            $this->variantMetaDataAttributes[$group] = [];
-        }
 
         foreach ($attributes as $attribute) {
             if (! $attribute instanceof VariantMetaDataAttribute) {
                 throw new PangaeaException('Variant Meta Data must be an instance of VariantMetaDataAttribute');
+            }
+
+            $group = $attribute->getName();
+
+            if (! isset($this->variantMetaDataAttributes[$group])) {
+                $this->variantMetaDataAttributes[$group] = [];
             }
 
             if ($autoRank) {
