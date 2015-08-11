@@ -4,7 +4,7 @@ namespace Pangaea\Attribute;
 interface AttributeInterface
 {
     /**
-     * Create a basic NameValueAttribute.
+     * Create an attribute.
      *
      * @param $name
      * @param mixed $values
