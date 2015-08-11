@@ -1,10 +1,9 @@
 <?php
 namespace Pangaea\Test;
 
-use \PHPUnit_Framework_TestCase;
 use \DOMDocument;
 
-abstract class AbstractTest extends PHPUnit_Framework_TestCase
+trait FixtureLoadTrait
 {
     protected function loadXmlFixture($filename)
     {

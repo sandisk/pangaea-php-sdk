@@ -1,13 +1,15 @@
 <?php
 namespace Pangaea\Test;
 
-use \Pangaea\Test\AbstractTest;
+use \PHPUnit_Framework_TestCase;
 use \Pangaea\Category;
 use \Pangaea\PangaeaException;
 use \Pangaea\Taxonomy;
 
-class CategoriesTest extends AbstractTest
+class CategoriesTest extends PHPUnit_Framework_TestCase
 {
+    use \Pangaea\Test\FixtureLoadTrait;
+
     protected $taxonomy;
 
     public function setUp()

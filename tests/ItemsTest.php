@@ -1,13 +1,15 @@
 <?php
 namespace Pangaea\Test;
 
-use \Pangaea\Test\AbstractTest;
+use \PHPUnit_Framework_TestCase;
 use \Pangaea\Feed;
 use \Pangaea\Item;
 use \Pangaea\PangaeaException;
 
-class ItemsTest extends AbstractTest
+class ItemsTest extends PHPUnit_Framework_TestCase
 {
+    use \Pangaea\Test\FixtureLoadTrait;
+
     protected $feed;
 
     protected $item;
