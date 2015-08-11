@@ -53,6 +53,16 @@ class Item
     ];
 
     /**
+     * Valid Product Setup Types.
+     */
+    const PRODUCT_SETUP_TYPES = [
+        'STANDALONE',
+        'PRIMARY',
+        'VARIANT',
+        'BUNDLE',
+    ];
+
+    /**
      * SKU
      *
      * @var mixed
@@ -107,6 +117,20 @@ class Item
      * @var array
      */
     private $attributes = [];
+
+    /*
+     * Product Setup Type
+     *
+     * @var string
+     */
+    private $productSetupType;
+
+    /*
+     * Variant Group ID
+     *
+     * @var string
+     */
+    private $variantGroupId;
 
     /**
      * Variant Meta Data attributes.
@@ -355,6 +379,32 @@ XML;
     }
 
     /**
+     * Set the product setup type.
+     *
+     * @param $type
+     */
+    public function setProductSetupType($type)
+    {
+        $type = mb_strtoupper($type);
+
+        if (! in_array($type, static::PRODUCT_SETUP_TYPES)) {
+            throw new PangaeaException(sprintf('Invalid product setup type "%s"', $type));
+        }
+
+        $this->productSetupType = $type;
+    }
+
+    /**
+     * Set the variant group ID.
+     *
+     * @param $groupId
+     */
+    public function setVariantGroupId($groupId)
+    {
+        $this->variantGroupId = $groupId;
+    }
+
+    /**
      * Add variant meta data attributes to the item.
      *
      * @param $attributes
@@ -591,7 +641,8 @@ XML;
             </ProductId>
         </ProductIds>
         {$this->brand}
-        <productSetupType>STANDALONE</productSetupType>
+        <productSetupType>{$this->productSetupType}</productSetupType>
+        <variantGroupID>{$this->variantGroupId}</variantGroupID>
         <VariantMetaData>{$variantMetaDataXml}</VariantMetaData>
         <ProductAttributes>{$this->attributes['Product']}</ProductAttributes>
         <ComplianceAttributes>{$this->attributes['Compliance']}</ComplianceAttributes>
