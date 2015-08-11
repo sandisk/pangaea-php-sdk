@@ -29,7 +29,7 @@ class NameValueAttribute implements AttributeInterface
     public function __construct($name, $value = null)
     {
         $this->setName($name);
-        $this->setValue($values);
+        $this->setValue($value);
     }
 
     /**
@@ -57,9 +57,9 @@ class NameValueAttribute implements AttributeInterface
      *
      * @param $value
      */
-    public function setValue($values)
+    public function setValue($value)
     {
-        $values = (array) $values;
+        $values = (array) $value;
 
         if (count($values) === 0) {
             return;
