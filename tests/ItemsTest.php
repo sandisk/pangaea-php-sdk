@@ -42,23 +42,23 @@ class ItemsTest extends PHPUnit_Framework_TestCase
             'export_include'    => ''
         ]);
 
-        $item->addAttributes('VariantMetaData', [
-            new VariantMetaDataAttribute('colour', 'red',    'LOCATOR', 0),
-            new VariantMetaDataAttribute('colour', 'orange', 'LOCATOR', 1),
-            new VariantMetaDataAttribute('colour', 'yellow', 'LOCATOR', 2),
-            new VariantMetaDataAttribute('colour', 'green',  'LOCATOR', 3),
-            new VariantMetaDataAttribute('colour', 'blue',   'LOCATOR', 4),
-            new VariantMetaDataAttribute('colour', 'indigo', 'LOCATOR', 5),
-            new VariantMetaDataAttribute('colour', 'violet', 'LOCATOR', 6),
+        $item->addVariantMetaData('colours', [
+            new VariantMetaDataAttribute('colour', 'red',    'LOCATOR'),
+            new VariantMetaDataAttribute('colour', 'orange', 'LOCATOR'),
+            new VariantMetaDataAttribute('colour', 'yellow', 'LOCATOR'),
+            new VariantMetaDataAttribute('colour', 'green',  'LOCATOR'),
+            new VariantMetaDataAttribute('colour', 'blue',   'LOCATOR'),
+            new VariantMetaDataAttribute('colour', 'indigo', 'LOCATOR'),
+            new VariantMetaDataAttribute('colour', 'violet', 'LOCATOR'),
         ]);
 
-        $item->addAttributes('VariantMetaData', [
-            new VariantMetaDataAttribute('size', 'XS',  'DEFAULT', 0),
-            new VariantMetaDataAttribute('size', 'S',   'DEFAULT', 1),
-            new VariantMetaDataAttribute('size', 'M',   'DEFAULT', 2),
-            new VariantMetaDataAttribute('size', 'L',   'DEFAULT', 3),
-            new VariantMetaDataAttribute('size', 'XL',  'DEFAULT', 4),
-            new VariantMetaDataAttribute('size', 'XXL', 'DEFAULT', 5),
+        $item->addVariantMetaData('sizes', [
+            new VariantMetaDataAttribute('size', 'XS',  'DEFAULT'),
+            new VariantMetaDataAttribute('size', 'S',   'DEFAULT'),
+            new VariantMetaDataAttribute('size', 'M',   'DEFAULT'),
+            new VariantMetaDataAttribute('size', 'L',   'DEFAULT'),
+            new VariantMetaDataAttribute('size', 'XL',  'DEFAULT'),
+            new VariantMetaDataAttribute('size', 'XXL', 'DEFAULT'),
         ]);
 
         $item->addAttributes('Compliance', [

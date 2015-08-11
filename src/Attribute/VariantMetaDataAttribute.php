@@ -43,7 +43,7 @@ class VariantMetaDataAttribute implements AttributeInterface
      * @param $resourceType
      * @param $rank
      */
-    public function __construct($name, $value, $resourceType = null, $rank = null)
+    public function __construct($name, $value = null, $resourceType = null, $rank = null)
     {
         $this->setName($name);
         $this->setValue($value);
@@ -65,6 +65,16 @@ class VariantMetaDataAttribute implements AttributeInterface
     public function setName($name)
     {
         $this->elements['name'] = Xml::escape($name);
+    }
+
+    /**
+     * Get the name.
+     *
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->elements['name'];
     }
 
     /**
@@ -112,6 +122,26 @@ class VariantMetaDataAttribute implements AttributeInterface
 
         $this->elements['value']['value'] = Xml::escape($value);
         $this->elements['type']           = $type;
+    }
+
+    /**
+     * Get the value.
+     *
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->elements['value']['value'];
+    }
+
+    /**
+     * Get the type.
+     *
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->elements['type'];
     }
 
     /**

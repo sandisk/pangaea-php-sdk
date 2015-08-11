@@ -3,6 +3,7 @@ namespace Pangaea;
 
 use \Pangaea\Attribute\AttributeInterface;
 use \Pangaea\Attribute\NameValueAttribute;
+use \Pangaea\Attribute\VariantMetaDataAttribute;
 
 class Item
 {
@@ -24,7 +25,6 @@ class Item
         'MarketInProduct',
         'MarketInOffer',
         'Offer',
-        'VariantMetaData',
     ];
 
     /**
@@ -107,6 +107,13 @@ class Item
      * @var array
      */
     private $attributes = [];
+
+    /**
+     * Variant Meta Data attributes.
+     *
+     * @var array
+     */
+    private $variantMetaDataAttributes = [];
 
     /**
      * Brand
@@ -345,6 +352,55 @@ XML;
     }
 
     /**
+     * Add variant meta data attributes to the item.
+     *
+     * @param $attributes
+     * @param $autoRank
+     * @throw \Pangaea\PangaeaException
+     */
+    public function addVariantMetaData($group, $attributes, $autoRank = true)
+    {
+        $attributes = (array) $attributes;
+
+        if (! isset($this->variantMetaDataAttributes[$group])) {
+            $this->variantMetaDataAttributes[$group] = [];
+        }
+
+        foreach ($attributes as $attribute) {
+            if (! $attribute instanceof VariantMetaDataAttribute) {
+                throw new PangaeaException('Variant Meta Data must be an instance of VariantMetaDataAttribute');
+            }
+
+            if ($autoRank) {
+                $rank = count($this->variantMetaDataAttributes[$group]);
+                $rank = ($rank === 0 ? $rank++ : $rank);
+
+                $attribute->setRank($rank);
+            }
+
+            $this->variantMetaDataAttributes[$group][] = $attribute;
+        }
+    }
+
+    /**
+     * Render the variant meta data.
+     *
+     * @return string
+     */
+    private function renderVariantMetaData()
+    {
+        $variantMetaDataXml = '';
+
+        foreach ($this->variantMetaDataAttributes as $group => $attributes) {
+            foreach ($attributes as $attribute) {
+                $variantMetaDataXml .= $attribute->render();
+            }
+        }
+
+        return $variantMetaDataXml;
+    }
+
+    /**
      * Only urls need passing, the type is automatically set to PRIMARY for the first url, SECONDARY for others
      * If all urls share the same prefix, can pass that in as an optional parameter (so only need to pass unique ids)
      *
@@ -513,6 +569,8 @@ XML;
 
     public function render()
     {
+        $variantMetaDataXml = $this->renderVariantMetaData();
+
         return <<<XML
 <UncategorizedItem processMode="INCREMENTAL" action="CREATE">
     <Product>
@@ -529,7 +587,7 @@ XML;
         </ProductIds>
         {$this->brand}
         <productSetupType>STANDALONE</productSetupType>
-        <VariantMetaData>{$this->attributes['VariantMetaData']}</VariantMetaData>
+        <VariantMetaData>{$variantMetaDataXml}</VariantMetaData>
         <ProductAttributes>{$this->attributes['Product']}</ProductAttributes>
         <ComplianceAttributes>{$this->attributes['Compliance']}</ComplianceAttributes>
         <MarketAttributes>{$this->attributes['MarketInProduct']}</MarketAttributes>

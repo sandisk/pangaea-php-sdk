@@ -9,14 +9,21 @@ interface AttributeInterface
      * @param $name
      * @param mixed $values
      */
-    public function __construct($name, $values);
+    public function __construct($name, $value = null);
 
     /**
-     * Set the name
+     * Set the name.
      *
      * @param $name
      */
     public function setName($name);
+
+    /**
+     * Get the name.
+     *
+     * @return mixed
+     */
+    public function getName();
 
     /**
      * Set the attribute value (and infer the type automatically).
@@ -24,6 +31,20 @@ interface AttributeInterface
      * @param $value
      */
     public function setValue($value);
+
+    /**
+     * Get the value.
+     *
+     * @return mixed
+     */
+    public function getValue();
+
+    /**
+     * Get the type.
+     *
+     * @return mixed
+     */
+    public function getType();
 
     /**
      * Return whether or not the attribute is empty (has no values).

@@ -26,7 +26,7 @@ class NameValueAttribute implements AttributeInterface
      * @param $name
      * @param mixed $values
      */
-    public function __construct($name, $values)
+    public function __construct($name, $value = null)
     {
         $this->setName($name);
         $this->setValue($values);
@@ -40,6 +40,16 @@ class NameValueAttribute implements AttributeInterface
     public function setName($name)
     {
         $this->elements['name'] = Xml::escape($name);
+    }
+
+    /**
+     * Get the name.
+     *
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->elements['name'];
     }
 
     /**
@@ -65,6 +75,26 @@ class NameValueAttribute implements AttributeInterface
 
             $this->elements['value']['value'][] = $value;
         }
+    }
+
+    /**
+     * Get the value.
+     *
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->elements['value']['value'];
+    }
+
+    /**
+     * Get the type.
+     *
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->elements['type'];
     }
 
     /**
