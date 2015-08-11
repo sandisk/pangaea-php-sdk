@@ -1,7 +1,7 @@
 <?php
 namespace Pangaea;
 
-use \Pangaea\RenderableInterface;
+use \Pangaea\Attribute\AttributeInterface;
 use \Pangaea\Attribute\NameValueAttribute;
 
 class Item
@@ -331,15 +331,15 @@ XML;
         // @todo: key sort? doc block if do, but wait until settled and verified no differences...
 
         foreach ($attributes as $id => $values) {
-            // Convert an array into a basic attribute.
+            // Convert a value into a basic attribute.
             if (! is_object($values)) {
                 $values = new NameValueAttribute($id, $values);
             }
 
-            if ($values instanceof RenderableInterface) {
+            if ($values instanceof AttributeInterface) {
                 $this->attributes[$group] .= $values->render();
             } else {
-                throw new PangaeaException('Cannot add an attribute object that is not renderable');
+                throw new PangaeaException(sprintf('Class "%s" must implement AttributeInterface', get_class($values)));
             }
         }
     }

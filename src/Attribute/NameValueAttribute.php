@@ -3,9 +3,9 @@ namespace Pangaea\Attribute;
 
 use \Pangaea\Date;
 use \Pangaea\Xml;
-use \Pangaea\RenderableInterface;
+use \Pangaea\Attribute\AttributeInterface;
 
-class NameValueAttribute implements RenderableInterface
+class NameValueAttribute implements AttributeInterface
 {
     /**
      * The attribute's XML element structure.
@@ -68,7 +68,7 @@ class NameValueAttribute implements RenderableInterface
     }
 
     /**
-     * Return whether or not the node is empty (has no values).
+     * Return whether or not the attribute is empty (has no values).
      *
      * @return bool
      */

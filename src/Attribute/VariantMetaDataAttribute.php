@@ -4,9 +4,9 @@ namespace Pangaea\Attribute;
 use \Pangaea\PangaeaException;
 use \Pangaea\Date;
 use \Pangaea\Xml;
-use \Pangaea\RenderableInterface;
+use \Pangaea\Attribute\AttributeInterface;
 
-class VariantMetaDataAttribute implements RenderableInterface
+class VariantMetaDataAttribute implements AttributeInterface
 {
     /**
      * Valid Attribute Groups.
@@ -125,7 +125,7 @@ class VariantMetaDataAttribute implements RenderableInterface
     }
 
     /**
-     * Return whether or not the node is empty (has no values).
+     * Return whether or not the attribute is empty (has no values).
      *
      * @return bool
      */
