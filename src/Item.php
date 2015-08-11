@@ -2,6 +2,7 @@
 namespace Pangaea;
 
 use \Pangaea\RenderableInterface;
+use \Pangaea\Attribute\NameValueAttribute;
 
 class Item
 {
@@ -315,6 +316,7 @@ XML;
      *
      * @param $group
      * @param array $attributes multi-dimensional, with names specified as keys then either a single value or an array of values
+     * @throw \Pangaea\PangaeaException
      */
     public function addAttributes($group, array $attributes)
     {
@@ -329,37 +331,17 @@ XML;
         // @todo: key sort? doc block if do, but wait until settled and verified no differences...
 
         foreach ($attributes as $id => $values) {
+            // Convert an array into a basic attribute.
+            if (! is_object($values)) {
+                $values = new NameValueAttribute($id, $values);
+            }
+
             if ($values instanceof RenderableInterface) {
                 $this->attributes[$group] .= $values->render();
             } else {
-                $this->attributes[$group] .= $this->renderAttribute($id, $values);
+                throw new PangaeaException('Cannot add an attribute object that is not renderable');
             }
         }
-    }
-
-    private function renderAttribute($name, $values)
-    {
-        // cast any single value parameter to an array for ease of iteration
-        $values = (array) $values;
-
-        if (count($values) == 0 || is_null($values[0])) {
-            return '';
-        }
-
-        $name    = Xml::escape($name);
-        $type    = Xml::attributeType($values[0]);
-        $wrapped = '';
-
-        // double <value> wrapping is as per the spec
-        foreach ($values as $value) {
-            if ('DATE' === $type && ! Date::isEmpty($value)) {
-                $value = Date::format($value);
-            }
-
-            $wrapped .= '<value><value>'. Xml::escape($value) . '</value></value>';
-        }
-
-        return "<NameValueAttribute><name>$name</name><type>$type</type>$wrapped</NameValueAttribute>";
     }
 
     /**
@@ -376,14 +358,15 @@ XML;
         foreach ($urls as $index => $asset) {
             $asset     = Xml::escape($urlPrefix . $asset);
             $type      = ($index > 0 ? 'SECONDARY' : 'PRIMARY');
-            $attribute = $this->renderAttribute('provider_name', 'asda.scene7.com');
+
+            $attribute = new NameValueAttribute('provider_name', 'asda.scene7.com');
 
             $this->assets .= <<<XML
 <Asset>
     <assetURL>{$asset}</assetURL>
     <usageType>{$type}</usageType>
     <rank>1</rank>
-    <AssetAttributes>{$attribute}</AssetAttributes>
+    <AssetAttributes>{$attribute->render()}</AssetAttributes>
 </Asset>
 XML;
         }

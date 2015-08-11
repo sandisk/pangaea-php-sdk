@@ -125,12 +125,26 @@ class VariantMetaDataAttribute implements RenderableInterface
     }
 
     /**
+     * Return whether or not the node is empty (has no values).
+     *
+     * @return bool
+     */
+    public function isEmpty()
+    {
+        return is_null($this->elements['value']['value']);
+    }
+
+    /**
      * Render the attribute.
      *
      * @return string
      */
     public function render()
     {
+        if ($this->isEmpty()) {
+            return '';
+        }
+
         return <<< XML
 <NameValueAttribute>
     <name>{$this->elements['name']}</name>
