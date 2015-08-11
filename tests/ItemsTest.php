@@ -5,6 +5,7 @@ use \PHPUnit_Framework_TestCase;
 use \Pangaea\Feed;
 use \Pangaea\Item;
 use \Pangaea\PangaeaException;
+use \Pangaea\Attribute\VariantMetaDataAttribute;
 
 class ItemsTest extends PHPUnit_Framework_TestCase
 {
@@ -39,6 +40,25 @@ class ItemsTest extends PHPUnit_Framework_TestCase
             'profit_margin'     => 12.34,
             'export_excluded'   => null,
             'export_include'    => ''
+        ]);
+
+        $item->addAttributes('VariantMetaData', [
+            new VariantMetaDataAttribute('colour', 'red',    'LOCATOR', 0),
+            new VariantMetaDataAttribute('colour', 'orange', 'LOCATOR', 1),
+            new VariantMetaDataAttribute('colour', 'yellow', 'LOCATOR', 2),
+            new VariantMetaDataAttribute('colour', 'green',  'LOCATOR', 3),
+            new VariantMetaDataAttribute('colour', 'blue',   'LOCATOR', 4),
+            new VariantMetaDataAttribute('colour', 'indigo', 'LOCATOR', 5),
+            new VariantMetaDataAttribute('colour', 'violet', 'LOCATOR', 6),
+        ]);
+
+        $item->addAttributes('VariantMetaData', [
+            new VariantMetaDataAttribute('size', 'XS',  'DEFAULT', 0),
+            new VariantMetaDataAttribute('size', 'S',   'DEFAULT', 1),
+            new VariantMetaDataAttribute('size', 'M',   'DEFAULT', 2),
+            new VariantMetaDataAttribute('size', 'L',   'DEFAULT', 3),
+            new VariantMetaDataAttribute('size', 'XL',  'DEFAULT', 4),
+            new VariantMetaDataAttribute('size', 'XXL', 'DEFAULT', 5),
         ]);
 
         $item->addAttributes('Compliance', [

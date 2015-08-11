@@ -14,6 +14,7 @@
     <testsuites>
         <testsuite name="Fusions Test Suite">
             <directory>./tests</directory>
+            <directory>./tests/*</directory>
         </testsuite>
     </testsuites>
 

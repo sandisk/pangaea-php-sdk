@@ -1,6 +1,8 @@
 <?php
 namespace Pangaea;
 
+use \Pangaea\RenderableInterface;
+
 class Item
 {
     /**
@@ -20,7 +22,8 @@ class Item
         'Compliance',
         'MarketInProduct',
         'MarketInOffer',
-        'Offer'
+        'Offer',
+        'VariantMetaData',
     ];
 
     /**
@@ -326,7 +329,11 @@ XML;
         // @todo: key sort? doc block if do, but wait until settled and verified no differences...
 
         foreach ($attributes as $id => $values) {
-            $this->attributes[$group] .= $this->renderAttribute($id, $values);
+            if ($values instanceof RenderableInterface) {
+                $this->attributes[$group] .= $values->render();
+            } else {
+                $this->attributes[$group] .= $this->renderAttribute($id, $values);
+            }
         }
     }
 
@@ -340,7 +347,7 @@ XML;
         }
 
         $name    = Xml::escape($name);
-        $type    = $this->determineAttributeType($values[0]);
+        $type    = Xml::attributeType($values[0]);
         $wrapped = '';
 
         // double <value> wrapping is as per the spec
@@ -353,21 +360,6 @@ XML;
         }
 
         return "<NameValueAttribute><name>$name</name><type>$type</type>$wrapped</NameValueAttribute>";
-    }
-
-    private function determineAttributeType($value)
-    {
-        if (is_bool($value)) {
-            return 'BOOLEAN';
-        } elseif (is_float($value)) {
-            return 'DECIMAL';
-        } elseif (is_int($value)) {
-            return 'INTEGER';
-        } elseif (preg_match('/\d{4}-\d{2}-\d{2}/', substr($value, 0, 10))) {
-            return 'DATE'; // @todo: better to insist on passing DateTime objects?
-        } else {
-            return 'STRING';
-        }
     }
 
     /**
@@ -554,6 +546,7 @@ XML;
         </ProductIds>
         {$this->brand}
         <productSetupType>STANDALONE</productSetupType>
+        <VariantMetaData>{$this->attributes['VariantMetaData']}</VariantMetaData>
         <ProductAttributes>{$this->attributes['Product']}</ProductAttributes>
         <ComplianceAttributes>{$this->attributes['Compliance']}</ComplianceAttributes>
         <MarketAttributes>{$this->attributes['MarketInProduct']}</MarketAttributes>

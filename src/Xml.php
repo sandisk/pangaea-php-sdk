@@ -3,6 +3,7 @@ namespace Pangaea;
 
 use \DOMDocument;
 use \Pangaea\PangaeaException;
+use \Pangaea\Xml;
 
 class Xml
 {
@@ -20,6 +21,27 @@ class Xml
             $value = html_entity_decode($value); // not sure why, other than back compat
 
             return htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML5, 'UTF-8', false);
+        }
+    }
+
+    /**
+     * Determine the type of a value.
+     *
+     * @param $value
+     * @return string
+     */
+    public static function attributeType($value)
+    {
+        if (is_bool($value)) {
+            return 'BOOLEAN';
+        } elseif (is_float($value)) {
+            return 'DECIMAL';
+        } elseif (is_int($value)) {
+            return 'INTEGER';
+        } elseif (preg_match('/\d{4}-\d{2}-\d{2}/', substr($value, 0, 10))) {
+            return 'DATE'; // @todo: better to insist on passing DateTime objects?
+        } else {
+            return 'STRING';
         }
     }
 
