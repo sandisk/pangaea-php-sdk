@@ -54,7 +54,7 @@ class ItemsTest extends AbstractTest
 
         $item->setAssets(['1.png', '2.png', '3.png'], 'http://example.com/image');
 
-        $item->setItemLogistics(12345, 12345678, 123456);
+        $item->setItemLogistics(12345, 12345678, 123456, 123.99);
 
         $feed->addItem($item);
 
