@@ -420,24 +420,13 @@ XML;
             'vendorStockId'       => 'supplier_stock_number',
         ];
 
-        $itemLogisticsElements   = [];
         $itemLogisticsAttributes = [];
 
         foreach ($itemLogisticsParams as $key => $value) {
-            $hasValue = mb_strlen($value) > 0;
-
-            $itemLogisticsElements[$key] = '';
-
-            if ($hasValue) {
-                $itemLogisticsElements[$key] = '<' . $key . '>' . Xml::escape($value) . '</' . $key . '>';
-            }
-
-            if ($hasValue && isset($attributeLookup[$key])) {
-                $itemLogisticsAttributes[$attributeLookup[$key]] = (string) $value;
+            if (mb_strlen($value) > 0 && isset($attributeLookup[$key])) {
+                $this->addAttributes('Product', [$attributeLookup[$key] => (string) $value]);
             }
         }
-
-        $this->addAttributes('Product', $itemLogisticsAttributes);
 
         $this->itemLogistics = <<< XML
 <!-- START: Required Dummy Values -->
@@ -500,7 +489,7 @@ XML;
 <!-- END: Required Dummy Values -->
 <shipNodes>
     <shipNode>
-        {$itemLogisticsElements['legacyDistributorId']}
+        <legacyDistributorId>{$itemLogisticsParams['legacyDistributorId']}</legacyDistributorId>
         <!-- START: Required Dummy Values -->
         <shipNodeStatus>ACTIVE</shipNodeStatus>
         <preOrderMaxQty>
@@ -527,8 +516,8 @@ XML;
         <!-- END: Required Dummy Values -->
         <shipNodeSupplies>
             <shipNodeSupply>
-                {$itemLogisticsElements['mdsfamId']}
-                {$itemLogisticsElements['vendorStockId']}
+                <mdsfamId>{$itemLogisticsParams['mdsfamId']}</mdsfamId>
+                <vendorStockId>{$itemLogisticsParams['vendorStockId']}</vendorStockId>
             </shipNodeSupply>
         </shipNodeSupplies>
     </shipNode>
