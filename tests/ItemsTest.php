@@ -95,6 +95,15 @@ class ItemsTest extends AbstractTest
     }
 
     /**
+     * @expectedException              \Pangaea\PangaeaException
+     * @expectedExceptionMessageRegExp /Invalid shipping unit of measurement ".*"/
+     */
+    public function testInvalidShippingMeasurementException()
+    {
+        $this->item->setDimensions(12, 10, 5, 'FOOBAR');
+    }
+
+    /**
      * @expectedException               \Pangaea\PangaeaException
      * @expectedExceptionMessageRegExp  /Entity 'bull' not defined/
      */

@@ -49,6 +49,48 @@ class Item
     ];
 
     /**
+     * Valid units of measurement.
+     * 
+     * @const
+     */
+    const UNITS_MEASUREMENT = [
+      'EA',
+      'FT',
+      'IN',
+      'INCH',
+      'YD',
+      'M',
+      'CM',
+      'MM',
+      'KG',
+      'G',
+      'MG',
+      'POUND',
+      'LB',
+      'OZ',
+      'FOZ',
+      'GAL',
+      'QT',
+      'PT',
+      'IMPGAL',
+      'IMPQT',
+      'IMPPT',
+      'L',
+      'ML',
+      'CC',
+      'CBM',
+      'CFT',
+      'CYD',
+      'CIN',
+      'SM',
+      'SFT',
+      'SYD',
+      'SIN',
+      'SCM',
+      'SMM',
+    ];
+    
+    /**
      * SKU
      *
      * @var mixed
@@ -232,9 +274,16 @@ class Item
      * @param $width
      * @param $height
      * @param $unit
+     * @throws PangaeaException
      */
     public function setDimensions($length, $width, $height, $unit)
     {
+        $unit = mb_strtoupper($unit);
+
+        if (! in_array($unit, static::UNITS_MEASUREMENT)) {
+            throw new PangaeaException(sprintf('Invalid shipping unit of measurement "%s"', $unit));
+        }
+
         // @todo: possibly validate (numeric?) the values? unclear on rules...
         $this->shipping .= <<<XML
 <shippingLength><value>{$length}</value><unit>{$unit}</unit></shippingLength>
