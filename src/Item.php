@@ -401,12 +401,14 @@ XML;
      * Set the item logistics.
      * Corresponding attributes will also be added to the product attributes group too.
      *
-     * @param null $legacyDistributorId
-     * @param null $mdsFamId
-     * @param null $vendorStockId
+     * @param array $itemLogistics (varidiac parameters in order 'legacyDistributorId', 'mdsfamId', 'vendorStockId', 'unitCost')
      */
-    public function setItemLogistics($legacyDistributorId = null, $mdsfamId = null, $vendorStockId = null)
+    public function setItemLogistics(...$itemLogistics)
     {
+        $itemLogistics = array_pad($itemLogistics, 4, null);
+        
+        list($legacyDistributorId, $mdsfamId, $vendorStockId, $unitCost) = $itemLogistics;
+
         $itemLogisticsParams = [
             'legacyDistributorId' => $legacyDistributorId,
             'mdsfamId'            => $mdsfamId,
@@ -471,7 +473,7 @@ XML;
 <assumeInfiniteInventory>true</assumeInfiniteInventory>
 <unitCost>
     <currency>GBP</currency>
-    <amount>123.99</amount>
+    <amount>{$unitCost}</amount>
 </unitCost>
 <primarySupplyItemId>2947757</primarySupplyItemId>
 <alternateSupplyItemId>str1234</alternateSupplyItemId>
