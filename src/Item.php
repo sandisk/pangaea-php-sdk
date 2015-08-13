@@ -49,6 +49,48 @@ class Item
     ];
 
     /**
+     * Valid units of measurement.
+     * 
+     * @const
+     */
+    const UNITS_MEASUREMENT = [
+      'EA',
+      'FT',
+      'IN',
+      'INCH',
+      'YD',
+      'M',
+      'CM',
+      'MM',
+      'KG',
+      'G',
+      'MG',
+      'POUND',
+      'LB',
+      'OZ',
+      'FOZ',
+      'GAL',
+      'QT',
+      'PT',
+      'IMPGAL',
+      'IMPQT',
+      'IMPPT',
+      'L',
+      'ML',
+      'CC',
+      'CBM',
+      'CFT',
+      'CYD',
+      'CIN',
+      'SM',
+      'SFT',
+      'SYD',
+      'SIN',
+      'SCM',
+      'SMM',
+    ];
+    
+    /**
      * SKU
      *
      * @var mixed
@@ -232,9 +274,16 @@ class Item
      * @param $width
      * @param $height
      * @param $unit
+     * @throws PangaeaException
      */
     public function setDimensions($length, $width, $height, $unit)
     {
+        $unit = mb_strtoupper($unit);
+
+        if (! in_array($unit, static::UNITS_MEASUREMENT)) {
+            throw new PangaeaException(sprintf('Invalid shipping unit of measurement "%s"', $unit));
+        }
+
         // @todo: possibly validate (numeric?) the values? unclear on rules...
         $this->shipping .= <<<XML
 <shippingLength><value>{$length}</value><unit>{$unit}</unit></shippingLength>
@@ -422,24 +471,13 @@ XML;
             'vendorStockId'       => 'supplier_stock_number',
         ];
 
-        $itemLogisticsElements   = [];
         $itemLogisticsAttributes = [];
 
         foreach ($itemLogisticsParams as $key => $value) {
-            $hasValue = mb_strlen($value) > 0;
-
-            $itemLogisticsElements[$key] = '';
-
-            if ($hasValue) {
-                $itemLogisticsElements[$key] = '<' . $key . '>' . Xml::escape($value) . '</' . $key . '>';
-            }
-
-            if ($hasValue && isset($attributeLookup[$key])) {
-                $itemLogisticsAttributes[$attributeLookup[$key]] = (string) $value;
+            if (mb_strlen($value) > 0 && isset($attributeLookup[$key])) {
+                $this->addAttributes('Product', [$attributeLookup[$key] => (string) $value]);
             }
         }
-
-        $this->addAttributes('Product', $itemLogisticsAttributes);
 
         $this->itemLogistics = <<< XML
 <!-- START: Required Dummy Values -->
@@ -502,7 +540,7 @@ XML;
 <!-- END: Required Dummy Values -->
 <shipNodes>
     <shipNode>
-        {$itemLogisticsElements['legacyDistributorId']}
+        <legacyDistributorId>{$itemLogisticsParams['legacyDistributorId']}</legacyDistributorId>
         <!-- START: Required Dummy Values -->
         <shipNodeStatus>ACTIVE</shipNodeStatus>
         <preOrderMaxQty>
@@ -529,8 +567,8 @@ XML;
         <!-- END: Required Dummy Values -->
         <shipNodeSupplies>
             <shipNodeSupply>
-                {$itemLogisticsElements['mdsfamId']}
-                {$itemLogisticsElements['vendorStockId']}
+                <mdsfamId>{$itemLogisticsParams['mdsfamId']}</mdsfamId>
+                <vendorStockId>{$itemLogisticsParams['vendorStockId']}</vendorStockId>
             </shipNodeSupply>
         </shipNodeSupplies>
     </shipNode>
