@@ -35,6 +35,17 @@ return <<< XML
 XML;
     }
 
+    public function testVariantMetaDataAttributeGetters()
+    {
+        $attribute = new VariantMetaDataAttribute('colour', 'red', 'LOCATOR', 42, false);
+
+        $this->assertEquals('colour', $attribute->getName());
+        $this->assertEquals('red', $attribute->getValue());
+        $this->assertEquals('LOCATOR', $attribute->getResourceType());
+        $this->assertEquals(42, $attribute->getRank());
+        $this->assertEquals(false, $attribute->getIsVariant());
+    }
+
     public function testVariantMetaDataAttributeBasicRender()
     {
         $attribute = new VariantMetaDataAttribute('colour', 'red');

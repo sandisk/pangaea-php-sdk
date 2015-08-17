@@ -68,7 +68,7 @@ class VariantMetaDataAttribute implements AttributeInterface
      * @param $resourceType
      * @param $rank
      */
-    public function __construct($name, $value = null, $resourceType = null, $rank = null)
+    public function __construct($name, $value = null, $resourceType = null, $rank = null, $isVariant = null)
     {
         $this->setName($name);
         $this->setValue($value);
@@ -79,6 +79,10 @@ class VariantMetaDataAttribute implements AttributeInterface
 
         if (! is_null($rank)) {
             $this->setRank($rank);
+        }
+
+        if (! is_null($isVariant)) {
+            $this->setIsVariant($isVariant);
         }
     }
 
@@ -129,7 +133,7 @@ class VariantMetaDataAttribute implements AttributeInterface
      *
      * return bool
      */
-    public function setResourceType()
+    public function getResourceType()
     {
         return $this->variantResourceType;
     }

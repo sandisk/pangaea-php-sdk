@@ -45,6 +45,14 @@ XML;
         $this->assertEquals($expectedXml, $attribute->render());
     }
 
+    public function testNameValueAttributeGetters()
+    {
+        $attribute = new NameValueAttribute('list', ['FOO', 'BAR']);
+
+        $this->assertEquals('list', $attribute->getName());
+        $this->assertEquals(['FOO', 'BAR'], $attribute->getValue());
+    }
+
     public function testNameValueAttributeValueBoolean()
     {
         $attribute = new NameValueAttribute('boolean', true);
