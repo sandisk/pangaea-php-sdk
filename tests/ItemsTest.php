@@ -85,7 +85,7 @@ class ItemsTest extends PHPUnit_Framework_TestCase
             ]);
 
             $item->setAssets(['1.png', '2.png', '3.png'], 'http://example.com/image');
-            $item->setItemLogistics(12345, 12345678, 123456);
+            $item->setItemLogistics(12345, 12345678, 123456, 123.99);
 
             $feed->addItem($item);
 
@@ -127,6 +127,15 @@ class ItemsTest extends PHPUnit_Framework_TestCase
     public function testInvalidLifecycleStatusException()
     {
         $this->item->setLifecycleStatus('FOOBAR');
+    }
+
+    /**
+     * @expectedException              \Pangaea\PangaeaException
+     * @expectedExceptionMessageRegExp /Invalid shipping unit of measurement ".*"/
+     */
+    public function testInvalidShippingMeasurementException()
+    {
+        $this->item->setDimensions(12, 10, 5, 'FOOBAR');
     }
 
     /**
