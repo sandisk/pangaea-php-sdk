@@ -52,23 +52,23 @@ class ItemsTest extends PHPUnit_Framework_TestCase
             $item->setProductSetupType($variation['primary'] ? 'PRIMARY' : 'VARIANT');
             $item->setVariantGroupId($variation['productId']);
 
-            $item->addVariantMetaData([
-                new VariantMetaDataAttribute('colour', 'red', 'LOCATOR'),
-                new VariantMetaDataAttribute('colour', 'orange', 'LOCATOR'),
-                new VariantMetaDataAttribute('colour', 'yellow', 'LOCATOR'),
-                new VariantMetaDataAttribute('colour', 'green', 'LOCATOR'),
-                new VariantMetaDataAttribute('colour', 'blue', 'LOCATOR'),
-                new VariantMetaDataAttribute('colour', 'indigo', 'LOCATOR'),
-                new VariantMetaDataAttribute('colour', 'violet', 'LOCATOR'),
+            $item->addVariantMetaDataAttributes([
+                new VariantMetaDataAttribute('colour', 'red',    'LOCATOR', 0),
+                new VariantMetaDataAttribute('colour', 'orange', 'LOCATOR', 1),
+                new VariantMetaDataAttribute('colour', 'yellow', 'LOCATOR', 2),
+                new VariantMetaDataAttribute('colour', 'green',  'LOCATOR', 3),
+                new VariantMetaDataAttribute('colour', 'blue',   'LOCATOR', 4),
+                new VariantMetaDataAttribute('colour', 'indigo', 'LOCATOR', 5),
+                new VariantMetaDataAttribute('colour', 'violet', 'LOCATOR', 6),
             ]);
 
-            $item->addVariantMetaData([
-                new VariantMetaDataAttribute('size', 'XS', 'DEFAULT'),
-                new VariantMetaDataAttribute('size', 'S', 'DEFAULT'),
-                new VariantMetaDataAttribute('size', 'M', 'DEFAULT'),
-                new VariantMetaDataAttribute('size', 'L', 'DEFAULT'),
-                new VariantMetaDataAttribute('size', 'XL', 'DEFAULT'),
-                new VariantMetaDataAttribute('size', 'XXL', 'DEFAULT'),
+            $item->addVariantMetaDataAttributes([
+                new VariantMetaDataAttribute('size', 'XS',  'DEFAULT', 0),
+                new VariantMetaDataAttribute('size', 'S',   'DEFAULT', 1),
+                new VariantMetaDataAttribute('size', 'M',   'DEFAULT', 2),
+                new VariantMetaDataAttribute('size', 'L',   'DEFAULT', 3),
+                new VariantMetaDataAttribute('size', 'XL',  'DEFAULT', 4),
+                new VariantMetaDataAttribute('size', 'XXL', 'DEFAULT', 5),
             ]);
 
             $item->addAttributes('Compliance', [
@@ -159,7 +159,7 @@ class ItemsTest extends PHPUnit_Framework_TestCase
         $invalidObject      = new \stdClass();
         $invalidObject->foo = 'bar';
 
-        $this->item->addVariantMetaData($invalidObject);
+        $this->item->addVariantMetaDataAttributes($invalidObject);
     }
 
     public function testSaveItemsXml()

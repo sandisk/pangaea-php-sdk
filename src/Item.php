@@ -180,7 +180,7 @@ class Item
      *
      * @var array
      */
-    private $variantMetaDataAttributes = [];
+    private $variantMetaDataAttributes;
 
     /**
      * Brand
@@ -460,10 +460,9 @@ XML;
      * Add variant meta data attributes to the item.
      *
      * @param $attributes
-     * @param $autoRank
      * @throw \Pangaea\PangaeaException
      */
-    public function addVariantMetaData($attributes, $autoRank = true)
+    public function addVariantMetaDataAttributes($attributes)
     {
         if (! is_array($attributes)) {
             $attributes = [$attributes];
@@ -474,39 +473,8 @@ XML;
                 throw new PangaeaException('Variant Meta Data must be an instance of VariantMetaDataAttribute');
             }
 
-            $group = $attribute->getName();
-
-            if (! isset($this->variantMetaDataAttributes[$group])) {
-                $this->variantMetaDataAttributes[$group] = [];
-            }
-
-            if ($autoRank) {
-                $rank = count($this->variantMetaDataAttributes[$group]);
-                $rank = ($rank === 0 ? $rank++ : $rank);
-
-                $attribute->setRank($rank);
-            }
-
-            $this->variantMetaDataAttributes[$group][] = $attribute;
+            $this->variantMetaDataAttributes .= $attribute->render();
         }
-    }
-
-    /**
-     * Render the variant meta data.
-     *
-     * @return string
-     */
-    private function renderVariantMetaData()
-    {
-        $variantMetaDataXml = '';
-
-        foreach ($this->variantMetaDataAttributes as $group => $attributes) {
-            foreach ($attributes as $attribute) {
-                $variantMetaDataXml .= $attribute->render();
-            }
-        }
-
-        return $variantMetaDataXml;
     }
 
     /**
@@ -667,10 +635,13 @@ XML;
 XML;
     }
 
+    /**
+     * Render the item.
+     *
+     * @return string
+     */
     public function render()
     {
-        $variantMetaDataXml = $this->renderVariantMetaData();
-
         return <<<XML
 <UncategorizedItem processMode="INCREMENTAL" action="CREATE">
     <Product>
@@ -688,7 +659,7 @@ XML;
         {$this->brand}
         <productSetupType>{$this->productSetupType}</productSetupType>
         <variantGroupID>{$this->variantGroupId}</variantGroupID>
-        <VariantMetaData>{$variantMetaDataXml}</VariantMetaData>
+        <VariantMetaData>{$this->variantMetaDataAttributes}</VariantMetaData>
         <ProductAttributes>{$this->attributes['Product']}</ProductAttributes>
         <ComplianceAttributes>{$this->attributes['Compliance']}</ComplianceAttributes>
         <MarketAttributes>{$this->attributes['MarketInProduct']}</MarketAttributes>
