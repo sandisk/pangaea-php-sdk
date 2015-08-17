@@ -65,7 +65,9 @@ class NameValueAttribute implements AttributeInterface
      */
     public function setValue($values)
     {
-        $values = (array) $values;
+        if (! is_array($values)) {
+            $values = [$values];
+        }
 
         if (count($values) === 0 || is_null(reset($values))) {
             return;

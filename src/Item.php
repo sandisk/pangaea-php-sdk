@@ -402,7 +402,9 @@ XML;
      */
     public function addAttributes($group, $attributes)
     {
-        $attributes = (array) $attributes;
+        if (! is_array($attributes)) {
+            $attributes = [$attributes];
+        }
 
         if (! in_array($group, static::VALID_ATTRIBUTE_GROUPS)) {
             throw new PangaeaException('Invalid attribute group');
@@ -416,7 +418,7 @@ XML;
 
         foreach ($attributes as $id => $values) {
             // Convert a value into a basic attribute.
-            if (! is_numeric($id) && ! is_object($values)) {
+            if (! $values instanceof AttributeInterface) {
                 $values = new NameValueAttribute($id, $values);
             }
 
@@ -463,7 +465,9 @@ XML;
      */
     public function addVariantMetaData($attributes, $autoRank = true)
     {
-        $attributes = (array) $attributes;
+        if (! is_array($attributes)) {
+            $attributes = [$attributes];
+        }
 
         foreach ($attributes as $attribute) {
             if (! $attribute instanceof VariantMetaDataAttribute) {
