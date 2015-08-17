@@ -50,6 +50,7 @@ XML;
         $attribute = new NameValueAttribute('list', ['FOO', 'BAR']);
 
         $this->assertEquals('list', $attribute->getName());
+        $this->assertEquals('STRING', $attribute->getType());
         $this->assertEquals(['FOO', 'BAR'], $attribute->getValue());
     }
 

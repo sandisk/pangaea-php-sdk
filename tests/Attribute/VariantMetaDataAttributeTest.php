@@ -41,6 +41,7 @@ XML;
 
         $this->assertEquals('colour', $attribute->getName());
         $this->assertEquals('red', $attribute->getValue());
+        $this->assertEquals('STRING', $attribute->getType());
         $this->assertEquals('LOCATOR', $attribute->getResourceType());
         $this->assertEquals(42, $attribute->getRank());
         $this->assertEquals(false, $attribute->getIsVariant());
