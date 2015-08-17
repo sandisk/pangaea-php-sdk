@@ -9,17 +9,25 @@ use \Pangaea\Attribute\AttributeInterface;
 class NameValueAttribute implements AttributeInterface
 {
     /**
-     * The attribute's XML element structure.
+     * The attribute name.
+     *
+     * @var mixed
+     */
+    private $name;
+
+    /**
+     * The attribute type.
+     *
+     * @var mixed
+     */
+    private $type;
+
+    /**
+     * The attribute value.
      *
      * @var array
      */
-    private $elements = [
-        'name' => null,
-        'type' => null,
-        'value' => [
-            'value' => [],
-        ],
-    ];
+    private $value = [];
 
     /**
      * Create a basic NameValueAttribute.
@@ -45,7 +53,7 @@ class NameValueAttribute implements AttributeInterface
             throw new PangaeaException('NameValueAttribute element "name" cannot be empty');
         }
 
-        $this->elements['name'] = Xml::escape($name);
+        $this->name = $name;
     }
 
     /**
@@ -55,7 +63,7 @@ class NameValueAttribute implements AttributeInterface
      */
     public function getName()
     {
-        return $this->elements['name'];
+        return $this->name;
     }
 
     /**
@@ -73,15 +81,15 @@ class NameValueAttribute implements AttributeInterface
             return;
         }
 
-        $this->elements['type']           = Xml::attributeType(reset($values));
-        $this->elements['value']['value'] = [];
+        $this->type  = Xml::attributeType(reset($values));
+        $this->value = [];
 
         foreach ($values as $value) {
-            if ('DATE' === $this->elements['type'] && ! Date::isEmpty($value)) {
+            if ('DATE' === $this->type && ! Date::isEmpty($value)) {
                 $value = Date::format($value);
             }
 
-            $this->elements['value']['value'][] = $value;
+            $this->value[] = $value;
         }
     }
 
@@ -92,7 +100,7 @@ class NameValueAttribute implements AttributeInterface
      */
     public function getValue()
     {
-        return $this->elements['value']['value'];
+        return $this->value;
     }
 
     /**
@@ -102,7 +110,7 @@ class NameValueAttribute implements AttributeInterface
      */
     public function getType()
     {
-        return $this->elements['type'];
+        return $this->type;
     }
 
     /**
@@ -112,11 +120,11 @@ class NameValueAttribute implements AttributeInterface
      */
     public function isEmpty()
     {
-        if (count($this->elements['value']['value']) === 0) {
+        if (count($this->value) === 0) {
             return true;
         }
 
-        foreach ($this->elements['value']['value'] as $value) {
+        foreach ($this->value as $value) {
             if (! is_null($value)) {
                 return false;
             }
@@ -136,16 +144,18 @@ class NameValueAttribute implements AttributeInterface
             return '';
         }
 
+        $name = Xml::escape($this->name);
+
         $valuesXml = '';
 
-        foreach ($this->elements['value']['value'] as $value) {
+        foreach ($this->value as $value) {
             $valuesXml .= '<value><value>'. Xml::escape($value) . '</value></value>';
         }
 
         return <<< XML
 <NameValueAttribute>
-    <name>{$this->elements['name']}</name>
-    <type>{$this->elements['type']}</type>
+    <name>{$name}</name>
+    <type>{$this->type}</type>
     {$valuesXml}
 </NameValueAttribute>
 XML;

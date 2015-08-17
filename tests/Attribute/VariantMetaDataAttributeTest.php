@@ -76,7 +76,7 @@ XML;
     public function testVariantMetaDataAttributeIsVariant()
     {
         $attribute = new VariantMetaDataAttribute('colour', 'red');
-        $attribute->isVariant(false);
+        $attribute->setIsVariant(false);
 
         $expectedXml = $this->buildExpectedXml([
             'name'    => 'colour',

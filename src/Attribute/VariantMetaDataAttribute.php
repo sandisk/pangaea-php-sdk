@@ -9,6 +9,48 @@ use \Pangaea\Attribute\AttributeInterface;
 class VariantMetaDataAttribute implements AttributeInterface
 {
     /**
+     * The attribute name.
+     *
+     * @var mixed
+     */
+    private $name;
+
+    /**
+     * The attribute type.
+     *
+     * @var mixed
+     */
+    private $type;
+
+    /**
+     * The attribute value.
+     *
+     * @var array
+     */
+    private $value;
+
+    /**
+     * Is the attribute for a variant?
+     *
+     * @var string
+     */
+    private $isVariant = true;
+
+    /**
+     * The variant resource type.
+     *
+     * @var string
+     */
+    private $variantResourceType = 'DEFAULT';
+
+    /**
+     * The attribute rank (order for colours, sizes etc).
+     *
+     * @var int
+     */
+    private $rank = 0;
+
+    /**
      * Valid Attribute Groups.
      *
      * @const
@@ -16,23 +58,6 @@ class VariantMetaDataAttribute implements AttributeInterface
     const VALID_RESOURCE_TYPES = [
         'DEFAULT',
         'LOCATOR',
-    ];
-
-    /**
-     * The attribute's XML element structure.
-     *
-     * @var array
-     */
-    private $elements = [
-        'name'                => null,
-        'type'                => null,
-        'isVariant'           => 'true',
-        'variantResourceType' => 'DEFAULT',
-        'value'               => [
-            'value'     => null,
-            'rank'      => 0,
-            'isVariant' => 'true',
-        ],
     ];
 
     /**
@@ -69,7 +94,7 @@ class VariantMetaDataAttribute implements AttributeInterface
             throw new PangaeaException('VariantMetaDataAttribute element "name" cannot be empty');
         }
 
-        $this->elements['name'] = Xml::escape($name);
+        $this->name = $name;
     }
 
     /**
@@ -79,7 +104,7 @@ class VariantMetaDataAttribute implements AttributeInterface
      */
     public function getName()
     {
-        return $this->elements['name'];
+        return $this->name;
     }
 
     /**
@@ -96,7 +121,17 @@ class VariantMetaDataAttribute implements AttributeInterface
             throw new PangaeaException(sprintf('Invalid resource type "%s"', $resourceType));
         }
 
-        $this->elements['variantResourceType'] = $resourceType;
+        $this->variantResourceType = $resourceType;
+    }
+
+    /**
+     * Get the resource type.
+     *
+     * return bool
+     */
+    public function setResourceType()
+    {
+        return $this->variantResourceType;
     }
 
     /**
@@ -104,12 +139,19 @@ class VariantMetaDataAttribute implements AttributeInterface
      *
      * @param $isVariant
      */
-    public function isVariant($isVariant)
+    public function setIsVariant($isVariant)
     {
-        $isVariant = Xml::escape((bool) $isVariant);
+        $this->isVariant = (bool) $isVariant;
+    }
 
-        $this->elements['isVariant']          = $isVariant;
-        $this->elements['value']['isVariant'] = $isVariant;
+    /**
+     * Get whether the attribute isVariant or not.
+     *
+     * @return bool
+     */
+    public function getIsVariant()
+    {
+        return $this->isVariant;
     }
 
     /**
@@ -125,8 +167,8 @@ class VariantMetaDataAttribute implements AttributeInterface
             $value = Date::format($value);
         }
 
-        $this->elements['value']['value'] = Xml::escape($value);
-        $this->elements['type']           = $type;
+        $this->value = $value;
+        $this->type  = $type;
     }
 
     /**
@@ -136,7 +178,7 @@ class VariantMetaDataAttribute implements AttributeInterface
      */
     public function getValue()
     {
-        return $this->elements['value']['value'];
+        return $this->value;
     }
 
     /**
@@ -146,7 +188,7 @@ class VariantMetaDataAttribute implements AttributeInterface
      */
     public function getType()
     {
-        return $this->elements['type'];
+        return $this->type;
     }
 
     /**
@@ -156,7 +198,17 @@ class VariantMetaDataAttribute implements AttributeInterface
      */
     public function setRank($rank)
     {
-        $this->elements['value']['rank'] = Xml::escape((int) $rank);
+        $this->rank = (int) $rank;
+    }
+
+    /**
+     * Get the rank.
+     *
+     * @return int
+     */
+    public function getRank()
+    {
+        return $this->rank;
     }
 
     /**
@@ -166,7 +218,7 @@ class VariantMetaDataAttribute implements AttributeInterface
      */
     public function isEmpty()
     {
-        return is_null($this->elements['value']['value']);
+        return is_null($this->value);
     }
 
     /**
@@ -180,16 +232,21 @@ class VariantMetaDataAttribute implements AttributeInterface
             return '';
         }
 
+        $name      = Xml::escape($this->name);
+        $value     = Xml::escape($this->value);
+        $isVariant = Xml::escape($this->isVariant);
+        $rank      = Xml::escape($this->rank);
+
         return <<< XML
 <NameValueAttribute>
-    <name>{$this->elements['name']}</name>
-    <type>{$this->elements['type']}</type>
-    <isVariant>{$this->elements['isVariant']}</isVariant>
-    <variantResourceType>{$this->elements['variantResourceType']}</variantResourceType>
+    <name>{$name}</name>
+    <type>{$this->type}</type>
+    <isVariant>{$isVariant}</isVariant>
+    <variantResourceType>{$this->variantResourceType}</variantResourceType>
     <value>
-        <value>{$this->elements['value']['value']}</value>
-        <rank>{$this->elements['value']['rank']}</rank>
-        <isVariant>{$this->elements['value']['isVariant']}</isVariant>
+        <value>{$value}</value>
+        <rank>{$rank}</rank>
+        <isVariant>{$isVariant}</isVariant>
     </value>
 </NameValueAttribute>
 XML;
