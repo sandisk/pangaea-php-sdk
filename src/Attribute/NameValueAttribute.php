@@ -63,11 +63,11 @@ class NameValueAttribute implements AttributeInterface
      *
      * @param $value
      */
-    public function setValue($value)
+    public function setValue($values)
     {
-        $values = (array) $value;
+        $values = (array) $values;
 
-        if (count($values) === 0) {
+        if (count($values) === 0 || is_null(reset($values))) {
             return;
         }
 
