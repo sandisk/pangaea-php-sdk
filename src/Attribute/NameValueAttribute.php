@@ -2,6 +2,7 @@
 namespace Pangaea\Attribute;
 
 use \Pangaea\Date;
+use \Pangaea\PangaeaException;
 use \Pangaea\Xml;
 use \Pangaea\Attribute\AttributeInterface;
 
@@ -36,9 +37,14 @@ class NameValueAttribute implements AttributeInterface
      * Set the name
      *
      * @param $name
+     * @throw \Pangaea\PangaeaException
      */
     public function setName($name)
     {
+        if (mb_strlen($name) === 0) {
+            throw new PangaeaException('NameValueAttribute element "name" cannot be empty');
+        }
+
         $this->elements['name'] = Xml::escape($name);
     }
 

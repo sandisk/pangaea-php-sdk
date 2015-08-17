@@ -128,4 +128,13 @@ XML;
 
         $this->assertEquals($expectedXml, $attribute->render());
     }
+
+    /**
+     * @expectedException         \Pangaea\PangaeaException
+     * @expectedExceptionMessage  VariantMetaDataAttribute element "name" cannot be empty
+     */
+    public function testNameValueAttributeValueNameException()
+    {
+        $attribute = new VariantMetaDataAttribute('', 'foobar');
+    }
 }

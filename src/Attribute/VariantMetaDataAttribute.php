@@ -61,9 +61,14 @@ class VariantMetaDataAttribute implements AttributeInterface
      * Set the name
      *
      * @param $name
+     * @throw \Pangaea\PangaeaException
      */
     public function setName($name)
     {
+        if (mb_strlen($name) === 0) {
+            throw new PangaeaException('VariantMetaDataAttribute element "name" cannot be empty');
+        }
+
         $this->elements['name'] = Xml::escape($name);
     }
 

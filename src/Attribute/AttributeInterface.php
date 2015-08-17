@@ -15,6 +15,7 @@ interface AttributeInterface
      * Set the name.
      *
      * @param $name
+     * @throw \Pangaea\PangaeaException
      */
     public function setName($name);
 

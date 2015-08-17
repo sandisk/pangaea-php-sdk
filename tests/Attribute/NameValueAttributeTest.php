@@ -83,4 +83,13 @@ XML;
 
         $this->assertEquals($expectedXml, $attribute->render());
     }
+
+    /**
+     * @expectedException         \Pangaea\PangaeaException
+     * @expectedExceptionMessage  NameValueAttribute element "name" cannot be empty
+     */
+    public function testNameValueAttributeValueNameException()
+    {
+        $attribute = new NameValueAttribute('', 'foobar');
+    }
 }
