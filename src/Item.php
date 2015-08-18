@@ -397,8 +397,7 @@ XML;
      *
      * @param $group
      * @param mixed $attributes             A multi-dimensional array with names as keys then either a single value or an array of values.
-     *                                      A NameValueAttribute object.
-     * @throw \Pangaea\PangaeaException
+     *                                      A single NameValueAttribute object or an array of NameValueAttribute objects.
      */
     public function addAttributes($group, $attributes)
     {
@@ -411,23 +410,47 @@ XML;
         }
 
         if (! isset($this->attributes[$group])) {
-            $this->attributes[$group] = ''; // prevent 'undefined index' notices
+            $this->attributes[$group] = '';
         }
 
         // @todo: key sort? doc block if do, but wait until settled and verified no differences...
+        $attributes = $this->arrayToNameValueAttributes($attributes);
 
-        foreach ($attributes as $id => $values) {
-            // Convert a value into a basic attribute.
-            if (! $values instanceof AttributeInterface) {
-                $values = new NameValueAttribute($id, $values);
-            }
-
-            if ($values instanceof AttributeInterface) {
-                $this->attributes[$group] .= $values->render();
+        foreach ($attributes as $attribute) {
+            if ($attribute instanceof AttributeInterface) {
+                $this->attributes[$group] .= $attribute->render();
             } else {
-                throw new PangaeaException(sprintf('Class "%s" must implement AttributeInterface', get_class($values)));
+                throw new PangaeaException(sprintf('Class "%s" must implement AttributeInterface', get_class($attribute)));
             }
         }
+    }
+
+    /**
+     * Convert a multi-dimensional array of name, value pairs into NameValueAttribute objects.
+     * Note: Eventually this should be removed and we should always use the objects.
+     *
+     * @param  array $data
+     * @return array
+     */
+    private function arrayToNameValueAttributes(array $data)
+    {
+        if (count($data) === 0) {
+            return [];
+        }
+
+        $attributes = [];
+
+        foreach ($data as $name => $value) {
+            if (! $value instanceof AttributeInterface) {
+                $attribute = new NameValueAttribute($name, $value);
+            } else {
+                $attribute = $value;
+            }
+
+            $attributes[] = $attribute;
+        }
+
+        return $attributes;
     }
 
     /**
