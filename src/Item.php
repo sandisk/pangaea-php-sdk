@@ -1,6 +1,10 @@
 <?php
 namespace Pangaea;
 
+use \Pangaea\Attribute\AttributeInterface;
+use \Pangaea\Attribute\NameValueAttribute;
+use \Pangaea\Attribute\VariantMetaDataAttribute;
+
 class Item
 {
     /**
@@ -20,7 +24,7 @@ class Item
         'Compliance',
         'MarketInProduct',
         'MarketInOffer',
-        'Offer'
+        'Offer',
     ];
 
     /**
@@ -47,6 +51,17 @@ class Item
         'SYSTEM_PROBLEM',
         'STAGE',
     ];
+
+    /**
+     * Valid Product Setup Types.
+     */
+    const PRODUCT_SETUP_TYPES = [
+        'STANDALONE',
+        'PRIMARY',
+        'VARIANT',
+        'BUNDLE',
+    ];
+
 
     /**
      * Valid units of measurement.
@@ -89,7 +104,7 @@ class Item
       'SCM',
       'SMM',
     ];
-    
+
     /**
      * SKU
      *
@@ -145,6 +160,27 @@ class Item
      * @var array
      */
     private $attributes = [];
+
+    /*
+     * Product Setup Type
+     *
+     * @var string
+     */
+    private $productSetupType;
+
+    /*
+     * Variant Group ID
+     *
+     * @var string
+     */
+    private $variantGroupId;
+
+    /**
+     * Variant Meta Data attributes.
+     *
+     * @var array
+     */
+    private $variantMetaDataAttributes;
 
     /**
      * Brand
@@ -360,62 +396,107 @@ XML;
      * @todo: this should allow empty string values (valid for some attributes) but skip element if value is null...
      *
      * @param $group
-     * @param array $attributes multi-dimensional, with names specified as keys then either a single value or an array of values
+     * @param mixed $attributes             A multi-dimensional array with names as keys then either a single value or an array of values.
+     *                                      A single NameValueAttribute object or an array of NameValueAttribute objects.
      */
-    public function addAttributes($group, array $attributes)
+    public function addAttributes($group, $attributes)
     {
+        if (! is_array($attributes)) {
+            $attributes = [$attributes];
+        }
+
         if (! in_array($group, static::VALID_ATTRIBUTE_GROUPS)) {
             throw new PangaeaException('Invalid attribute group');
         }
 
         if (! isset($this->attributes[$group])) {
-            $this->attributes[$group] = ''; // prevent 'undefined index' notices
+            $this->attributes[$group] = '';
         }
 
         // @todo: key sort? doc block if do, but wait until settled and verified no differences...
+        $attributes = $this->arrayToNameValueAttributes($attributes);
 
-        foreach ($attributes as $id => $values) {
-            $this->attributes[$group] .= $this->renderAttribute($id, $values);
+        foreach ($attributes as $attribute) {
+            if ($attribute instanceof AttributeInterface) {
+                $this->attributes[$group] .= $attribute->render();
+            } else {
+                throw new PangaeaException(sprintf('Class "%s" must implement AttributeInterface', get_class($attribute)));
+            }
         }
     }
 
-    private function renderAttribute($name, $values)
+    /**
+     * Convert a multi-dimensional array of name, value pairs into NameValueAttribute objects.
+     * Note: Eventually this should be removed and we should always use the objects.
+     *
+     * @param  array $data
+     * @return array
+     */
+    private function arrayToNameValueAttributes(array $data)
     {
-        // cast any single value parameter to an array for ease of iteration
-        $values = (array) $values;
-
-        if (count($values) == 0 || is_null($values[0])) {
-            return '';
+        if (count($data) === 0) {
+            return [];
         }
 
-        $name    = Xml::escape($name);
-        $type    = $this->determineAttributeType($values[0]);
-        $wrapped = '';
+        $attributes = [];
 
-        // double <value> wrapping is as per the spec
-        foreach ($values as $value) {
-            if ('DATE' === $type && ! Date::isEmpty($value)) {
-                $value = Date::format($value);
+        foreach ($data as $name => $value) {
+            if (! $value instanceof AttributeInterface) {
+                $attribute = new NameValueAttribute($name, $value);
+            } else {
+                $attribute = $value;
             }
 
-            $wrapped .= '<value><value>'. Xml::escape($value) . '</value></value>';
+            $attributes[] = $attribute;
         }
 
-        return "<NameValueAttribute><name>$name</name><type>$type</type>$wrapped</NameValueAttribute>";
+        return $attributes;
     }
 
-    private function determineAttributeType($value)
+    /**
+     * Set the product setup type.
+     *
+     * @param $type
+     */
+    public function setProductSetupType($type)
     {
-        if (is_bool($value)) {
-            return 'BOOLEAN';
-        } elseif (is_float($value)) {
-            return 'DECIMAL';
-        } elseif (is_int($value)) {
-            return 'INTEGER';
-        } elseif (preg_match('/\d{4}-\d{2}-\d{2}/', substr($value, 0, 10))) {
-            return 'DATE'; // @todo: better to insist on passing DateTime objects?
-        } else {
-            return 'STRING';
+        $type = mb_strtoupper($type);
+
+        if (! in_array($type, static::PRODUCT_SETUP_TYPES)) {
+            throw new PangaeaException(sprintf('Invalid product setup type "%s"', $type));
+        }
+
+        $this->productSetupType = $type;
+    }
+
+    /**
+     * Set the variant group ID.
+     *
+     * @param $groupId
+     */
+    public function setVariantGroupId($groupId)
+    {
+        $this->variantGroupId = $groupId;
+    }
+
+    /**
+     * Add variant meta data attributes to the item.
+     *
+     * @param $attributes
+     * @throw \Pangaea\PangaeaException
+     */
+    public function addVariantMetaDataAttributes($attributes)
+    {
+        if (! is_array($attributes)) {
+            $attributes = [$attributes];
+        }
+
+        foreach ($attributes as $attribute) {
+            if (! $attribute instanceof VariantMetaDataAttribute) {
+                throw new PangaeaException('Variant Meta Data must be an instance of VariantMetaDataAttribute');
+            }
+
+            $this->variantMetaDataAttributes .= $attribute->render();
         }
     }
 
@@ -433,14 +514,15 @@ XML;
         foreach ($urls as $index => $asset) {
             $asset     = Xml::escape($urlPrefix . $asset);
             $type      = ($index > 0 ? 'SECONDARY' : 'PRIMARY');
-            $attribute = $this->renderAttribute('provider_name', 'asda.scene7.com');
+
+            $attribute = new NameValueAttribute('provider_name', 'asda.scene7.com');
 
             $this->assets .= <<<XML
 <Asset>
     <assetURL>{$asset}</assetURL>
     <usageType>{$type}</usageType>
     <rank>1</rank>
-    <AssetAttributes>{$attribute}</AssetAttributes>
+    <AssetAttributes>{$attribute->render()}</AssetAttributes>
 </Asset>
 XML;
         }
@@ -576,6 +658,11 @@ XML;
 XML;
     }
 
+    /**
+     * Render the item.
+     *
+     * @return string
+     */
     public function render()
     {
         return <<<XML
@@ -593,7 +680,9 @@ XML;
             </ProductId>
         </ProductIds>
         {$this->brand}
-        <productSetupType>STANDALONE</productSetupType>
+        <productSetupType>{$this->productSetupType}</productSetupType>
+        <variantGroupID>{$this->variantGroupId}</variantGroupID>
+        <VariantMetaData>{$this->variantMetaDataAttributes}</VariantMetaData>
         <ProductAttributes>{$this->attributes['Product']}</ProductAttributes>
         <ComplianceAttributes>{$this->attributes['Compliance']}</ComplianceAttributes>
         <MarketAttributes>{$this->attributes['MarketInProduct']}</MarketAttributes>
