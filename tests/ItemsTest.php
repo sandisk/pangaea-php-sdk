@@ -139,6 +139,15 @@ class ItemsTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException              \Pangaea\PangaeaException
+     * @expectedExceptionMessageRegExp /Invalid shipping unit of weight ".*"/
+     */
+    public function testInvalidWeightException()
+    {
+        $this->item->setWeight(42, 'FOOBAR');
+    }
+
+    /**
      * @expectedException               \Pangaea\PangaeaException
      * @expectedExceptionMessageRegExp  /Entity 'bull' not defined/
      */
