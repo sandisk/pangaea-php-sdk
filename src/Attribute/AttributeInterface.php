@@ -6,7 +6,7 @@ interface AttributeInterface
     /**
      * Create an attribute.
      *
-     * @param $name
+     * @param string $name
      * @param mixed $values
      */
     public function __construct($name, $value = null);
@@ -14,7 +14,7 @@ interface AttributeInterface
     /**
      * Set the name.
      *
-     * @param $name
+     * @param string $name
      * @throw \Pangaea\PangaeaException
      */
     public function setName($name);
@@ -22,14 +22,14 @@ interface AttributeInterface
     /**
      * Get the name.
      *
-     * @return mixed
+     * @return string
      */
     public function getName();
 
     /**
      * Set the attribute value (and infer the type automatically).
      *
-     * @param $value
+     * @param mixed $value
      */
     public function setValue($value);
 
