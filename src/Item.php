@@ -62,7 +62,6 @@ class Item
         'BUNDLE',
     ];
 
-
     /**
      * Valid units of measurement.
      * 
@@ -103,6 +102,19 @@ class Item
       'SIN',
       'SCM',
       'SMM',
+    ];
+
+    /**
+     * Valid units of weight.
+     *
+     * @const
+     */
+    const UNITS_WEIGHT = [
+        'KG',
+        'G',
+        'MG',
+        'LB',
+        'OZ',
     ];
 
     /**
@@ -336,6 +348,12 @@ XML;
      */
     public function setWeight($weight, $unit)
     {
+        $unit = mb_strtoupper($unit);
+
+        if (! in_array($unit, static::UNITS_WEIGHT)) {
+            throw new PangaeaException(sprintf('Invalid shipping unit of weight "%s"', $unit));
+        }
+
         $this->shipping .= "<shippingWeight><value>{$weight}</value><unit>{$unit}</unit></shippingWeight>";
     }
 

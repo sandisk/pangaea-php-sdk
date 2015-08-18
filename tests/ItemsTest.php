@@ -131,11 +131,11 @@ class ItemsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException              \Pangaea\PangaeaException
-     * @expectedExceptionMessageRegExp /Invalid shipping unit of measurement ".*"/
+     * @expectedExceptionMessageRegExp /Invalid shipping unit of weight ".*"/
      */
-    public function testInvalidShippingMeasurementException()
+    public function testInvalidWeightException()
     {
-        $this->item->setDimensions(12, 10, 5, 'FOOBAR');
+        $this->item->setWeight(42, 'FOOBAR');
     }
 
     /**
