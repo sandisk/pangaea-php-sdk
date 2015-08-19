@@ -95,7 +95,7 @@ XML;
 
     /**
      * @expectedException         \Pangaea\PangaeaException
-     * @expectedExceptionMessage  NameValueAttribute element "name" cannot be empty
+     * @expectedExceptionMessage  NameValueAttribute element "name" cannot be blank
      */
     public function testNameValueAttributeValueNameException()
     {

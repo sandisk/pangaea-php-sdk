@@ -51,7 +51,7 @@ class NameValueAttribute implements AttributeInterface, RenderableInterface
     public function setName($name)
     {
         if (mb_strlen($name) === 0) {
-            throw new PangaeaException(get_class($this) . ' element "name" cannot be empty');
+            throw new PangaeaException('NameValueAttribute element "name" cannot be blank');
         }
 
         $this->name = $name;

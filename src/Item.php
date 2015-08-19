@@ -290,6 +290,10 @@ class Item
     {
         $status = mb_strtoupper($status);
 
+        if (mb_strlen($status) === 0) {
+            throw new PangaeaException('Publish status cannot be blank');
+        }
+
         if (! in_array($status, static::PUBLISHED_STATUSES)) {
             throw new PangaeaException(sprintf('Invalid publish status "%s"', $status));
         }
@@ -307,6 +311,10 @@ class Item
     public function setLifecycleStatus($status)
     {
         $status = mb_strtoupper($status);
+
+        if (mb_strlen($status) === 0) {
+            throw new PangaeaException('Lifecycle status cannot be blank');
+        }
 
         if (! in_array($status, static::LIFECYCLE_STATUSES)) {
             throw new PangaeaException(sprintf('Invalid lifecycle status "%s"', $status));
@@ -327,6 +335,10 @@ class Item
     public function setDimensions($length, $width, $height, $unit)
     {
         $unit = mb_strtoupper($unit);
+
+        if (mb_strlen($unit) === 0) {
+            throw new PangaeaException('Shipping unit of measurement cannot be blank');
+        }
 
         if (! in_array($unit, static::UNITS_MEASUREMENT)) {
             throw new PangaeaException(sprintf('Invalid shipping unit of measurement "%s"', $unit));
@@ -349,6 +361,10 @@ XML;
     public function setWeight($weight, $unit)
     {
         $unit = mb_strtoupper($unit);
+
+        if (mb_strlen($unit) === 0) {
+            throw new PangaeaException('Shipping unit of weight cannot be blank');
+        }
 
         if (! in_array($unit, static::UNITS_WEIGHT)) {
             throw new PangaeaException(sprintf('Invalid shipping unit of weight "%s"', $unit));
@@ -479,6 +495,10 @@ XML;
     public function setProductSetupType($type)
     {
         $type = mb_strtoupper($type);
+
+        if (mb_strlen($type) === 0) {
+            throw new PangaeaException('Product setup type cannot be blank');
+        }
 
         if (! in_array($type, static::PRODUCT_SETUP_TYPES)) {
             throw new PangaeaException(sprintf('Invalid product setup type "%s"', $type));
