@@ -112,12 +112,30 @@ class ItemsTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException        \Pangaea\PangaeaException
+     * @expectedExceptionMessage Publish status cannot be blank
+     */
+    public function testBlankPublishStatusException()
+    {
+        $this->item->setPublishStatus('');
+    }
+
+    /**
      * @expectedException              \Pangaea\PangaeaException
      * @expectedExceptionMessageRegExp /Invalid publish status ".*"/
      */
     public function testInvalidPublishStatusException()
     {
         $this->item->setPublishStatus('FOOBAR');
+    }
+
+    /**
+     * @expectedException        \Pangaea\PangaeaException
+     * @expectedExceptionMessage Lifecycle status cannot be blank
+     */
+    public function testBlankLifecycleStatusException()
+    {
+        $this->item->setLifecycleStatus('');
     }
 
     /**
@@ -130,12 +148,30 @@ class ItemsTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException        \Pangaea\PangaeaException
+     * @expectedExceptionMessage Shipping unit of measurement cannot be blank
+     */
+    public function testBlankShippingMeasurementException()
+    {
+        $this->item->setDimensions(12, 10, 5, '');
+    }
+
+    /**
      * @expectedException              \Pangaea\PangaeaException
      * @expectedExceptionMessageRegExp /Invalid shipping unit of measurement ".*"/
      */
     public function testInvalidShippingMeasurementException()
     {
         $this->item->setDimensions(12, 10, 5, 'FOOBAR');
+    }
+
+    /**
+     * @expectedException        \Pangaea\PangaeaException
+     * @expectedExceptionMessage Shipping unit of weight cannot be blank
+     */
+    public function testBlankWeightException()
+    {
+        $this->item->setWeight(42, '');
     }
 
     /**

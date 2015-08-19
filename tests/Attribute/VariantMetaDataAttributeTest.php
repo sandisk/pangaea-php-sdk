@@ -143,7 +143,7 @@ XML;
 
     /**
      * @expectedException         \Pangaea\PangaeaException
-     * @expectedExceptionMessage  VariantMetaDataAttribute element "name" cannot be empty
+     * @expectedExceptionMessage  VariantMetaData NameValueAttribute element "name" cannot be blank
      */
     public function testNameValueAttributeValueNameException()
     {
