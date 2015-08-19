@@ -4,6 +4,7 @@ namespace Pangaea\Test;
 use \PHPUnit_Framework_TestCase;
 use \Pangaea\Feed;
 use \Pangaea\Item;
+use \Pangaea\Item\ItemLogistics;
 use \Pangaea\PangaeaException;
 use \Pangaea\Attribute\VariantMetaDataAttribute;
 
@@ -23,6 +24,25 @@ class ItemsTest extends PHPUnit_Framework_TestCase
             ['sku' => 'SKU123', 'upc' => '5000000000123', 'productId' => 'P123', 'primary' => true],
             ['sku' => 'SKU456', 'upc' => '5000000000456', 'productId' => 'P123', 'primary' => false],
             ['sku' => 'SKU787', 'upc' => '5000000000789', 'productId' => 'P123', 'primary' => false],
+        ];
+
+        $colours = [
+            new VariantMetaDataAttribute('colour', 'red',    'LOCATOR', 0),
+            new VariantMetaDataAttribute('colour', 'orange', 'LOCATOR', 1),
+            new VariantMetaDataAttribute('colour', 'yellow', 'LOCATOR', 2),
+            new VariantMetaDataAttribute('colour', 'green',  'LOCATOR', 3),
+            new VariantMetaDataAttribute('colour', 'blue',   'LOCATOR', 4),
+            new VariantMetaDataAttribute('colour', 'indigo', 'LOCATOR', 5),
+            new VariantMetaDataAttribute('colour', 'violet', 'LOCATOR', 6),
+        ];
+
+        $sizes = [
+            new VariantMetaDataAttribute('size', 'XS',  'DEFAULT', 0),
+            new VariantMetaDataAttribute('size', 'S',   'DEFAULT', 1),
+            new VariantMetaDataAttribute('size', 'M',   'DEFAULT', 2),
+            new VariantMetaDataAttribute('size', 'L',   'DEFAULT', 3),
+            new VariantMetaDataAttribute('size', 'XL',  'DEFAULT', 4),
+            new VariantMetaDataAttribute('size', 'XXL', 'DEFAULT', 5),
         ];
 
         foreach ($variations as $i => $variation) {
@@ -52,24 +72,8 @@ class ItemsTest extends PHPUnit_Framework_TestCase
             $item->setProductSetupType($variation['primary'] ? 'PRIMARY' : 'VARIANT');
             $item->setVariantGroupId($variation['productId']);
 
-            $item->addVariantMetaDataAttributes([
-                new VariantMetaDataAttribute('colour', 'red',    'LOCATOR', 0),
-                new VariantMetaDataAttribute('colour', 'orange', 'LOCATOR', 1),
-                new VariantMetaDataAttribute('colour', 'yellow', 'LOCATOR', 2),
-                new VariantMetaDataAttribute('colour', 'green',  'LOCATOR', 3),
-                new VariantMetaDataAttribute('colour', 'blue',   'LOCATOR', 4),
-                new VariantMetaDataAttribute('colour', 'indigo', 'LOCATOR', 5),
-                new VariantMetaDataAttribute('colour', 'violet', 'LOCATOR', 6),
-            ]);
-
-            $item->addVariantMetaDataAttributes([
-                new VariantMetaDataAttribute('size', 'XS',  'DEFAULT', 0),
-                new VariantMetaDataAttribute('size', 'S',   'DEFAULT', 1),
-                new VariantMetaDataAttribute('size', 'M',   'DEFAULT', 2),
-                new VariantMetaDataAttribute('size', 'L',   'DEFAULT', 3),
-                new VariantMetaDataAttribute('size', 'XL',  'DEFAULT', 4),
-                new VariantMetaDataAttribute('size', 'XXL', 'DEFAULT', 5),
-            ]);
+            $item->addVariantMetaDataAttributes($colours);
+            $item->addVariantMetaDataAttributes($sizes);
 
             $item->addAttributes('Compliance', [
                 'over_18_age' => true
@@ -85,7 +89,13 @@ class ItemsTest extends PHPUnit_Framework_TestCase
             ]);
 
             $item->setAssets(['1.png', '2.png', '3.png'], 'http://example.com/image');
-            $item->setItemLogistics(12345, 12345678, 123456, 123.99);
+
+            $itemLogistics = new ItemLogistics;
+            $itemLogistics->setUnitCost(123.99, 'GBP');
+            $itemLogistics->setLegacyDistributorId(12345);
+            $itemLogistics->setShipNodeSupply(12345678, 123456);
+
+            $item->setItemLogistics($itemLogistics);
 
             $feed->addItem($item);
 

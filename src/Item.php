@@ -4,6 +4,7 @@ namespace Pangaea;
 use \Pangaea\Attribute\AttributeInterface;
 use \Pangaea\Attribute\NameValueAttribute;
 use \Pangaea\Attribute\VariantMetaDataAttribute;
+use \Pangaea\Item\ItemLogistics;
 
 class Item
 {
@@ -202,7 +203,7 @@ class Item
     private $brand;
 
     /**
-     * Item Logistics XML
+     * Item Logistics
      *
      * @var mixed
      */
@@ -567,133 +568,15 @@ XML;
     }
 
     /**
-     * Set the item logistics.
-     * Corresponding attributes will also be added to the product attributes group too.
+     * Set the item logistics elemnt.
+     * Note: This will also add corresponding attributes to the product attributes group.
      *
-     * @param array $itemLogistics (varidiac parameters in order 'legacyDistributorId', 'mdsfamId', 'vendorStockId', 'unitCost')
+     * @param ItemLogistics $itemLogistics
      */
-    public function setItemLogistics(...$itemLogistics)
+    public function setItemLogistics(ItemLogistics $itemLogistics)
     {
-        $itemLogistics = array_pad($itemLogistics, 4, null);
-        
-        list($legacyDistributorId, $mdsfamId, $vendorStockId, $unitCost) = $itemLogistics;
-
-        $itemLogisticsParams = [
-            'legacyDistributorId' => $legacyDistributorId,
-            'mdsfamId'            => $mdsfamId,
-            'vendorStockId'       => $vendorStockId,
-        ];
-
-        // The name to use when adding them to the product attributes group.
-        $attributeLookup = [
-            'legacyDistributorId' => 'supplier_number',
-            'mdsfamId'            => 'mds_fam_id',
-            'vendorStockId'       => 'supplier_stock_number',
-        ];
-
-        $itemLogisticsAttributes = [];
-
-        foreach ($itemLogisticsParams as $key => $value) {
-            if (mb_strlen($value) > 0 && isset($attributeLookup[$key])) {
-                $this->addAttributes('Product', [$attributeLookup[$key] => (string) $value]);
-            }
-        }
-
-        $this->itemLogistics = <<< XML
-<!-- START: Required Dummy Values -->
-<reportingHierarchy>
-    <reportingHierarchyLevel>
-        <levelId>1</levelId>
-        <nodeId>str1234</nodeId>
-    </reportingHierarchyLevel>
-</reportingHierarchy>
-<marketAttributes></marketAttributes>
-<preorderInfo>
-    <isPreOrder>false</isPreOrder>
-    <streetDate>2015-03-30T00:00:00</streetDate>
-    <streetDateType>DELIVER_BY</streetDateType>
-</preorderInfo>
-<programEligibilities></programEligibilities>
-<packages></packages>
-<isPerishable>false</isPerishable>
-<isHazmat>false</isHazmat>
-<!-- END: Required Dummy Values -->
-<!-- START: Dummy LIMO Values -->
-<inventoryAvailabilityThreshold>
-    <low>1</low>
-    <mid>5</mid>
-    <high>999</high>
-</inventoryAvailabilityThreshold>
-<onHandSafetyFactorQuantity>
-    <value>5</value>
-    <unit>EA</unit>
-</onHandSafetyFactorQuantity>
-<assumeInfiniteInventory>true</assumeInfiniteInventory>
-<unitCost>
-    <currency>GBP</currency>
-    <amount>{$unitCost}</amount>
-</unitCost>
-<primarySupplyItemId>2947757</primarySupplyItemId>
-<alternateSupplyItemId>str1234</alternateSupplyItemId>
-<preferredDistributors>
-    <preferredDistributor>
-        <legacyDistributorId>str1234</legacyDistributorId>
-        <effectiveFrom>2012-12-13T12:12:12</effectiveFrom>
-        <effectiveTill>2012-12-13T12:12:12</effectiveTill>
-        <rank>1</rank>
-    </preferredDistributor>
-    <preferredDistributor>
-        <legacyDistributorId>str1234</legacyDistributorId>
-        <effectiveFrom>2012-12-13T12:12:12</effectiveFrom>
-        <effectiveTill>2012-12-13T12:12:12</effectiveTill>
-        <rank>2</rank>
-    </preferredDistributor>
-</preferredDistributors>
-<!-- END: Dummy LIMO Values -->
-<!-- START: Required Dummy Values -->
-<fulfillmentOptions></fulfillmentOptions>
-<shipAsIs>true</shipAsIs>
-<signatureOnDelivery>NEVER</signatureOnDelivery>
-<isConveyable>false</isConveyable>
-<bundleFulfillmentMode>SHIP_ALONE</bundleFulfillmentMode>
-<storageType>AMBIENT</storageType>
-<!-- END: Required Dummy Values -->
-<shipNodes>
-    <shipNode>
-        <legacyDistributorId>{$itemLogisticsParams['legacyDistributorId']}</legacyDistributorId>
-        <!-- START: Required Dummy Values -->
-        <shipNodeStatus>ACTIVE</shipNodeStatus>
-        <preOrderMaxQty>
-            <value>1</value>
-            <unit>EA</unit>
-        </preOrderMaxQty>
-        <handlingCost>
-            <currency>GBP</currency>
-            <amount>123.45</amount>
-        </handlingCost>
-        <unitCost>
-            <currency>GBP</currency>
-            <amount>4.00</amount>
-        </unitCost>
-        <shipNodeItemId>str1234</shipNodeItemId>
-        <initialAvailabilityCode>AA</initialAvailabilityCode>
-        <availabilityThreshold>
-            <low>123</low>
-            <mid>123</mid>
-            <high>123</high>
-        </availabilityThreshold>
-        <inventoryOwnerId>EEB3A0D4-309A-4DAA-9296-77BE4AEFB2CE</inventoryOwnerId>
-        <programEligibilities></programEligibilities>
-        <!-- END: Required Dummy Values -->
-        <shipNodeSupplies>
-            <shipNodeSupply>
-                <mdsfamId>{$itemLogisticsParams['mdsfamId']}</mdsfamId>
-                <vendorStockId>{$itemLogisticsParams['vendorStockId']}</vendorStockId>
-            </shipNodeSupply>
-        </shipNodeSupplies>
-    </shipNode>
-</shipNodes>
-XML;
+        $this->itemLogistics = $itemLogistics;
+        $this->addAttributes('Product', $itemLogistics->getProductAttributes());
     }
 
     /**
@@ -703,6 +586,8 @@ XML;
      */
     public function render()
     {
+        $itemLogisticsXml = $this->itemLogistics->render();
+
         return <<<XML
 <UncategorizedItem processMode="INCREMENTAL" action="CREATE">
     <Product>
@@ -736,7 +621,7 @@ XML;
         {$this->status['publish']}
         {$this->status['lifecycle']}
         {$this->shipping}
-        <itemLogistics>{$this->itemLogistics}</itemLogistics>
+        {$itemLogisticsXml}
         <ItemPrice>{$this->pricing}</ItemPrice>
         <OfferAttributes>{$this->attributes['Offer']}</OfferAttributes>
         <MarketAttributes>{$this->attributes['MarketInOffer']}</MarketAttributes>
