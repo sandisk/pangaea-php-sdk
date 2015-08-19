@@ -95,7 +95,7 @@ class VariantMetaDataAttribute implements AttributeInterface
     public function setName($name)
     {
         if (mb_strlen($name) === 0) {
-            throw new PangaeaException(get_class($this) . ' element "name" cannot be empty');
+            throw new PangaeaException('VariantMetaData NameValueAttribute element "name" cannot be blank');
         }
 
         $this->name = $name;
