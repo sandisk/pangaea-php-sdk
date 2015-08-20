@@ -1,6 +1,7 @@
 <?php
 namespace Pangaea\Item;
 
+use \Pangaea\PangaeaException;
 use \Pangaea\RenderableInterface;
 use \Pangaea\Xml;
 use \Pangaea\Attribute\NameValueAttribute;
