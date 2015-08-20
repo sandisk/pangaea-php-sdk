@@ -217,6 +217,16 @@ class ItemsTest extends PHPUnit_Framework_TestCase
         $this->item->addVariantMetaDataAttributes($invalidObject);
     }
 
+    /**
+     * @expectedException        \Pangaea\PangaeaException
+     * @expectedExceptionMessage Cannot render item without an ItemLogistics element being set
+     */
+    public function testItemsWithoutItemLogisticsException()
+    {
+        $item = new Item('SKU123', '5000000000123');
+        $item->render();
+    }
+
     public function testSaveItemsXml()
     {
         $this->assertTrue($this->feed->save(__DIR__ . '/output/items.xml'));
