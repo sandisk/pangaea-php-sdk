@@ -1,12 +1,13 @@
 <?php
 namespace Pangaea\Attribute;
 
-use \Pangaea\PangaeaException;
 use \Pangaea\Date;
+use \Pangaea\PangaeaException;
+use \Pangaea\RenderableInterface;
 use \Pangaea\Xml;
 use \Pangaea\Attribute\AttributeInterface;
 
-class VariantMetaDataAttribute implements AttributeInterface
+class VariantMetaDataAttribute implements AttributeInterface, RenderableInterface
 {
     /**
      * The attribute name.

@@ -3,10 +3,11 @@ namespace Pangaea\Attribute;
 
 use \Pangaea\Date;
 use \Pangaea\PangaeaException;
+use \Pangaea\RenderableInterface;
 use \Pangaea\Xml;
 use \Pangaea\Attribute\AttributeInterface;
 
-class NameValueAttribute implements AttributeInterface
+class NameValueAttribute implements AttributeInterface, RenderableInterface
 {
     /**
      * The attribute name.
