@@ -1,12 +1,14 @@
 <?php
 namespace Pangaea;
 
+use \Pangaea\RenderableInterface;
+
 /**
  * Produces an XML feed of product data for Walmarts global e-commerce platform, Pangaea
  *
  * String concat isn’t ideal, but, well, XML sucks and life is short - this was quick and preserves our sanity ;-)
  */
-class Feed
+class Feed implements RenderableInterface
 {
     /**
      * Timestamp
@@ -42,8 +44,13 @@ class Feed
         $this->items .= $item->render();
     }
 
-    // hardcoded values could be passed via a `header()` function, but only if needed - aren't right now!
-    private function render()
+    /**
+     * Render the feed.
+     * Note: hardcoded values could be passed via a `header()` function, but only if needed - aren't right now!
+     *
+     * @return string
+     */
+    public function render()
     {
         return <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
@@ -63,16 +70,6 @@ class Feed
     {$this->items}
 </Feed>
 XML;
-    }
-
-    /**
-     * Get the feed as raw XML.
-     *
-     * @return string
-     */
-    public function getXml()
-    {
-        return $this->render();
     }
 
     /**
