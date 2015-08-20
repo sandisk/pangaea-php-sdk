@@ -1,12 +1,13 @@
 <?php
 namespace Pangaea;
 
+use \Pangaea\RenderableInterface;
 use \Pangaea\Attribute\AttributeInterface;
 use \Pangaea\Attribute\NameValueAttribute;
 use \Pangaea\Attribute\VariantMetaDataAttribute;
 use \Pangaea\Item\ItemLogistics;
 
-class Item
+class Item implements RenderableInterface
 {
     /**
      * Default End Date (as specified by Walmart).
@@ -575,7 +576,7 @@ XML;
      */
     public function setItemLogistics(ItemLogistics $itemLogistics)
     {
-        $this->itemLogistics = $itemLogistics;
+        $this->itemLogistics = $itemLogistics->render();
         $this->addAttributes('Product', $itemLogistics->getProductAttributes());
     }
 
@@ -586,7 +587,9 @@ XML;
      */
     public function render()
     {
-        $itemLogisticsXml = $this->itemLogistics->render();
+        if (null === $this->itemLogistics) {
+            throw new PangaeaException('Cannot render item without an ItemLogistics element being set');
+        }
 
         return <<<XML
 <UncategorizedItem processMode="INCREMENTAL" action="CREATE">
@@ -621,7 +624,7 @@ XML;
         {$this->status['publish']}
         {$this->status['lifecycle']}
         {$this->shipping}
-        {$itemLogisticsXml}
+        {$this->itemLogistics}
         <ItemPrice>{$this->pricing}</ItemPrice>
         <OfferAttributes>{$this->attributes['Offer']}</OfferAttributes>
         <MarketAttributes>{$this->attributes['MarketInOffer']}</MarketAttributes>

@@ -116,7 +116,7 @@ class ItemsTest extends PHPUnit_Framework_TestCase
     public function testItemsXml()
     {
         $sampleXml = $this->loadXmlFixture('items.xml');
-        $outputXml = $this->feed->getXml();
+        $outputXml = $this->feed->render();
 
         $this->assertXmlStringEqualsXmlString($sampleXml, $outputXml);
     }
