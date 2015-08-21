@@ -248,13 +248,21 @@ class Item implements RenderableInterface
     }
 
     /**
+     * Set the descriptions (short and long).
+     *
      * @param $short
      * @param $long
+     * @param $raw
      */
-    public function setDescriptions($short, $long)
+    public function setDescriptions($short, $long, $raw = false)
     {
-        $this->shortDescription = Xml::escape($short);
-        $this->longDescription  = Xml::escape($long);
+        if (! $raw) {
+            $short = Xml::escape($short);
+            $long  = Xml::escape($long);
+        }
+
+        $this->shortDescription = $short;
+        $this->longDescription  = $long;
     }
 
     /**
