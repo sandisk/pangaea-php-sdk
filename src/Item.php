@@ -6,11 +6,8 @@ use \Pangaea\Attribute\AttributeInterface;
 use \Pangaea\Attribute\NameValueAttribute;
 use \Pangaea\Attribute\VariantMetaDataAttribute;
 use \Pangaea\Item\ItemLogistics;
-
-use function \Pangaea\Functions\value;
-use function \Pangaea\Functions\tax_value;
-use function \Pangaea\Functions\date_value;
-use function \Pangaea\Functions\enum_value;
+use \Pangaea\Utils\Date;
+use \Pangaea\Utils\Value;
 
 class Item implements RenderableInterface
 {
@@ -247,8 +244,8 @@ class Item implements RenderableInterface
      */
     public function __construct($sku, $upc)
     {
-        $this->sku = value($sku);
-        $this->upc = value($upc);
+        $this->sku = Value::value($sku);
+        $this->upc = Value::value($upc);
     }
 
     /**
@@ -256,7 +253,7 @@ class Item implements RenderableInterface
      */
     public function setTitle($title)
     {
-        $this->title = value($title);
+        $this->title = Value::value($title);
     }
 
     /**
@@ -265,8 +262,8 @@ class Item implements RenderableInterface
      */
     public function setDescriptions($short, $long)
     {
-        $this->shortDescription = value($short);
-        $this->longDescription  = value($long);
+        $this->shortDescription = Value::value($short);
+        $this->longDescription  = Value::value($long);
     }
 
     /**
@@ -276,7 +273,7 @@ class Item implements RenderableInterface
      */
     public function setTaxCode($rate)
     {
-        $this->taxCode = tax_value($rate);
+        $this->taxCode = Value::tax($rate);
     }
 
     /**
@@ -287,12 +284,10 @@ class Item implements RenderableInterface
      */
     public function setDates($start, $end = null)
     {
-        $start = date_value($start);
-        $end   = ($end ? date_value($end) : date_value(static::SPEC_DEFAULT_END_DATE));
+        $start = Value::date($start);
+        $end   = ($end ? Value::date($end) : Value::date(static::SPEC_DEFAULT_END_DATE));
 
-        if (! $start->isEmpty()) {
-            $this->dates .= '<startDate>' . $start->getValue() . '</startDate>';
-        }
+        $this->dates .= '<startDate>' . $start->getValue() . '</startDate>';
 
         if (! $end->isEmpty()) {
             $this->dates .= '<endDate>' . $end->getValue() . '</endDate>';
@@ -308,7 +303,7 @@ class Item implements RenderableInterface
      */
     public function setPublishStatus($status)
     {
-        $status = enum_value($status);
+        $status = Value::enum($status);
 
         if ($status->isEmpty()) {
             throw new PangaeaException('Publish status cannot be blank');
@@ -330,7 +325,7 @@ class Item implements RenderableInterface
      */
     public function setLifecycleStatus($status)
     {
-        $status = enum_value($status);
+        $status = Value::enum($status);
 
         if ($status->isEmpty()) {
             throw new PangaeaException('Lifecycle status cannot be blank');
@@ -354,10 +349,10 @@ class Item implements RenderableInterface
      */
     public function setDimensions($length, $width, $height, $unit)
     {
-        $length = value($length);
-        $width  = value($width);
-        $height = value($height);
-        $unit   = enum_value($unit);
+        $length = Value::value($length);
+        $width  = Value::value($width);
+        $height = Value::value($height);
+        $unit   = Value::enum($unit);
 
         if ($unit->isEmpty()) {
             throw new PangaeaException('Shipping unit of measurement cannot be blank');
@@ -383,8 +378,8 @@ XML;
      */
     public function setWeight($weight, $unit)
     {
-        $weight = value($weight);
-        $unit   = enum_value($unit);
+        $weight = Value::value($weight);
+        $unit   = Value::enum($unit);
 
         if ($unit->isEmpty()) {
             throw new PangaeaException('Shipping unit of weight cannot be blank');
@@ -407,7 +402,7 @@ XML;
      */
     public function setPricing($retail = 0, $current = 0, $previous = 0, $effectiveDate = null)
     {
-        $effectiveDate = Date::format($effectiveDate);
+        $effectiveDate = Value::date($effectiveDate);
         $retailPrice   = $this->renderPrice('BaseRetail', $retail, 'BASE');
         $currentPrice  = $this->renderPrice('CurrentPrice', $current, 'BASE');
         $previousPrice = ($previous > 0 ? $this->renderPrice('ComparisonPrice', $previous, 'LIST_PRICE') : '');
@@ -428,9 +423,10 @@ XML;
 
     private function renderPrice($group, $amount, $type)
     {
-        $amount = number_format($amount, 2);
+        $amount = Value::value(number_format($amount, 2));
+        $type   = Value::value($type);
 
-        return "<$group><value><currency>GBP</currency><amount>$amount</amount></value><priceType>$type</priceType></$group>";
+        return "<$group><value><currency>GBP</currency><amount>{$amount->getValue()}</amount></value><priceType>{$type->getValue()}</priceType></$group>";
     }
 
     /**
@@ -440,8 +436,10 @@ XML;
      */
     public function setBrand($brand)
     {
-        if (mb_strlen($brand) > 0) {
-            $this->brand = '<brand>' . Xml::escape($brand) . '</brand>';
+        $brand = Value::value($brand);
+
+        if (! $brand->isEmpty()) {
+            $this->brand = '<brand>' . $brand->getValue() . '</brand>';
         }
     }
 
@@ -518,13 +516,13 @@ XML;
      */
     public function setProductSetupType($type)
     {
-        $type = mb_strtoupper($type);
+        $type = Value::enum($type);
 
-        if (mb_strlen($type) === 0) {
+        if ($type->isEmpty()) {
             throw new PangaeaException('Product setup type cannot be blank');
         }
 
-        if (! in_array($type, static::PRODUCT_SETUP_TYPES)) {
+        if (! $type->isValid(static::PRODUCT_SETUP_TYPES)) {
             throw new PangaeaException(sprintf('Invalid product setup type "%s"', $type));
         }
 
@@ -538,7 +536,7 @@ XML;
      */
     public function setVariantGroupId($groupId)
     {
-        $this->variantGroupId = $groupId;
+        $this->variantGroupId = Value::value($groupId);
     }
 
     /**

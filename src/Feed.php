@@ -2,6 +2,7 @@
 namespace Pangaea;
 
 use \Pangaea\RenderableInterface;
+use \Pangaea\Utils\Date;
 
 /**
  * Produces an XML feed of product data for Walmarts global e-commerce platform, Pangaea

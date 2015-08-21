@@ -1,11 +1,11 @@
 <?php
 namespace Pangaea\Attribute;
 
-use \Pangaea\Date;
 use \Pangaea\PangaeaException;
 use \Pangaea\RenderableInterface;
 use \Pangaea\Xml;
 use \Pangaea\Attribute\AttributeInterface;
+use \Pangaea\Utils\Date;
 
 class NameValueAttribute implements AttributeInterface, RenderableInterface
 {

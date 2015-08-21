@@ -7,8 +7,7 @@ use \Pangaea\Item;
 use \Pangaea\Item\ItemLogistics;
 use \Pangaea\PangaeaException;
 use \Pangaea\Attribute\VariantMetaDataAttribute;
-
-use function \Pangaea\Functions\raw_value;
+use \Pangaea\Utils\Value;
 
 class ItemsTest extends PHPUnit_Framework_TestCase
 {
@@ -51,7 +50,7 @@ class ItemsTest extends PHPUnit_Framework_TestCase
             $item = new Item($variation['sku'], $variation['upc']);
             $item->setTitle('Sample item');
             $item->setBrand('Brandtastic');
-            $item->setDescriptions('Short description', raw_value('Longer description about the item... &amp;bull;'));
+            $item->setDescriptions('Short description', Value::raw('Longer description about the item... &amp;bull;'));
             $item->setTaxCode(20);
             $item->setDates('2015-01-01', '2025-01-01');
             $item->setPublishStatus('UNPUBLISHED');

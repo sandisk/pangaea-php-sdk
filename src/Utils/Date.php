@@ -1,5 +1,5 @@
 <?php
-namespace Pangaea;
+namespace Pangaea\Utils;
 
 use \DateTime;
 

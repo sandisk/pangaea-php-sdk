@@ -1,7 +1,7 @@
 <?php
 namespace Pangaea\Value;
 
-class AbstractValue implements ValueInterface
+abstract class AbstractValue implements ValueInterface
 {
     /**
      * The value.

@@ -2,6 +2,7 @@
 namespace Pangaea;
 
 use \JsonSerializable;
+use \Pangaea\Utils\Date;
 
 class Category implements JsonSerializable
 {
