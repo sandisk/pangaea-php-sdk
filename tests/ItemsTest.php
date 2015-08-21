@@ -8,6 +8,8 @@ use \Pangaea\Item\ItemLogistics;
 use \Pangaea\PangaeaException;
 use \Pangaea\Attribute\VariantMetaDataAttribute;
 
+use function \Pangaea\Functions\raw_value;
+
 class ItemsTest extends PHPUnit_Framework_TestCase
 {
     use \Pangaea\Test\FixtureLoadTrait;
@@ -49,7 +51,7 @@ class ItemsTest extends PHPUnit_Framework_TestCase
             $item = new Item($variation['sku'], $variation['upc']);
             $item->setTitle('Sample item');
             $item->setBrand('Brandtastic');
-            $item->setDescriptions('Short description', 'Longer description about the item...');
+            $item->setDescriptions('Short description', raw_value('Longer description about the item... &amp;bull;'));
             $item->setTaxCode(20);
             $item->setDates('2015-01-01', '2025-01-01');
             $item->setPublishStatus('UNPUBLISHED');

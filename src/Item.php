@@ -7,6 +7,11 @@ use \Pangaea\Attribute\NameValueAttribute;
 use \Pangaea\Attribute\VariantMetaDataAttribute;
 use \Pangaea\Item\ItemLogistics;
 
+use function \Pangaea\Functions\value;
+use function \Pangaea\Functions\tax_value;
+use function \Pangaea\Functions\date_value;
+use function \Pangaea\Functions\enum_value;
+
 class Item implements RenderableInterface
 {
     /**
@@ -162,6 +167,13 @@ class Item implements RenderableInterface
     private $taxCode;
 
     /**
+     * Start/End Dates
+     *
+     * @var mixed
+     */
+    private $dates;
+
+    /**
      * Assets
      *
      * @var mixed
@@ -235,8 +247,8 @@ class Item implements RenderableInterface
      */
     public function __construct($sku, $upc)
     {
-        $this->sku = Xml::escape($sku);
-        $this->upc = Xml::escape($upc);
+        $this->sku = value($sku);
+        $this->upc = value($upc);
     }
 
     /**
@@ -244,7 +256,7 @@ class Item implements RenderableInterface
      */
     public function setTitle($title)
     {
-        $this->title = Xml::escape($title);
+        $this->title = value($title);
     }
 
     /**
@@ -253,8 +265,8 @@ class Item implements RenderableInterface
      */
     public function setDescriptions($short, $long)
     {
-        $this->shortDescription = Xml::escape($short);
-        $this->longDescription  = Xml::escape($long);
+        $this->shortDescription = value($short);
+        $this->longDescription  = value($long);
     }
 
     /**
@@ -264,7 +276,7 @@ class Item implements RenderableInterface
      */
     public function setTaxCode($rate)
     {
-        $this->taxCode = number_format($rate * 100, 2);
+        $this->taxCode = tax_value($rate);
     }
 
     /**
@@ -275,10 +287,16 @@ class Item implements RenderableInterface
      */
     public function setDates($start, $end = null)
     {
-        $start = (Date::isEmpty($start) ? '' : '<startDate>' . Date::format($start) . '</startDate>');
-        $end   = Date::format(Date::isEmpty($end) ? static::SPEC_DEFAULT_END_DATE : $end);
+        $start = date_value($start);
+        $end   = ($end ? date_value($end) : date_value(static::SPEC_DEFAULT_END_DATE));
 
-        $this->dates = "$start<endDate>$end</endDate>";
+        if (! $start->isEmpty()) {
+            $this->dates .= '<startDate>' . $start->getValue() . '</startDate>';
+        }
+
+        if (! $end->isEmpty()) {
+            $this->dates .= '<endDate>' . $end->getValue() . '</endDate>';
+        }
     }
 
     /**
@@ -290,17 +308,17 @@ class Item implements RenderableInterface
      */
     public function setPublishStatus($status)
     {
-        $status = mb_strtoupper($status);
+        $status = enum_value($status);
 
-        if (mb_strlen($status) === 0) {
+        if ($status->isEmpty()) {
             throw new PangaeaException('Publish status cannot be blank');
         }
 
-        if (! in_array($status, static::PUBLISHED_STATUSES)) {
-            throw new PangaeaException(sprintf('Invalid publish status "%s"', $status));
+        if (! $status->isValid(static::PUBLISHED_STATUSES)) {
+            throw new PangaeaException(sprintf('Invalid publish status "%s"', $status->getRawValue()));
         }
 
-        $this->status['publish'] = '<publishStatus>' . Xml::escape($status) . '</publishStatus>';
+        $this->status['publish'] = '<publishStatus>' . $status->getValue() . '</publishStatus>';
     }
 
     /**
@@ -312,17 +330,17 @@ class Item implements RenderableInterface
      */
     public function setLifecycleStatus($status)
     {
-        $status = mb_strtoupper($status);
+        $status = enum_value($status);
 
-        if (mb_strlen($status) === 0) {
+        if ($status->isEmpty()) {
             throw new PangaeaException('Lifecycle status cannot be blank');
         }
 
-        if (! in_array($status, static::LIFECYCLE_STATUSES)) {
-            throw new PangaeaException(sprintf('Invalid lifecycle status "%s"', $status));
+        if (! $status->isValid(static::LIFECYCLE_STATUSES)) {
+            throw new PangaeaException(sprintf('Invalid lifecycle status "%s"', $status->getRawValue()));
         }
 
-        $this->status['lifecycle'] = '<lifecycleStatus>' . Xml::escape($status) . '</lifecycleStatus>';
+        $this->status['lifecycle'] = '<lifecycleStatus>' . $status->getValue() . '</lifecycleStatus>';
     }
 
     /**
@@ -336,21 +354,24 @@ class Item implements RenderableInterface
      */
     public function setDimensions($length, $width, $height, $unit)
     {
-        $unit = mb_strtoupper($unit);
+        $length = value($length);
+        $width  = value($width);
+        $height = value($height);
+        $unit   = enum_value($unit);
 
-        if (mb_strlen($unit) === 0) {
+        if ($unit->isEmpty()) {
             throw new PangaeaException('Shipping unit of measurement cannot be blank');
         }
 
-        if (! in_array($unit, static::UNITS_MEASUREMENT)) {
-            throw new PangaeaException(sprintf('Invalid shipping unit of measurement "%s"', $unit));
+        if (! $unit->isValid(static::UNITS_MEASUREMENT)) {
+            throw new PangaeaException(sprintf('Invalid shipping unit of measurement "%s"', $unit->getRawValue()));
         }
 
         // @todo: possibly validate (numeric?) the values? unclear on rules...
         $this->shipping .= <<<XML
-<shippingLength><value>{$length}</value><unit>{$unit}</unit></shippingLength>
-<shippingWidth><value>{$width}</value><unit>{$unit}</unit></shippingWidth>
-<shippingHeight><value>{$height}</value><unit>{$unit}</unit></shippingHeight>
+<shippingLength><value>{$length->getValue()}</value><unit>{$unit->getValue()}</unit></shippingLength>
+<shippingWidth><value>{$width->getValue()}</value><unit>{$unit->getValue()}</unit></shippingWidth>
+<shippingHeight><value>{$height->getValue()}</value><unit>{$unit->getValue()}</unit></shippingHeight>
 XML;
     }
 
@@ -362,17 +383,18 @@ XML;
      */
     public function setWeight($weight, $unit)
     {
-        $unit = mb_strtoupper($unit);
+        $weight = value($weight);
+        $unit   = enum_value($unit);
 
-        if (mb_strlen($unit) === 0) {
+        if ($unit->isEmpty()) {
             throw new PangaeaException('Shipping unit of weight cannot be blank');
         }
 
-        if (! in_array($unit, static::UNITS_WEIGHT)) {
+        if (! $unit->isValid(static::UNITS_WEIGHT)) {
             throw new PangaeaException(sprintf('Invalid shipping unit of weight "%s"', $unit));
         }
 
-        $this->shipping .= "<shippingWeight><value>{$weight}</value><unit>{$unit}</unit></shippingWeight>";
+        $this->shipping .= "<shippingWeight><value>{$weight->getValue()}</value><unit>{$unit->getValue()}</unit></shippingWeight>";
     }
 
     /**
@@ -594,15 +616,15 @@ XML;
         return <<<XML
 <UncategorizedItem processMode="INCREMENTAL" action="CREATE">
     <Product>
-        <sku>{$this->sku}</sku>
-        <productTitle>{$this->title}</productTitle>
-        <productShortDescription>{$this->shortDescription}</productShortDescription>
-        <productLongDescription>{$this->longDescription}</productLongDescription>
-        <productTaxCode>{$this->taxCode}</productTaxCode>
+        <sku>{$this->sku->getValue()}</sku>
+        <productTitle>{$this->title->getValue()}</productTitle>
+        <productShortDescription>{$this->shortDescription->getValue()}</productShortDescription>
+        <productLongDescription>{$this->longDescription->getValue()}</productLongDescription>
+        <productTaxCode>{$this->taxCode->getValue()}</productTaxCode>
         <ProductIds>
             <ProductId>
                 <productIdType>UPC</productIdType>
-                <productId>{$this->upc}</productId>
+                <productId>{$this->upc->getValue()}</productId>
             </ProductId>
         </ProductIds>
         {$this->brand}
@@ -613,12 +635,12 @@ XML;
         <ComplianceAttributes>{$this->attributes['Compliance']}</ComplianceAttributes>
         <MarketAttributes>{$this->attributes['MarketInProduct']}</MarketAttributes>
         <Assets processMode="REPLACE" action="CREATE">
-            <sku>{$this->sku}</sku>
+            <sku>{$this->sku->getValue()}</sku>
             {$this->assets}
         </Assets>
     </Product>
     <Offer>
-        <sku>{$this->sku}</sku>
+        <sku>{$this->sku->getValue()}</sku>
         <offerType>ONLINE_ONLY</offerType>
         {$this->dates}
         {$this->status['publish']}
