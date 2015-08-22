@@ -66,7 +66,7 @@ class Item implements RenderableInterface
 
     /**
      * Valid units of measurement.
-     * 
+     *
      * @const
      */
     const UNITS_MEASUREMENT = [
@@ -249,6 +249,7 @@ class Item implements RenderableInterface
 
     /**
      * Set the descriptions (short and long).
+     * Accepts text and unencoded HTML (which will be encoded as UTF-8 entities).
      *
      * @param $short
      * @param $long
