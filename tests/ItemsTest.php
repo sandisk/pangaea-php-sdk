@@ -49,7 +49,7 @@ class ItemsTest extends PHPUnit_Framework_TestCase
             $item = new Item($variation['sku'], $variation['upc']);
             $item->setTitle('Sample item');
             $item->setBrand('Brandtastic');
-            $item->setDescriptions('Short description', 'Longer description about the item... &amp;bull;', true);
+            $item->setDescriptions('Short description', 'Longer description about the item... •', true);
             $item->setTaxCode(20);
             $item->setDates('2015-01-01', '2025-01-01');
             $item->setPublishStatus('UNPUBLISHED');
