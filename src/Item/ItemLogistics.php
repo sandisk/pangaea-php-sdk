@@ -263,11 +263,21 @@ class ItemLogistics implements RenderableInterface
      */
     public function getProductAttributes()
     {
-        return [
-            new NameValueAttribute('supplier_number', $this->legacyDistributorId),
-            new NameValueAttribute('mds_fam_id', $this->shipNodeSupply['mdsfamId']),
-            new NameValueAttribute('supplier_stock_number', $this->shipNodeSupply['vendorStockId']),
+        $map = [
+            'supplier_number'       => $this->legacyDistributorId,
+            'mds_fam_id'            => $this->shipNodeSupply['mdsfamId'],
+            'supplier_stock_number' => $this->shipNodeSupply['vendorStockId'],
         ];
+
+        $attributes = [];
+
+        foreach ($map as $name => $value) {
+            if (! is_null($value) && mb_strlen($value) > 0) {
+                $attributes[] = new NameValueAttribute($name, $value);
+            }
+        }
+
+        return $attributes;
     }
 
     /**
