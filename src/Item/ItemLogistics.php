@@ -231,7 +231,7 @@ class ItemLogistics implements RenderableInterface
         }
 
         $this->unitCost['amount']   = (float) $amount;
-        $this->unitCost['currency'] = (string) $currency;
+        $this->unitCost['currency'] = $currency;
     }
 
     /**
@@ -241,7 +241,7 @@ class ItemLogistics implements RenderableInterface
      */
     public function setLegacyDistributorId($legacyDistributorId)
     {
-        $this->legacyDistributorId = (string) $legacyDistributorId;
+        $this->legacyDistributorId = $legacyDistributorId;
     }
 
     /**
@@ -252,8 +252,8 @@ class ItemLogistics implements RenderableInterface
      */
     public function setShipNodeSupply($mdsfamId, $vendorStockId)
     {
-        $this->shipNodeSupply['mdsfamId']      = (string) $mdsfamId;
-        $this->shipNodeSupply['vendorStockId'] = (string) $vendorStockId;
+        $this->shipNodeSupply['mdsfamId']      = $mdsfamId;
+        $this->shipNodeSupply['vendorStockId'] = $vendorStockId;
     }
 
     /**
