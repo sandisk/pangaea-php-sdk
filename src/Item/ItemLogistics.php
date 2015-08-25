@@ -272,8 +272,10 @@ class ItemLogistics implements RenderableInterface
         $attributes = [];
 
         foreach ($map as $name => $value) {
-            if (! is_null($value) && mb_strlen($value) > 0) {
-                $attributes[] = new NameValueAttribute($name, $value);
+            $attribute = new NameValueAttribute($name, $value);
+
+            if (! $attribute->isEmpty()) {
+                $attributes[] = $attribute;
             }
         }
 
