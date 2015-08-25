@@ -257,17 +257,30 @@ class ItemLogistics implements RenderableInterface
     }
 
     /**
-     * Get an array of attribues that belong in the item's product attributes element.
+     * Get an array of attributes that belong in the item's product attributes element.
+     * Note: Attributes are only created and returned if there's a non-empty value.
      *
      * @return array
      */
     public function getProductAttributes()
     {
-        return [
-            new NameValueAttribute('supplier_number', $this->legacyDistributorId),
-            new NameValueAttribute('mds_fam_id', $this->shipNodeSupply['mdsfamId']),
-            new NameValueAttribute('supplier_stock_number', $this->shipNodeSupply['vendorStockId']),
+        $map = [
+            'supplier_number'       => $this->legacyDistributorId,
+            'mds_fam_id'            => $this->shipNodeSupply['mdsfamId'],
+            'supplier_stock_number' => $this->shipNodeSupply['vendorStockId'],
         ];
+
+        $attributes = [];
+
+        foreach ($map as $name => $value) {
+            $attribute = new NameValueAttribute($name, $value);
+
+            if (! $attribute->isEmpty()) {
+                $attributes[] = $attribute;
+            }
+        }
+
+        return $attributes;
     }
 
     /**
