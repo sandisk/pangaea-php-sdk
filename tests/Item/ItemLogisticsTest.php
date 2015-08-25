@@ -14,9 +14,21 @@ class ItemLogisticsTest extends \PHPUnit_Framework_TestCase
 
         $attributes = $itemLogistics->getProductAttributes();
 
-        $this->assertEquals(12345,    $attributes[0]->getValue()[0]);
+        $this->assertCount(3, $attributes);
+        $this->assertEquals(12345, $attributes[0]->getValue()[0]);
         $this->assertEquals(12345678, $attributes[1]->getValue()[0]);
-        $this->assertEquals(123456,   $attributes[2]->getValue()[0]);
+        $this->assertEquals(123456, $attributes[2]->getValue()[0]);
+    }
+
+    public function testItemLogisticsPartialProductAttributes()
+    {
+        $itemLogistics = new ItemLogistics;
+        $itemLogistics->setLegacyDistributorId(12345);
+
+        $attributes = $itemLogistics->getProductAttributes();
+
+        $this->assertCount(1, $attributes);
+        $this->assertEquals(12345, $attributes[0]->getValue()[0]);
     }
 
     public function testItemLogisticsBlankProductAttributes()
