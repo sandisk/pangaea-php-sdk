@@ -258,6 +258,7 @@ class ItemLogistics implements RenderableInterface
 
     /**
      * Get an array of attributes that belong in the item's product attributes element.
+     * Note: Attributes are only created and returned if there's a non-empty value.
      *
      * @return array
      */
