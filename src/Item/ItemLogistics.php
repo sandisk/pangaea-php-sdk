@@ -1,6 +1,7 @@
 <?php
 namespace Pangaea\Item;
 
+use \Pangaea\Date;
 use \Pangaea\PangaeaException;
 use \Pangaea\RenderableInterface;
 use \Pangaea\Xml;
@@ -34,6 +35,13 @@ class ItemLogistics implements RenderableInterface
         'mdsfamId'      => null,
         'vendorStockId' => null,
     ];
+
+    /**
+     * Preferred Distributors.
+     *
+     * @var array
+     */
+    private $preferredDistributors = [];
 
     /**
      * Valid Unit Cost Currencies.
@@ -257,6 +265,54 @@ class ItemLogistics implements RenderableInterface
     }
 
     /**
+     * Add a preferred distributor.
+     *
+     * @param $legacyDistributorId
+     * @param null $from
+     * @param null $till
+     * @param null $rank
+     */
+    public function addPreferredDistributor($legacyDistributorId, $from = null, $till = null, $rank = null)
+    {
+        $this->preferredDistributors[] = [
+            'legacyDistributorId' => $legacyDistributorId,
+            'effectiveFrom'       => (! Date::isEmpty($from) ? Date::format($from) : null),
+            'effectiveTill'       => (! Date::isEmpty($from) ? Date::format($from) : null),
+            'rank'                => (! is_null($rank) ? (int) $rank : null),
+        ];
+    }
+
+    /**
+     * Render the preferred distributors XML.
+     *
+     * @return string.
+     */
+    private function renderPreferredDistributors()
+    {
+        if (count($this->preferredDistributors) === 0) {
+            return '';
+        }
+
+        $preferredDistributorsXml = '<preferredDistributors>';
+
+        foreach ($this->preferredDistributors as $distributor) {
+            $preferredDistributorsXml .= '<preferredDistributor>';
+
+            foreach ($distributor as $name => $value) {
+                if (! is_null($value) && mb_strlen($value) > 0) {
+                    $preferredDistributorsXml .= '<' . $name . '>' . Xml::escape($value) . '</' . $name . '>';
+                }
+            }
+
+            $preferredDistributorsXml .= '</preferredDistributor>';
+        }
+
+        $preferredDistributorsXml .= '</preferredDistributors>';
+
+        return $preferredDistributorsXml;
+    }
+
+    /**
      * Get an array of attributes that belong in the item's product attributes element.
      * Note: Attributes are only created and returned if there's a non-empty value.
      *
@@ -296,6 +352,8 @@ class ItemLogistics implements RenderableInterface
         $mdsfamId            = Xml::escape($this->shipNodeSupply['mdsfamId']);
         $vendorStockId       = Xml::escape($this->shipNodeSupply['vendorStockId']);
 
+        $preferredDistributorsXml = $this->renderPreferredDistributors();
+
 return <<< XML
 <itemLogistics>
     <!-- START: Required Dummy Values -->
@@ -333,20 +391,7 @@ return <<< XML
     </unitCost>
     <primarySupplyItemId>2947757</primarySupplyItemId>
     <alternateSupplyItemId>str1234</alternateSupplyItemId>
-    <preferredDistributors>
-        <preferredDistributor>
-            <legacyDistributorId>str1234</legacyDistributorId>
-            <effectiveFrom>2012-12-13T12:12:12</effectiveFrom>
-            <effectiveTill>2012-12-13T12:12:12</effectiveTill>
-            <rank>1</rank>
-        </preferredDistributor>
-        <preferredDistributor>
-            <legacyDistributorId>str1234</legacyDistributorId>
-            <effectiveFrom>2012-12-13T12:12:12</effectiveFrom>
-            <effectiveTill>2012-12-13T12:12:12</effectiveTill>
-            <rank>2</rank>
-        </preferredDistributor>
-    </preferredDistributors>
+    {$preferredDistributorsXml}
     <!-- END: Dummy LIMO Values -->
     <!-- START: Required Dummy Values -->
     <fulfillmentOptions></fulfillmentOptions>
