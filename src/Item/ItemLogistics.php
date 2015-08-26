@@ -304,12 +304,12 @@ class ItemLogistics implements RenderableInterface
                 }
             }
 
-            if (! empty($distributorXml)) {
+            if (mb_strlen($distributorXml) > 0) {
                 $distributorsXml .= '<preferredDistributor>' . $distributorXml . '</preferredDistributor>';
             }
         }
 
-        if (! empty($distributorsXml)) {
+        if (! mb_strlen($distributorsXml) > 0) {
             $distributorsXml = '<preferredDistributors>' . $distributorsXml . '</preferredDistributors>';
         }
 
