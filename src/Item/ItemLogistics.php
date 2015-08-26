@@ -293,23 +293,27 @@ class ItemLogistics implements RenderableInterface
             return '';
         }
 
-        $preferredDistributorsXml = '<preferredDistributors>';
+        $distributorsXml = '';
 
         foreach ($this->preferredDistributors as $distributor) {
-            $preferredDistributorsXml .= '<preferredDistributor>';
+            $distributorXml = '';
 
             foreach ($distributor as $name => $value) {
                 if (! is_null($value) && mb_strlen($value) > 0) {
-                    $preferredDistributorsXml .= '<' . $name . '>' . Xml::escape($value) . '</' . $name . '>';
+                    $distributorXml .= '<' . $name . '>' . Xml::escape($value) . '</' . $name . '>';
                 }
             }
 
-            $preferredDistributorsXml .= '</preferredDistributor>';
+            if (! empty($distributorXml)) {
+                $distributorsXml .= '<preferredDistributor>' . $distributorXml . '</preferredDistributor>';
+            }
         }
 
-        $preferredDistributorsXml .= '</preferredDistributors>';
+        if (! empty($distributorsXml)) {
+            $distributorsXml = '<preferredDistributors>' . $distributorsXml . '</preferredDistributors>';
+        }
 
-        return $preferredDistributorsXml;
+        return $distributorsXml;
     }
 
     /**
