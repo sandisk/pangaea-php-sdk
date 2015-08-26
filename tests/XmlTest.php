@@ -60,6 +60,6 @@ class XmlTest extends PHPUnit_Framework_TestCase
         $xmlPath    = __DIR__ . '/fixtures/invalid_items.xml';
         $schemaPath = __DIR__ . '/../xsd/feed/Feed.xsd';
 
-        Xml::validate($xmlPath, $schemaPath);
+        $this->assertFalse(Xml::validate($xmlPath, $schemaPath));
     }
 }
