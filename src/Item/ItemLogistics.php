@@ -309,7 +309,7 @@ class ItemLogistics implements RenderableInterface
             }
         }
 
-        if (! mb_strlen($distributorsXml) > 0) {
+        if (mb_strlen($distributorsXml) > 0) {
             $distributorsXml = '<preferredDistributors>' . $distributorsXml . '</preferredDistributors>';
         }
 
