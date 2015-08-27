@@ -230,7 +230,7 @@
           <name>supplier_number</name>
           <type>STRING</type>
           <value>
-            <value>12345</value>
+            <value>FOOBAR-TRADEPLACE</value>
           </value>
         </NameValueAttribute>
         <NameValueAttribute>
@@ -722,7 +722,7 @@
           <name>supplier_number</name>
           <type>STRING</type>
           <value>
-            <value>12345</value>
+            <value>FOOBAR-TRADEPLACE</value>
           </value>
         </NameValueAttribute>
         <NameValueAttribute>
@@ -1214,7 +1214,7 @@
           <name>supplier_number</name>
           <type>STRING</type>
           <value>
-            <value>12345</value>
+            <value>FOOBAR-TRADEPLACE</value>
           </value>
         </NameValueAttribute>
         <NameValueAttribute>
