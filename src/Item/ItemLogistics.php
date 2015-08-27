@@ -239,7 +239,7 @@ class ItemLogistics implements RenderableInterface
         }
 
         $this->unitCost['amount']   = (float) $amount;
-        $this->unitCost['currency'] = (string) $currency;
+        $this->unitCost['currency'] = $currency;
     }
 
     /**
@@ -249,7 +249,7 @@ class ItemLogistics implements RenderableInterface
      */
     public function setLegacyDistributorId($legacyDistributorId)
     {
-        $this->legacyDistributorId = (string) $legacyDistributorId;
+        $this->legacyDistributorId = $legacyDistributorId;
     }
 
     /**
@@ -260,8 +260,8 @@ class ItemLogistics implements RenderableInterface
      */
     public function setShipNodeSupply($mdsfamId, $vendorStockId)
     {
-        $this->shipNodeSupply['mdsfamId']      = (string) $mdsfamId;
-        $this->shipNodeSupply['vendorStockId'] = (string) $vendorStockId;
+        $this->shipNodeSupply['mdsfamId']      = $mdsfamId;
+        $this->shipNodeSupply['vendorStockId'] = $vendorStockId;
     }
 
     /**
@@ -319,6 +319,7 @@ class ItemLogistics implements RenderableInterface
     /**
      * Get an array of attributes that belong in the item's product attributes element.
      * Note: Attributes are only created and returned if there's a non-empty value.
+     *       Attributes are to be of type STRING if they're not empty/null.
      *
      * @return array
      */
@@ -336,6 +337,8 @@ class ItemLogistics implements RenderableInterface
             $attribute = new NameValueAttribute($name, $value);
 
             if (! $attribute->isEmpty()) {
+                $attribute->setValue((string) $value);
+
                 $attributes[] = $attribute;
             }
         }
