@@ -268,11 +268,11 @@ class ItemLogistics implements RenderableInterface
      * Add a preferred distributor.
      *
      * @param $legacyDistributorId
+     * @param $rank
      * @param null $from
      * @param null $till
-     * @param null $rank
      */
-    public function addPreferredDistributor($legacyDistributorId, $from = null, $till = null, $rank = null)
+    public function addPreferredDistributor($legacyDistributorId, $rank, $from = null, $till = null)
     {
         $this->preferredDistributors[] = [
             'legacyDistributorId' => $legacyDistributorId,
