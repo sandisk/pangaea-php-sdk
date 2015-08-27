@@ -94,8 +94,8 @@ class ItemsTest extends PHPUnit_Framework_TestCase
             $itemLogistics->setUnitCost(123.99, 'GBP');
             $itemLogistics->setLegacyDistributorId(12345);
             $itemLogistics->setShipNodeSupply(12345678, 123456);
-            $itemLogistics->addPreferredDistributor('FOOBAR-TRADEPLACE', 1, '2012-12-13 12:12:12', '2012-12-13 12:12:12');
-            $itemLogistics->addPreferredDistributor('FOOBAR-CLIPPER', 2, '2012-12-13 12:12:12', '2012-12-13 12:12:12');
+            $itemLogistics->addPreferredDistributor(1, 'FOOBAR-TRADEPLACE', '2012-12-13 12:12:12', '2012-12-13 12:12:12');
+            $itemLogistics->addPreferredDistributor(2, 'FOOBAR-CLIPPER', '2012-12-13 12:12:12', '2012-12-13 12:12:12');
 
             $item->setItemLogistics($itemLogistics);
 
