@@ -403,7 +403,7 @@
         <!-- END: Required Dummy Values -->
         <shipNodes>
           <shipNode>
-            <legacyDistributorId>12345</legacyDistributorId>
+            <legacyDistributorId>FOOBAR-TRADEPLACE</legacyDistributorId>
             <!-- START: Required Dummy Values -->
             <shipNodeStatus>ACTIVE</shipNodeStatus>
             <preOrderMaxQty>
@@ -895,7 +895,7 @@
         <!-- END: Required Dummy Values -->
         <shipNodes>
           <shipNode>
-            <legacyDistributorId>12345</legacyDistributorId>
+            <legacyDistributorId>FOOBAR-TRADEPLACE</legacyDistributorId>
             <!-- START: Required Dummy Values -->
             <shipNodeStatus>ACTIVE</shipNodeStatus>
             <preOrderMaxQty>
@@ -1387,7 +1387,7 @@
         <!-- END: Required Dummy Values -->
         <shipNodes>
           <shipNode>
-            <legacyDistributorId>12345</legacyDistributorId>
+            <legacyDistributorId>FOOBAR-TRADEPLACE</legacyDistributorId>
             <!-- START: Required Dummy Values -->
             <shipNodeStatus>ACTIVE</shipNodeStatus>
             <preOrderMaxQty>
