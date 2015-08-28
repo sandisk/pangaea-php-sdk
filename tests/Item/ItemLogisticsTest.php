@@ -56,4 +56,14 @@ class ItemLogisticsTest extends \PHPUnit_Framework_TestCase
         $itemLogistics = new ItemLogistics;
         $itemLogistics->setUnitCost(123.99, 'FOOBAR');
     }
+
+    /**
+     * @expectedException              \Pangaea\PangaeaException
+     * @expectedExceptionMessageRegExp /Invalid unit of measurement ".*"/
+     */
+    public function testInvalidItemLogisticsOnHandSafetyFactorQuantityException()
+    {
+        $itemLogistics = new ItemLogistics;
+        $itemLogistics->setOnHandSafetyFactorQuantity(5, 'FOOBAR');
+    }
 }
