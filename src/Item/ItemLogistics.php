@@ -1,6 +1,7 @@
 <?php
 namespace Pangaea\Item;
 
+use \Pangaea\Item;
 use \Pangaea\PangaeaException;
 use \Pangaea\RenderableInterface;
 use \Pangaea\Xml;
@@ -41,6 +42,16 @@ class ItemLogistics implements RenderableInterface
      * @var bool
      */
     private $assumeInfiniteInventory = false;
+
+    /**
+     * On hand Safety Factor Quantity.
+     *
+     * @var array
+     */
+    private $onHandSafetyFactorQuantity = [
+        'value' => null,
+        'unit'  => null,
+    ];
 
     /**
      * Valid Unit Cost Currencies.
@@ -274,6 +285,29 @@ class ItemLogistics implements RenderableInterface
     }
 
     /**
+     * Set the On Hand Safety Factor Quantity.
+     *
+     * @param $value
+     * @param $unit
+     * @throws PangaeaException
+     */
+    public function setOnHandSafetyFactorQuantity($value, $unit)
+    {
+        $unit = mb_strtoupper($unit);
+
+        if (mb_strlen($unit) === 0) {
+            throw new PangaeaException('Unit cost currency cannot be blank');
+        }
+
+        if (! in_array($unit, Item::UNITS_MEASUREMENT)) {
+            throw new PangaeaException(sprintf('Invalid unit of measurement "%s"', $unit));
+        }
+
+        $this->onHandSafetyFactorQuantity['value'] = (int) $value;
+        $this->onHandSafetyFactorQuantity['unit']  = $unit;
+    }
+
+    /**
      * Get an array of attributes that belong in the item's product attributes element.
      * Note: Attributes are only created and returned if there's a non-empty value.
      *       Attributes are to be of type STRING if they're not empty/null.
@@ -310,12 +344,14 @@ class ItemLogistics implements RenderableInterface
      */
     public function render()
     {
-        $unitCostAmount          = Xml::escape($this->unitCost['amount']);
-        $unitCostCurrency        = Xml::escape($this->unitCost['currency']);
-        $legacyDistributorId     = Xml::escape($this->legacyDistributorId);
-        $mdsfamId                = Xml::escape($this->shipNodeSupply['mdsfamId']);
-        $vendorStockId           = Xml::escape($this->shipNodeSupply['vendorStockId']);
-        $assumeInfiniteInventory = Xml::escape($this->assumeInfiniteInventory);
+        $unitCostAmount                  = Xml::escape($this->unitCost['amount']);
+        $unitCostCurrency                = Xml::escape($this->unitCost['currency']);
+        $legacyDistributorId             = Xml::escape($this->legacyDistributorId);
+        $mdsfamId                        = Xml::escape($this->shipNodeSupply['mdsfamId']);
+        $vendorStockId                   = Xml::escape($this->shipNodeSupply['vendorStockId']);
+        $assumeInfiniteInventory         = Xml::escape($this->assumeInfiniteInventory);
+        $onHandSafetyFactorQuantityValue = Xml::escape($this->onHandSafetyFactorQuantity['value']);
+        $onHandSafetyFactorQuantityUnit  = Xml::escape($this->onHandSafetyFactorQuantity['unit']);
 
 return <<< XML
 <itemLogistics>
@@ -344,8 +380,8 @@ return <<< XML
         <high>999</high>
     </inventoryAvailabilityThreshold>
     <onHandSafetyFactorQuantity>
-        <value>5</value>
-        <unit>EA</unit>
+        <value>{$onHandSafetyFactorQuantityValue}</value>
+        <unit>{$onHandSafetyFactorQuantityUnit}</unit>
     </onHandSafetyFactorQuantity>
     <assumeInfiniteInventory>{$assumeInfiniteInventory}</assumeInfiniteInventory>
     <unitCost>

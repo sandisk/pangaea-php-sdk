@@ -95,6 +95,7 @@ class ItemsTest extends PHPUnit_Framework_TestCase
             $itemLogistics->setLegacyDistributorId(12345);
             $itemLogistics->setShipNodeSupply(12345678, 123456);
             $itemLogistics->setAssumeInfiniteInventory(true);
+            $itemLogistics->setOnHandSafetyFactorQuantity(5, 'EA');
 
             $item->setItemLogistics($itemLogistics);
 
