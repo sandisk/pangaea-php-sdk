@@ -94,6 +94,7 @@ class ItemsTest extends PHPUnit_Framework_TestCase
             $itemLogistics->setUnitCost(123.99, 'GBP');
             $itemLogistics->setLegacyDistributorId(12345);
             $itemLogistics->setShipNodeSupply(12345678, 123456);
+            $itemLogistics->setAssumeInfiniteInventory(true);
 
             $item->setItemLogistics($itemLogistics);
 

@@ -35,6 +35,13 @@ class ItemLogistics implements RenderableInterface
         'vendorStockId' => null,
     ];
 
+    /*
+     * Assume Infinite Inventory.
+     *
+     * @var bool
+     */
+    private $assumeInfiniteInventory = false;
+
     /**
      * Valid Unit Cost Currencies.
      *
@@ -257,6 +264,16 @@ class ItemLogistics implements RenderableInterface
     }
 
     /**
+     * Set assume infinite inventory.
+     *
+     * @param bool $assumeInfiniteInventory
+     */
+    public function setAssumeInfiniteInventory($assumeInfiniteInventory)
+    {
+        $this->assumeInfiniteInventory = (bool) $assumeInfiniteInventory;
+    }
+
+    /**
      * Get an array of attributes that belong in the item's product attributes element.
      * Note: Attributes are only created and returned if there's a non-empty value.
      *       Attributes are to be of type STRING if they're not empty/null.
@@ -293,11 +310,12 @@ class ItemLogistics implements RenderableInterface
      */
     public function render()
     {
-        $unitCostAmount      = Xml::escape($this->unitCost['amount']);
-        $unitCostCurrency    = Xml::escape($this->unitCost['currency']);
-        $legacyDistributorId = Xml::escape($this->legacyDistributorId);
-        $mdsfamId            = Xml::escape($this->shipNodeSupply['mdsfamId']);
-        $vendorStockId       = Xml::escape($this->shipNodeSupply['vendorStockId']);
+        $unitCostAmount          = Xml::escape($this->unitCost['amount']);
+        $unitCostCurrency        = Xml::escape($this->unitCost['currency']);
+        $legacyDistributorId     = Xml::escape($this->legacyDistributorId);
+        $mdsfamId                = Xml::escape($this->shipNodeSupply['mdsfamId']);
+        $vendorStockId           = Xml::escape($this->shipNodeSupply['vendorStockId']);
+        $assumeInfiniteInventory = Xml::escape($this->assumeInfiniteInventory);
 
 return <<< XML
 <itemLogistics>
@@ -329,7 +347,7 @@ return <<< XML
         <value>5</value>
         <unit>EA</unit>
     </onHandSafetyFactorQuantity>
-    <assumeInfiniteInventory>true</assumeInfiniteInventory>
+    <assumeInfiniteInventory>{$assumeInfiniteInventory}</assumeInfiniteInventory>
     <unitCost>
         <currency>{$unitCostCurrency}</currency>
         <amount>{$unitCostAmount}</amount>
