@@ -179,7 +179,7 @@ class Item implements RenderableInterface
     }
 
     /**
-     * If an end date isn't provided, a default (@see static::SPEC_DEFAULT_END_DATE) is used instead
+     * If an end date isn't provided, a default (@see Pangaea::SPEC_DEFAULT_END_DATE) is used instead.
      *
      * @param $start
      * @param null $end
@@ -187,7 +187,7 @@ class Item implements RenderableInterface
     public function setDates($start, $end = null)
     {
         $start = (Date::isEmpty($start) ? '' : '<startDate>' . Date::format($start) . '</startDate>');
-        $end   = Date::format(Date::isEmpty($end) ? static::SPEC_DEFAULT_END_DATE : $end);
+        $end   = Date::format(Date::isEmpty($end) ? Pangaea::SPEC_DEFAULT_END_DATE : $end);
 
         $this->dates = "$start<endDate>$end</endDate>";
     }
