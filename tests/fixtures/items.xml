@@ -381,14 +381,14 @@
         <preferredDistributors>
           <preferredDistributor>
             <legacyDistributorId>FOOBAR-TRADEPLACE</legacyDistributorId>
-            <effectiveFrom>2012-12-13T12:12:12.000+00:00</effectiveFrom>
-            <effectiveTill>2012-12-13T12:12:12.000+00:00</effectiveTill>
+            <effectiveFrom>2012-12-11T11:11:11.000+00:00</effectiveFrom>
+            <effectiveTill>2012-12-12T12:12:12.000+00:00</effectiveTill>
             <rank>1</rank>
           </preferredDistributor>
           <preferredDistributor>
             <legacyDistributorId>FOOBAR-CLIPPER</legacyDistributorId>
-            <effectiveFrom>2012-12-13T12:12:12.000+00:00</effectiveFrom>
-            <effectiveTill>2012-12-13T12:12:12.000+00:00</effectiveTill>
+            <effectiveFrom>2012-12-13T13:13:13.000+00:00</effectiveFrom>
+            <effectiveTill>2012-12-14T14:14:14.000+00:00</effectiveTill>
             <rank>2</rank>
           </preferredDistributor>
         </preferredDistributors>
@@ -873,14 +873,14 @@
         <preferredDistributors>
           <preferredDistributor>
             <legacyDistributorId>FOOBAR-TRADEPLACE</legacyDistributorId>
-            <effectiveFrom>2012-12-13T12:12:12.000+00:00</effectiveFrom>
-            <effectiveTill>2012-12-13T12:12:12.000+00:00</effectiveTill>
+            <effectiveFrom>2012-12-11T11:11:11.000+00:00</effectiveFrom>
+            <effectiveTill>2012-12-12T12:12:12.000+00:00</effectiveTill>
             <rank>1</rank>
           </preferredDistributor>
           <preferredDistributor>
             <legacyDistributorId>FOOBAR-CLIPPER</legacyDistributorId>
-            <effectiveFrom>2012-12-13T12:12:12.000+00:00</effectiveFrom>
-            <effectiveTill>2012-12-13T12:12:12.000+00:00</effectiveTill>
+            <effectiveFrom>2012-12-13T13:13:13.000+00:00</effectiveFrom>
+            <effectiveTill>2012-12-14T14:14:14.000+00:00</effectiveTill>
             <rank>2</rank>
           </preferredDistributor>
         </preferredDistributors>
@@ -1365,14 +1365,14 @@
         <preferredDistributors>
           <preferredDistributor>
             <legacyDistributorId>FOOBAR-TRADEPLACE</legacyDistributorId>
-            <effectiveFrom>2012-12-13T12:12:12.000+00:00</effectiveFrom>
-            <effectiveTill>2012-12-13T12:12:12.000+00:00</effectiveTill>
+            <effectiveFrom>2012-12-11T11:11:11.000+00:00</effectiveFrom>
+            <effectiveTill>2012-12-12T12:12:12.000+00:00</effectiveTill>
             <rank>1</rank>
           </preferredDistributor>
           <preferredDistributor>
             <legacyDistributorId>FOOBAR-CLIPPER</legacyDistributorId>
-            <effectiveFrom>2012-12-13T12:12:12.000+00:00</effectiveFrom>
-            <effectiveTill>2012-12-13T12:12:12.000+00:00</effectiveTill>
+            <effectiveFrom>2012-12-13T13:13:13.000+00:00</effectiveFrom>
+            <effectiveTill>2012-12-14T14:14:14.000+00:00</effectiveTill>
             <rank>2</rank>
           </preferredDistributor>
         </preferredDistributors>
