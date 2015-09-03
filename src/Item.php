@@ -1,6 +1,7 @@
 <?php
 namespace Pangaea;
 
+use \Pangaea\Pangaea;
 use \Pangaea\RenderableInterface;
 use \Pangaea\Attribute\AttributeInterface;
 use \Pangaea\Attribute\NameValueAttribute;
@@ -9,13 +10,6 @@ use \Pangaea\Item\ItemLogistics;
 
 class Item implements RenderableInterface
 {
-    /**
-     * Default End Date (as specified by Walmart).
-     *
-     * @const
-     */
-    const SPEC_DEFAULT_END_DATE  = '2049-12-31';
-
     /**
      * Valid Attribute Groups.
      *
@@ -27,96 +21,6 @@ class Item implements RenderableInterface
         'MarketInProduct',
         'MarketInOffer',
         'Offer',
-    ];
-
-    /**
-     * Valid Lifecycle Statuses.
-     *
-     * @const
-     */
-    const LIFECYCLE_STATUSES = [
-        'ACTIVE',
-        'ARCHIVED',
-        'RETIRED',
-    ];
-
-    /**
-     * Valid Published Statuses.
-     *
-     * @const
-     */
-    const PUBLISHED_STATUSES = [
-        'IN_PROGRESS',
-        'READY_TO_PUBLISH',
-        'PUBLISHED',
-        'UNPUBLISHED',
-        'SYSTEM_PROBLEM',
-        'STAGE',
-    ];
-
-    /**
-     * Valid Product Setup Types.
-     */
-    const PRODUCT_SETUP_TYPES = [
-        'STANDALONE',
-        'PRIMARY',
-        'VARIANT',
-        'BUNDLE',
-    ];
-
-    /**
-     * Valid units of measurement.
-     * 
-     * @const
-     */
-    const UNITS_MEASUREMENT = [
-      'EA',
-      'FT',
-      'IN',
-      'INCH',
-      'YD',
-      'M',
-      'CM',
-      'MM',
-      'KG',
-      'G',
-      'MG',
-      'POUND',
-      'LB',
-      'OZ',
-      'FOZ',
-      'GAL',
-      'QT',
-      'PT',
-      'IMPGAL',
-      'IMPQT',
-      'IMPPT',
-      'L',
-      'ML',
-      'CC',
-      'CBM',
-      'CFT',
-      'CYD',
-      'CIN',
-      'SM',
-      'SFT',
-      'SYD',
-      'SIN',
-      'SCM',
-      'SMM',
-    ];
-
-    /**
-     * Valid units of weight.
-     *
-     * @const
-     */
-    const UNITS_WEIGHT = [
-        'KG',
-        'G',
-        'MG',
-        'LB',
-        'OZ',
     ];
 
     /**
@@ -303,7 +207,7 @@ class Item implements RenderableInterface
             throw new PangaeaException('Publish status cannot be blank');
         }
 
-        if (! in_array($status, static::PUBLISHED_STATUSES)) {
+        if (! in_array($status, Pangaea::PUBLISHED_STATUSES)) {
             throw new PangaeaException(sprintf('Invalid publish status "%s"', $status));
         }
 
@@ -325,7 +229,7 @@ class Item implements RenderableInterface
             throw new PangaeaException('Lifecycle status cannot be blank');
         }
 
-        if (! in_array($status, static::LIFECYCLE_STATUSES)) {
+        if (! in_array($status, Pangaea::LIFECYCLE_STATUSES)) {
             throw new PangaeaException(sprintf('Invalid lifecycle status "%s"', $status));
         }
 
@@ -349,7 +253,7 @@ class Item implements RenderableInterface
             throw new PangaeaException('Shipping unit of measurement cannot be blank');
         }
 
-        if (! in_array($unit, static::UNITS_MEASUREMENT)) {
+        if (! in_array($unit, Pangaea::UNITS_MEASUREMENT)) {
             throw new PangaeaException(sprintf('Invalid shipping unit of measurement "%s"', $unit));
         }
 
@@ -375,7 +279,7 @@ XML;
             throw new PangaeaException('Shipping unit of weight cannot be blank');
         }
 
-        if (! in_array($unit, static::UNITS_WEIGHT)) {
+        if (! in_array($unit, Pangaea::UNITS_WEIGHT)) {
             throw new PangaeaException(sprintf('Invalid shipping unit of weight "%s"', $unit));
         }
 
@@ -509,7 +413,7 @@ XML;
             throw new PangaeaException('Product setup type cannot be blank');
         }
 
-        if (! in_array($type, static::PRODUCT_SETUP_TYPES)) {
+        if (! in_array($type, Pangaea::PRODUCT_SETUP_TYPES)) {
             throw new PangaeaException(sprintf('Invalid product setup type "%s"', $type));
         }
 
