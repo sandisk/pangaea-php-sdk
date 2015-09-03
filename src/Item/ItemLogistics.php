@@ -2,6 +2,7 @@
 namespace Pangaea\Item;
 
 use \Pangaea\Date;
+use \Pangaea\Pangaea;
 use \Pangaea\PangaeaException;
 use \Pangaea\RenderableInterface;
 use \Pangaea\Xml;
@@ -36,6 +37,23 @@ class ItemLogistics implements RenderableInterface
         'vendorStockId' => null,
     ];
 
+    /*
+     * Assume Infinite Inventory.
+     *
+     * @var bool
+     */
+    private $assumeInfiniteInventory = false;
+
+    /**
+     * On hand Safety Factor Quantity.
+     *
+     * @var array
+     */
+    private $onHandSafetyFactorQuantity = [
+        'value' => null,
+        'unit'  => null,
+    ];
+
     /**
      * Preferred Distributors.
      *
@@ -44,180 +62,14 @@ class ItemLogistics implements RenderableInterface
     private $preferredDistributors = [];
 
     /**
-     * Valid Unit Cost Currencies.
+     * Inventory Availability Threshold.
      *
-     * @const
+     * @var array
      */
-    const UNIT_COST_CURRENCIES = [
-      'AED',
-      'AFN',
-      'ALL',
-      'AMD',
-      'ANG',
-      'AOA',
-      'ARS',
-      'AUD',
-      'AWG',
-      'AZN',
-      'BAM',
-      'BBD',
-      'BDT',
-      'BGN',
-      'BHD',
-      'BIF',
-      'BMD',
-      'BND',
-      'BOB',
-      'BRL',
-      'BSD',
-      'BTN',
-      'BWP',
-      'BYR',
-      'BZD',
-      'CAD',
-      'CDF',
-      'CHF',
-      'CLP',
-      'CNY',
-      'COP',
-      'CRC',
-      'CUP',
-      'CVE',
-      'CZK',
-      'DJF',
-      'DKK',
-      'DOP',
-      'DZD',
-      'EGP',
-      'ERN',
-      'ETB',
-      'EUR',
-      'FJD',
-      'FKP',
-      'GBP',
-      'GEL',
-      'GHS',
-      'GIP',
-      'GMD',
-      'GNF',
-      'GTQ',
-      'GYD',
-      'HKD',
-      'HNL',
-      'HRK',
-      'HTG',
-      'HUF',
-      'IDR',
-      'ILS',
-      'INR',
-      'IQD',
-      'IRR',
-      'ISK',
-      'JMD',
-      'JOD',
-      'JPY',
-      'KES',
-      'KGS',
-      'KHR',
-      'KMF',
-      'KPW',
-      'KRW',
-      'KWD',
-      'KYD',
-      'KZT',
-      'LAK',
-      'LBP',
-      'LKR',
-      'LRD',
-      'LSL',
-      'LTL',
-      'LVL',
-      'LYD',
-      'MAD',
-      'MDL',
-      'MGA',
-      'MKD',
-      'MMK',
-      'MNT',
-      'MOP',
-      'MRO',
-      'MUR',
-      'MVR',
-      'MWK',
-      'MXN',
-      'MYR',
-      'MZN',
-      'NAD',
-      'NGN',
-      'NIO',
-      'NOK',
-      'NPR',
-      'NZD',
-      'OMR',
-      'PAB',
-      'PEN',
-      'PGK',
-      'PHP',
-      'PKR',
-      'PLN',
-      'PYG',
-      'QAR',
-      'RON',
-      'RSD',
-      'RUB',
-      'RUR',
-      'RWF',
-      'SAR',
-      'SBD',
-      'SCR',
-      'SDG',
-      'SEK',
-      'SGD',
-      'SHP',
-      'SLL',
-      'SOS',
-      'SRD',
-      'STD',
-      'SYP',
-      'SZL',
-      'THB',
-      'TJS',
-      'TMT',
-      'TND',
-      'TOP',
-      'TRY',
-      'TTD',
-      'TWD',
-      'TZS',
-      'UAH',
-      'UGX',
-      'USD',
-      'UYU',
-      'UZS',
-      'VEF',
-      'VND',
-      'VUV',
-      'WST',
-      'XAF',
-      'XAG',
-      'XAU',
-      'XBA',
-      'XBB',
-      'XBC',
-      'XBD',
-      'XCD',
-      'XDR',
-      'XFU',
-      'XOF',
-      'XPD',
-      'XPF',
-      'XPT',
-      'XTS',
-      'XXX',
-      'YER',
-      'ZAR',
-      'ZMK',
-      'ZWL',
+    private $inventoryAvailabilityThreshold = [
+        'low'    => null,
+        'medium' => null,
+        'high'   => null,
     ];
 
     /**
@@ -234,7 +86,7 @@ class ItemLogistics implements RenderableInterface
             throw new PangaeaException('Unit cost currency cannot be blank');
         }
 
-        if (! in_array($currency, static::UNIT_COST_CURRENCIES)) {
+        if (! in_array($currency, Pangaea::UNIT_COST_CURRENCIES)) {
             throw new PangaeaException(sprintf('Invalid unit cost currency "%s"', $currency));
         }
 
@@ -262,6 +114,75 @@ class ItemLogistics implements RenderableInterface
     {
         $this->shipNodeSupply['mdsfamId']      = $mdsfamId;
         $this->shipNodeSupply['vendorStockId'] = $vendorStockId;
+    }
+
+    /**
+     * Set assume infinite inventory.
+     *
+     * @param bool $assumeInfiniteInventory
+     */
+    public function setAssumeInfiniteInventory($assumeInfiniteInventory)
+    {
+        $this->assumeInfiniteInventory = (bool) $assumeInfiniteInventory;
+    }
+
+    /**
+     * Set the On Hand Safety Factor Quantity.
+     *
+     * @param $value
+     * @param $unit
+     * @throws PangaeaException
+     */
+    public function setOnHandSafetyFactorQuantity($value, $unit)
+    {
+        $unit = mb_strtoupper($unit);
+
+        if (mb_strlen($unit) === 0) {
+            throw new PangaeaException('Unit of measurement cannot be blank');
+        }
+
+        if (! in_array($unit, Pangaea::UNITS_MEASUREMENT)) {
+            throw new PangaeaException(sprintf('Invalid unit of measurement "%s"', $unit));
+        }
+
+        $this->onHandSafetyFactorQuantity['value'] = (int) $value;
+        $this->onHandSafetyFactorQuantity['unit']  = $unit;
+    }
+
+    /**
+     * Set the Inventory Availability Threshold.
+     *
+     * @param $low
+     * @param null $mid
+     * @param null $high
+     */
+    public function setInventoryAvailabilityThreshold($low, $mid = null, $high = null)
+    {
+        $this->inventoryAvailabilityThreshold = [
+            'low'  => (int) $low,
+            'mid'  => ($mid  ? (int) $mid  : null),
+            'high' => ($high ? (int) $high : null),
+        ];
+    }
+
+    /**
+     * Render the Inventory Availability Threshold XML.
+     *
+     * return string
+     */
+    private function renderInventoryAvailabilityThreshold()
+    {
+        $inventoryAvailabilityThresholdXml = '<inventoryAvailabilityThreshold>';
+
+        foreach ($this->inventoryAvailabilityThreshold as $name => $value) {
+            if (!is_null($value) && mb_strlen($value) > 0) {
+                $inventoryAvailabilityThresholdXml .= '<' . $name . '>' . Xml::escape($value) . '</' . $name . '>';
+            }
+        }
+
+        $inventoryAvailabilityThresholdXml .= '</inventoryAvailabilityThreshold>';
+
+        return $inventoryAvailabilityThresholdXml;
     }
 
     /**
@@ -353,11 +274,16 @@ class ItemLogistics implements RenderableInterface
      */
     public function render()
     {
-        $unitCostAmount      = Xml::escape($this->unitCost['amount']);
-        $unitCostCurrency    = Xml::escape($this->unitCost['currency']);
-        $legacyDistributorId = Xml::escape($this->legacyDistributorId);
-        $mdsfamId            = Xml::escape($this->shipNodeSupply['mdsfamId']);
-        $vendorStockId       = Xml::escape($this->shipNodeSupply['vendorStockId']);
+        $unitCostAmount                  = Xml::escape($this->unitCost['amount']);
+        $unitCostCurrency                = Xml::escape($this->unitCost['currency']);
+        $legacyDistributorId             = Xml::escape($this->legacyDistributorId);
+        $mdsfamId                        = Xml::escape($this->shipNodeSupply['mdsfamId']);
+        $vendorStockId                   = Xml::escape($this->shipNodeSupply['vendorStockId']);
+        $assumeInfiniteInventory         = Xml::escape($this->assumeInfiniteInventory);
+        $onHandSafetyFactorQuantityValue = Xml::escape($this->onHandSafetyFactorQuantity['value']);
+        $onHandSafetyFactorQuantityUnit  = Xml::escape($this->onHandSafetyFactorQuantity['unit']);
+
+        $inventoryAvailabilityThresholdXml = $this->renderInventoryAvailabilityThreshold();
 
         $preferredDistributorsXml = $this->renderPreferredDistributors();
 
@@ -382,16 +308,12 @@ return <<< XML
     <isHazmat>false</isHazmat>
     <!-- END: Required Dummy Values -->
     <!-- START: Dummy LIMO Values -->
-    <inventoryAvailabilityThreshold>
-        <low>1</low>
-        <mid>5</mid>
-        <high>999</high>
-    </inventoryAvailabilityThreshold>
+    {$inventoryAvailabilityThresholdXml}
     <onHandSafetyFactorQuantity>
-        <value>5</value>
-        <unit>EA</unit>
+        <value>{$onHandSafetyFactorQuantityValue}</value>
+        <unit>{$onHandSafetyFactorQuantityUnit}</unit>
     </onHandSafetyFactorQuantity>
-    <assumeInfiniteInventory>true</assumeInfiniteInventory>
+    <assumeInfiniteInventory>{$assumeInfiniteInventory}</assumeInfiniteInventory>
     <unitCost>
         <currency>{$unitCostCurrency}</currency>
         <amount>{$unitCostAmount}</amount>
