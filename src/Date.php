@@ -5,6 +5,11 @@ use \DateTime;
 
 class Date
 {
+    /**
+     * Date Format.
+     *
+     * @const
+     */
     const DATE_FORMAT = 'Y-m-d\TH:i:s.000P';
 
     /**
@@ -22,6 +27,12 @@ class Date
         return (new DateTime($date))->format(static::DATE_FORMAT);
     }
 
+    /**
+     * Check whether or not a date is empty.
+     *
+     * @param $date
+     * @return bool
+     */
     public static function isEmpty($date)
     {
         return mb_strlen($date) === 0 || '0000-00-00' === substr($date, 0, 10);
