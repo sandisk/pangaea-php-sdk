@@ -1,7 +1,7 @@
 <?php
 namespace Pangaea\Item;
 
-use \Pangaea\Item;
+use \Pangaea\Date;
 use \Pangaea\Pangaea;
 use \Pangaea\PangaeaException;
 use \Pangaea\RenderableInterface;
@@ -53,6 +53,13 @@ class ItemLogistics implements RenderableInterface
         'value' => null,
         'unit'  => null,
     ];
+
+    /**
+     * Preferred Distributors.
+     *
+     * @var array
+     */
+    private $preferredDistributors = [];
 
     /**
      * Inventory Availability Threshold.
@@ -168,7 +175,7 @@ class ItemLogistics implements RenderableInterface
         $inventoryAvailabilityThresholdXml = '<inventoryAvailabilityThreshold>';
 
         foreach ($this->inventoryAvailabilityThreshold as $name => $value) {
-            if (! is_null($value) && mb_strlen($value) > 0) {
+            if (!is_null($value) && mb_strlen($value) > 0) {
                 $inventoryAvailabilityThresholdXml .= '<' . $name . '>' . Xml::escape($value) . '</' . $name . '>';
             }
         }
@@ -176,6 +183,58 @@ class ItemLogistics implements RenderableInterface
         $inventoryAvailabilityThresholdXml .= '</inventoryAvailabilityThreshold>';
 
         return $inventoryAvailabilityThresholdXml;
+    }
+
+    /**
+     * Add a preferred distributor.
+     *
+     * @param $rank
+     * @param $legacyDistributorId
+     * @param null $from
+     * @param null $till
+     */
+    public function addPreferredDistributor($rank, $legacyDistributorId, $from = null, $till = null)
+    {
+        $this->preferredDistributors[] = [
+            'legacyDistributorId' => $legacyDistributorId,
+            'effectiveFrom'       => (! Date::isEmpty($from) ? Date::format($from) : null),
+            'effectiveTill'       => (! Date::isEmpty($till) ? Date::format($till) : null),
+            'rank'                => (! is_null($rank)       ? (int) $rank         : null),
+        ];
+    }
+
+    /**
+     * Render the preferred distributors XML.
+     *
+     * @return string.
+     */
+    private function renderPreferredDistributors()
+    {
+        if (count($this->preferredDistributors) === 0) {
+            return '';
+        }
+
+        $distributorsXml = '';
+
+        foreach ($this->preferredDistributors as $distributor) {
+            $distributorXml = '';
+
+            foreach ($distributor as $name => $value) {
+                if (! is_null($value) && mb_strlen($value) > 0) {
+                    $distributorXml .= '<' . $name . '>' . Xml::escape($value) . '</' . $name . '>';
+                }
+            }
+
+            if (mb_strlen($distributorXml) > 0) {
+                $distributorsXml .= '<preferredDistributor>' . $distributorXml . '</preferredDistributor>';
+            }
+        }
+
+        if (mb_strlen($distributorsXml) > 0) {
+            $distributorsXml = '<preferredDistributors>' . $distributorsXml . '</preferredDistributors>';
+        }
+
+        return $distributorsXml;
     }
 
     /**
@@ -226,6 +285,8 @@ class ItemLogistics implements RenderableInterface
 
         $inventoryAvailabilityThresholdXml = $this->renderInventoryAvailabilityThreshold();
 
+        $preferredDistributorsXml = $this->renderPreferredDistributors();
+
 return <<< XML
 <itemLogistics>
     <!-- START: Required Dummy Values -->
@@ -259,20 +320,7 @@ return <<< XML
     </unitCost>
     <primarySupplyItemId>2947757</primarySupplyItemId>
     <alternateSupplyItemId>str1234</alternateSupplyItemId>
-    <preferredDistributors>
-        <preferredDistributor>
-            <legacyDistributorId>str1234</legacyDistributorId>
-            <effectiveFrom>2012-12-13T12:12:12</effectiveFrom>
-            <effectiveTill>2012-12-13T12:12:12</effectiveTill>
-            <rank>1</rank>
-        </preferredDistributor>
-        <preferredDistributor>
-            <legacyDistributorId>str1234</legacyDistributorId>
-            <effectiveFrom>2012-12-13T12:12:12</effectiveFrom>
-            <effectiveTill>2012-12-13T12:12:12</effectiveTill>
-            <rank>2</rank>
-        </preferredDistributor>
-    </preferredDistributors>
+    {$preferredDistributorsXml}
     <!-- END: Dummy LIMO Values -->
     <!-- START: Required Dummy Values -->
     <fulfillmentOptions></fulfillmentOptions>
