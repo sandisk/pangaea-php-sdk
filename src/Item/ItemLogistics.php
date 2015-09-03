@@ -54,6 +54,17 @@ class ItemLogistics implements RenderableInterface
     ];
 
     /**
+     * Inventory Availability Threshold.
+     *
+     * @var array
+     */
+    private $inventoryAvailabilityThreshold = [
+        'low'    => null,
+        'medium' => null,
+        'high'   => null,
+    ];
+
+    /**
      * Valid Unit Cost Currencies.
      *
      * @const
@@ -308,6 +319,42 @@ class ItemLogistics implements RenderableInterface
     }
 
     /**
+     * Set the Inventory Availability Threshold.
+     *
+     * @param $low
+     * @param null $mid
+     * @param null $high
+     */
+    public function setInventoryAvailabilityThreshold($low, $mid = null, $high = null)
+    {
+        $this->inventoryAvailabilityThreshold = [
+            'low'  => (int) $low,
+            'mid'  => ($mid  ? (int) $mid  : null),
+            'high' => ($high ? (int) $high : null),
+        ];
+    }
+
+    /**
+     * Render the Inventory Availability Threshold XML.
+     *
+     * return string
+     */
+    private function renderInventoryAvailabilityThreshold()
+    {
+        $inventoryAvailabilityThresholdXml = '<inventoryAvailabilityThreshold>';
+
+        foreach ($this->inventoryAvailabilityThreshold as $name => $value) {
+            if (! is_null($value) && mb_strlen($value) > 0) {
+                $inventoryAvailabilityThresholdXml .= '<' . $name . '>' . Xml::escape($value) . '</' . $name . '>';
+            }
+        }
+
+        $inventoryAvailabilityThresholdXml .= '</inventoryAvailabilityThreshold>';
+
+        return $inventoryAvailabilityThresholdXml;
+    }
+
+    /**
      * Get an array of attributes that belong in the item's product attributes element.
      * Note: Attributes are only created and returned if there's a non-empty value.
      *       Attributes are to be of type STRING if they're not empty/null.
@@ -353,6 +400,8 @@ class ItemLogistics implements RenderableInterface
         $onHandSafetyFactorQuantityValue = Xml::escape($this->onHandSafetyFactorQuantity['value']);
         $onHandSafetyFactorQuantityUnit  = Xml::escape($this->onHandSafetyFactorQuantity['unit']);
 
+        $inventoryAvailabilityThresholdXml = $this->renderInventoryAvailabilityThreshold();
+
 return <<< XML
 <itemLogistics>
     <!-- START: Required Dummy Values -->
@@ -374,11 +423,7 @@ return <<< XML
     <isHazmat>false</isHazmat>
     <!-- END: Required Dummy Values -->
     <!-- START: Dummy LIMO Values -->
-    <inventoryAvailabilityThreshold>
-        <low>1</low>
-        <mid>5</mid>
-        <high>999</high>
-    </inventoryAvailabilityThreshold>
+    {$inventoryAvailabilityThresholdXml}
     <onHandSafetyFactorQuantity>
         <value>{$onHandSafetyFactorQuantityValue}</value>
         <unit>{$onHandSafetyFactorQuantityUnit}</unit>
