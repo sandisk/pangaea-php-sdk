@@ -277,8 +277,8 @@ class ItemLogistics implements RenderableInterface
         $this->preferredDistributors[] = [
             'legacyDistributorId' => $legacyDistributorId,
             'effectiveFrom'       => (! Date::isEmpty($from) ? Date::format($from) : null),
-            'effectiveTill'       => (! Date::isEmpty($from) ? Date::format($from) : null),
-            'rank'                => (! is_null($rank) ? (int) $rank : null),
+            'effectiveTill'       => (! Date::isEmpty($till) ? Date::format($till) : null),
+            'rank'                => (! is_null($rank)       ? (int) $rank         : null),
         ];
     }
 
