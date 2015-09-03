@@ -131,7 +131,7 @@ class ItemLogistics implements RenderableInterface
         $unit = mb_strtoupper($unit);
 
         if (mb_strlen($unit) === 0) {
-            throw new PangaeaException('Unit cost currency cannot be blank');
+            throw new PangaeaException('Unit of measurement cannot be blank');
         }
 
         if (! in_array($unit, Pangaea::UNITS_MEASUREMENT)) {
