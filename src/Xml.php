@@ -47,6 +47,7 @@ class Xml
     /**
      * Validates the XML file against the specified XSD schema
      * Also formats/normalizes the file to improve human readability and ease diff'ing
+     * Formatting will only occur if the XML is valid, otherwise DOMDocument truncates the data making debugging impossible.
      *
      * @param $filePath
      * @param $schemaPath
@@ -56,10 +57,14 @@ class Xml
     {
         if (! file_exists($filePath)) {
             throw new PangaeaException('XML file missing');
+        } elseif (! is_readable($filePath)) {
+            throw new PangaeaException('XML file is not readable');
         }
 
         if (! file_exists($schemaPath)) {
             throw new PangaeaException('XSD schema missing');
+        } elseif (! is_readable($schemaPath)) {
+            throw new PangaeaException('XSD file is not readable');
         }
 
         libxml_use_internal_errors(true);
@@ -74,13 +79,14 @@ class Xml
         $dom->formatOutput       = true;
         $dom->load($filePath);
         $dom->normalizeDocument();
-        $dom->save($filePath);
 
         restore_error_handler();
 
         if (! $dom->schemaValidate(realpath($schemaPath))) {
             throw new PangaeaException(static::errorSummary());
         }
+
+        return $dom->save($filePath) > 0;
     }
 
     /**

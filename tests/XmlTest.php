@@ -42,4 +42,24 @@ class XmlTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(Xml::escape('foobar &bull;'), 'foobar •');
     }
+
+    public function testValidateXml()
+    {
+        $xmlPath    = __DIR__ . '/fixtures/items.xml';
+        $schemaPath = __DIR__ . '/../xsd/feed/Feed.xsd';
+
+        $this->assertTrue(Xml::validate($xmlPath, $schemaPath));
+    }
+
+    /**
+     * @expectedException       \Pangaea\PangaeaException
+     * @expectedExceptionRegExp /xmlParseEntityRef: no name/
+     */
+    public function testValidateInvalidXml()
+    {
+        $xmlPath    = __DIR__ . '/fixtures/invalid_items.xml';
+        $schemaPath = __DIR__ . '/../xsd/feed/Feed.xsd';
+
+        $this->assertFalse(Xml::validate($xmlPath, $schemaPath));
+    }
 }
