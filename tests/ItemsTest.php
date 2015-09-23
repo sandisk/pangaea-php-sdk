@@ -204,7 +204,7 @@ class ItemsTest extends PHPUnit_Framework_TestCase
      */
     public function testProductsInvalidEntitiesException()
     {
-        $this->item->setTitle('product number 123 &amp;bull;');
+        $this->item->setTitle('product number 123 &bull;');
 
         $this->feed->addItem($this->item);
         $this->feed->save(__DIR__ . '/output/items.xml');
