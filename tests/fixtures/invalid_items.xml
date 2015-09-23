@@ -17,7 +17,7 @@
             <sku>SKU123</sku>
             <productTitle>Sample item</productTitle>
             <productShortDescription>Short description</productShortDescription>
-            <productLongDescription>Longer description about the item... &amp;bull; & this is broken</productLongDescription>
+            <productLongDescription>Longer description about the item... • & this is broken</productLongDescription>
             <productTaxCode>2,000.00</productTaxCode>
             <ProductIds>
                 <ProductId>
