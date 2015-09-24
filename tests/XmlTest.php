@@ -40,7 +40,7 @@ class XmlTest extends PHPUnit_Framework_TestCase
 
     public function testXmlEscapeString()
     {
-        $this->assertEquals(Xml::escape('foobar &bull;'), 'foobar •');
+        $this->assertEquals(Xml::escape('foobar •'), 'foobar •');
     }
 
     public function testValidateXml()

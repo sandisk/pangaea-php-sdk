@@ -17,7 +17,7 @@
       <sku>SKU123</sku>
       <productTitle>Sample item</productTitle>
       <productShortDescription>Short description</productShortDescription>
-      <productLongDescription>Longer description about the item... &amp;bull;</productLongDescription>
+      <productLongDescription>Longer description about the item... •</productLongDescription>
       <productTaxCode>2,000.00</productTaxCode>
       <ProductIds>
         <ProductId>
@@ -509,7 +509,7 @@
       <sku>SKU456</sku>
       <productTitle>Sample item</productTitle>
       <productShortDescription>Short description</productShortDescription>
-      <productLongDescription>Longer description about the item... &amp;bull;</productLongDescription>
+      <productLongDescription>Longer description about the item... •</productLongDescription>
       <productTaxCode>2,000.00</productTaxCode>
       <ProductIds>
         <ProductId>
@@ -1001,7 +1001,7 @@
       <sku>SKU787</sku>
       <productTitle>Sample item</productTitle>
       <productShortDescription>Short description</productShortDescription>
-      <productLongDescription>Longer description about the item... &amp;bull;</productLongDescription>
+      <productLongDescription>Longer description about the item... •</productLongDescription>
       <productTaxCode>2,000.00</productTaxCode>
       <ProductIds>
         <ProductId>
